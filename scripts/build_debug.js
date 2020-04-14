@@ -146,5 +146,5 @@ async function buildApps(appNames) {
 }
 
 rmdir(outFolder, async () => {
-  await buildApps(['empty_app'])
+  await buildApps(['chi_app'])
 })
