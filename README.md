@@ -1,2 +1,3 @@
 # chi
-Chrome devtools framework
+
+Chrome devtools framework, used for customizing your own devtools.
