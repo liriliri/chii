@@ -4,7 +4,8 @@
   "description": "Chrome devtools framework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier src/*.{html,js,json} *.js --write",
+    "build:debug": "node scripts/build_debug"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/liriliri/chi/issues"
   },
-  "homepage": "https://github.com/liriliri/chi#readme"
+  "homepage": "https://github.com/liriliri/chi#readme",
+  "devDependencies": {
+    "licia": "^1.21.0",
+    "ncp": "^2.0.0",
+    "prettier": "^2.0.4"
+  }
 }
