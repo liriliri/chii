@@ -26,10 +26,10 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import * as Common from '../common/common.js';  // eslint-disable-line no-unused-vars
+import * as Common from '../common/common.js'; // eslint-disable-line no-unused-vars
 import * as UI from '../ui/ui.js';
 
-import {ConsoleView} from './ConsoleView.js';
+import { ConsoleView } from './ConsoleView.js';
 
 /**
  * @unrestricted

@@ -20,31 +20,50 @@ export class ConsoleContextSelector {
     this._toolbarItem = new UI.Toolbar.ToolbarItem(this._dropDown.element);
     this._toolbarItem.setEnabled(false);
     this._toolbarItem.setTitle(ls`JavaScript context: Not selected`);
-    this._items.addEventListener(
-        UI.ListModel.Events.ItemsReplaced, () => this._toolbarItem.setEnabled(!!this._items.length));
+    this._items.addEventListener(UI.ListModel.Events.ItemsReplaced, () =>
+      this._toolbarItem.setEnabled(!!this._items.length)
+    );
 
     this._toolbarItem.element.classList.add('toolbar-has-dropdown');
 
     SDK.SDKModel.TargetManager.instance().addModelListener(
-        SDK.RuntimeModel.RuntimeModel, SDK.RuntimeModel.Events.ExecutionContextCreated, this._onExecutionContextCreated,
-        this);
+      SDK.RuntimeModel.RuntimeModel,
+      SDK.RuntimeModel.Events.ExecutionContextCreated,
+      this._onExecutionContextCreated,
+      this
+    );
     SDK.SDKModel.TargetManager.instance().addModelListener(
-        SDK.RuntimeModel.RuntimeModel, SDK.RuntimeModel.Events.ExecutionContextChanged, this._onExecutionContextChanged,
-        this);
+      SDK.RuntimeModel.RuntimeModel,
+      SDK.RuntimeModel.Events.ExecutionContextChanged,
+      this._onExecutionContextChanged,
+      this
+    );
     SDK.SDKModel.TargetManager.instance().addModelListener(
-        SDK.RuntimeModel.RuntimeModel, SDK.RuntimeModel.Events.ExecutionContextDestroyed,
-        this._onExecutionContextDestroyed, this);
+      SDK.RuntimeModel.RuntimeModel,
+      SDK.RuntimeModel.Events.ExecutionContextDestroyed,
+      this._onExecutionContextDestroyed,
+      this
+    );
     SDK.SDKModel.TargetManager.instance().addModelListener(
-        SDK.ResourceTreeModel.ResourceTreeModel, SDK.ResourceTreeModel.Events.FrameNavigated, this._frameNavigated,
-        this);
+      SDK.ResourceTreeModel.ResourceTreeModel,
+      SDK.ResourceTreeModel.Events.FrameNavigated,
+      this._frameNavigated,
+      this
+    );
 
     self.UI.context.addFlavorChangeListener(
-        SDK.RuntimeModel.ExecutionContext, this._executionContextChangedExternally, this);
+      SDK.RuntimeModel.ExecutionContext,
+      this._executionContextChangedExternally,
+      this
+    );
     self.UI.context.addFlavorChangeListener(SDK.DebuggerModel.CallFrame, this._callFrameSelectedInUI, this);
     SDK.SDKModel.TargetManager.instance().observeModels(SDK.RuntimeModel.RuntimeModel, this);
     SDK.SDKModel.TargetManager.instance().addModelListener(
-        SDK.DebuggerModel.DebuggerModel, SDK.DebuggerModel.Events.CallFrameSelected, this._callFrameSelectedInModel,
-        this);
+      SDK.DebuggerModel.DebuggerModel,
+      SDK.DebuggerModel.Events.CallFrameSelected,
+      this._callFrameSelectedInModel,
+      this
+    );
   }
 
   /**
@@ -196,7 +215,7 @@ export class ConsoleContextSelector {
     }
     const resourceTreeModel = executionContext.target().model(SDK.ResourceTreeModel.ResourceTreeModel);
     const frame =
-        executionContext.frameId && resourceTreeModel && resourceTreeModel.frameForId(executionContext.frameId);
+      executionContext.frameId && resourceTreeModel && resourceTreeModel.frameForId(executionContext.frameId);
     if (!frame) {
       return false;
     }
@@ -242,7 +261,7 @@ export class ConsoleContextSelector {
     title.createTextChild(this.titleFor(item).trimEndWithMaxLength(100));
     const subTitle = shadowRoot.createChild('div', 'subtitle');
     subTitle.createTextChild(this._subtitleFor(item));
-    element.style.paddingLeft = (8 + this._depthFor(item) * 15) + 'px';
+    element.style.paddingLeft = 8 + this._depthFor(item) * 15 + 'px';
     return element;
   }
 

@@ -1,4 +1,4 @@
-import './shell.js'
-import { startApplication } from './RuntimeInstantiator.js'
+import './shell.js';
+import { startApplication } from './RuntimeInstantiator.js';
 
-startApplication('chi_app')
+startApplication('chi_app');

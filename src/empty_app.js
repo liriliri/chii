@@ -1,4 +1,4 @@
-import './shell.js'
-import { startApplication } from './RuntimeInstantiator.js'
+import './shell.js';
+import { startApplication } from './RuntimeInstantiator.js';
 
-startApplication('empty_app')
+startApplication('empty_app');

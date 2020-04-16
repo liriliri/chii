@@ -5,11 +5,11 @@
 import * as Common from '../common/common.js';
 import * as Platform from '../platform/platform.js';
 import * as SDK from '../sdk/sdk.js';
-import * as TextUtils from '../text_utils/text_utils.js';  // eslint-disable-line no-unused-vars
+import * as TextUtils from '../text_utils/text_utils.js'; // eslint-disable-line no-unused-vars
 import * as UI from '../ui/ui.js';
 
-import {ConsoleFilter, FilterType} from './ConsoleFilter.js';
-import {ConsoleViewMessage} from './ConsoleViewMessage.js';  // eslint-disable-line no-unused-vars
+import { ConsoleFilter, FilterType } from './ConsoleFilter.js';
+import { ConsoleViewMessage } from './ConsoleViewMessage.js'; // eslint-disable-line no-unused-vars
 
 export class ConsoleSidebar extends UI.Widget.VBox {
   constructor() {
@@ -24,33 +24,60 @@ export class ConsoleSidebar extends UI.Widget.VBox {
     this._selectedTreeElement = null;
     /** @type {!Array<!FilterTreeElement>} */
     this._treeElements = [];
-    const selectedFilterSetting =
-        Common.Settings.Settings.instance().createSetting('console.sidebarSelectedFilter', null);
+    const selectedFilterSetting = Common.Settings.Settings.instance().createSetting(
+      'console.sidebarSelectedFilter',
+      null
+    );
 
     const Levels = SDK.ConsoleModel.MessageLevel;
-    const consoleAPIParsedFilters =
-        [{key: FilterType.Source, text: SDK.ConsoleModel.MessageSource.ConsoleAPI, negative: false}];
+    const consoleAPIParsedFilters = [
+      { key: FilterType.Source, text: SDK.ConsoleModel.MessageSource.ConsoleAPI, negative: false },
+    ];
     this._appendGroup(
-        _groupName.All, [], ConsoleFilter.allLevelsFilterValue(), UI.Icon.Icon.create('mediumicon-list'),
-        selectedFilterSetting);
+      _groupName.All,
+      [],
+      ConsoleFilter.allLevelsFilterValue(),
+      UI.Icon.Icon.create('mediumicon-list'),
+      selectedFilterSetting
+    );
     this._appendGroup(
-        _groupName.ConsoleAPI, consoleAPIParsedFilters, ConsoleFilter.allLevelsFilterValue(),
-        UI.Icon.Icon.create('mediumicon-account-circle'), selectedFilterSetting);
+      _groupName.ConsoleAPI,
+      consoleAPIParsedFilters,
+      ConsoleFilter.allLevelsFilterValue(),
+      UI.Icon.Icon.create('mediumicon-account-circle'),
+      selectedFilterSetting
+    );
     this._appendGroup(
-        _groupName.Error, [], ConsoleFilter.singleLevelMask(Levels.Error),
-        UI.Icon.Icon.create('mediumicon-error-circle'), selectedFilterSetting);
+      _groupName.Error,
+      [],
+      ConsoleFilter.singleLevelMask(Levels.Error),
+      UI.Icon.Icon.create('mediumicon-error-circle'),
+      selectedFilterSetting
+    );
     this._appendGroup(
-        _groupName.Warning, [], ConsoleFilter.singleLevelMask(Levels.Warning),
-        UI.Icon.Icon.create('mediumicon-warning-triangle'), selectedFilterSetting);
+      _groupName.Warning,
+      [],
+      ConsoleFilter.singleLevelMask(Levels.Warning),
+      UI.Icon.Icon.create('mediumicon-warning-triangle'),
+      selectedFilterSetting
+    );
     this._appendGroup(
-        _groupName.Info, [], ConsoleFilter.singleLevelMask(Levels.Info), UI.Icon.Icon.create('mediumicon-info-circle'),
-        selectedFilterSetting);
+      _groupName.Info,
+      [],
+      ConsoleFilter.singleLevelMask(Levels.Info),
+      UI.Icon.Icon.create('mediumicon-info-circle'),
+      selectedFilterSetting
+    );
     this._appendGroup(
-        _groupName.Verbose, [], ConsoleFilter.singleLevelMask(Levels.Verbose), UI.Icon.Icon.create('mediumicon-bug'),
-        selectedFilterSetting);
+      _groupName.Verbose,
+      [],
+      ConsoleFilter.singleLevelMask(Levels.Verbose),
+      UI.Icon.Icon.create('mediumicon-bug'),
+      selectedFilterSetting
+    );
     const selectedTreeElementName = selectedFilterSetting.get();
     const defaultTreeElement =
-        this._treeElements.find(x => x.name() === selectedTreeElementName) || this._treeElements[0];
+      this._treeElements.find(x => x.name() === selectedTreeElementName) || this._treeElements[0];
     defaultTreeElement.select();
   }
 
@@ -105,7 +132,7 @@ export class ConsoleSidebar extends UI.Widget.VBox {
 
 /** @enum {symbol} */
 export const Events = {
-  FilterSelected: Symbol('FilterSelected')
+  FilterSelected: Symbol('FilterSelected'),
 };
 
 export class URLGroupTreeElement extends UI.TreeOutline.TreeElement {
@@ -185,8 +212,10 @@ export class FilterTreeElement extends UI.TreeOutline.TreeElement {
    */
   onMessageAdded(viewMessage) {
     const message = viewMessage.consoleMessage();
-    const shouldIncrementCounter = message.type !== SDK.ConsoleModel.MessageType.Command &&
-        message.type !== SDK.ConsoleModel.MessageType.Result && !message.isGroupMessage();
+    const shouldIncrementCounter =
+      message.type !== SDK.ConsoleModel.MessageType.Command &&
+      message.type !== SDK.ConsoleModel.MessageType.Result &&
+      !message.isGroupMessage();
     if (!this._filter.shouldBeVisible(viewMessage) || !shouldIncrementCounter) {
       return;
     }
@@ -214,7 +243,7 @@ export class FilterTreeElement extends UI.TreeOutline.TreeElement {
     } else {
       filter.name = Common.UIString.UIString('<other>');
     }
-    filter.parsedFilters.push({key: FilterType.Url, text: urlValue, negative: false});
+    filter.parsedFilters.push({ key: FilterType.Url, text: urlValue, negative: false });
     child = new URLGroupTreeElement(filter);
     if (urlValue) {
       child.tooltip = urlValue;
@@ -232,23 +261,35 @@ const _groupName = {
   Error: 'error',
   Warning: 'warning',
   Info: 'info',
-  Verbose: 'verbose'
+  Verbose: 'verbose',
 };
 
 /** @const {!Map<string, string>} */
 const _groupSingularTitleMap = new Map([
-  [_groupName.ConsoleAPI, ls`1 user message`], [_groupName.All, ls`1 message`], [_groupName.Error, ls`1 error`],
-  [_groupName.Warning, ls`1 warning`], [_groupName.Info, ls`1 info`], [_groupName.Verbose, ls`1 verbose`]
+  [_groupName.ConsoleAPI, ls`1 user message`],
+  [_groupName.All, ls`1 message`],
+  [_groupName.Error, ls`1 error`],
+  [_groupName.Warning, ls`1 warning`],
+  [_groupName.Info, ls`1 info`],
+  [_groupName.Verbose, ls`1 verbose`],
 ]);
 
 /** @const {!Map<string, string>} */
 const _groupPluralTitleMap = new Map([
-  [_groupName.ConsoleAPI, ls`%d user messages`], [_groupName.All, ls`%d messages`], [_groupName.Error, ls`%d errors`],
-  [_groupName.Warning, ls`%d warnings`], [_groupName.Info, ls`%d info`], [_groupName.Verbose, ls`%d verbose`]
+  [_groupName.ConsoleAPI, ls`%d user messages`],
+  [_groupName.All, ls`%d messages`],
+  [_groupName.Error, ls`%d errors`],
+  [_groupName.Warning, ls`%d warnings`],
+  [_groupName.Info, ls`%d info`],
+  [_groupName.Verbose, ls`%d verbose`],
 ]);
 
 /** @const {!Map<string, string>} */
 const _groupNoMessageTitleMap = new Map([
-  [_groupName.ConsoleAPI, ls`No user messages`], [_groupName.All, ls`No messages`], [_groupName.Error, ls`No errors`],
-  [_groupName.Warning, ls`No warnings`], [_groupName.Info, ls`No info`], [_groupName.Verbose, ls`No verbose`]
+  [_groupName.ConsoleAPI, ls`No user messages`],
+  [_groupName.All, ls`No messages`],
+  [_groupName.Error, ls`No errors`],
+  [_groupName.Warning, ls`No warnings`],
+  [_groupName.Info, ls`No info`],
+  [_groupName.Verbose, ls`No verbose`],
 ]);

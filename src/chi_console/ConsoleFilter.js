@@ -5,7 +5,7 @@
 import * as SDK from '../sdk/sdk.js';
 import * as TextUtils from '../text_utils/text_utils.js';
 
-import {ConsoleViewMessage} from './ConsoleViewMessage.js';  // eslint-disable-line no-unused-vars
+import { ConsoleViewMessage } from './ConsoleViewMessage.js'; // eslint-disable-line no-unused-vars
 
 export class ConsoleFilter {
   /**
@@ -66,14 +66,19 @@ export class ConsoleFilter {
    */
   shouldBeVisible(viewMessage) {
     const message = viewMessage.consoleMessage();
-    if (this.executionContext &&
-        (this.executionContext.runtimeModel !== message.runtimeModel() ||
-         this.executionContext.id !== message.executionContextId)) {
+    if (
+      this.executionContext &&
+      (this.executionContext.runtimeModel !== message.runtimeModel() ||
+        this.executionContext.id !== message.executionContextId)
+    ) {
       return false;
     }
 
-    if (message.type === SDK.ConsoleModel.MessageType.Command || message.type === SDK.ConsoleModel.MessageType.Result ||
-        message.isGroupMessage()) {
+    if (
+      message.type === SDK.ConsoleModel.MessageType.Command ||
+      message.type === SDK.ConsoleModel.MessageType.Result ||
+      message.isGroupMessage()
+    ) {
       return true;
     }
 
@@ -98,10 +103,11 @@ export class ConsoleFilter {
             break;
           }
           case FilterType.Source: {
-            const sourceNameForMessage = message.source ?
-                SDK.ConsoleModel.MessageSourceDisplayName.get(
-                    /** @type {!SDK.ConsoleModel.MessageSource} */ (message.source)) :
-                message.source;
+            const sourceNameForMessage = message.source
+              ? SDK.ConsoleModel.MessageSourceDisplayName.get(
+                  /** @type {!SDK.ConsoleModel.MessageSource} */ (message.source)
+                )
+              : message.source;
             if (!passesFilter(filter, sourceNameForMessage, true /* exactMatch */)) {
               return false;
             }
@@ -148,5 +154,5 @@ export class ConsoleFilter {
 export const FilterType = {
   Context: 'context',
   Source: 'source',
-  Url: 'url'
+  Url: 'url',
 };

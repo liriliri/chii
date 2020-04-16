@@ -80,7 +80,7 @@ export class ConsoleViewport {
     // that items updated asynchronously will not break stick-to-bottom behavior
     // if they change the scroll height.
     this._observer = new MutationObserver(this.refresh.bind(this));
-    this._observerConfig = {childList: true, subtree: true};
+    this._observerConfig = { childList: true, subtree: true };
   }
 
   /**
@@ -140,8 +140,12 @@ export class ConsoleViewport {
     }
     let focusLastChild = false;
     // Make default selection when moving from external (e.g. prompt) to the container.
-    if (this._virtualSelectedIndex === -1 && this._isOutsideViewport(/** @type {?Element} */ (event.relatedTarget)) &&
-        event.target === this._contentElement && this._itemCount) {
+    if (
+      this._virtualSelectedIndex === -1 &&
+      this._isOutsideViewport(/** @type {?Element} */ (event.relatedTarget)) &&
+      event.target === this._contentElement &&
+      this._itemCount
+    ) {
       focusLastChild = true;
       this._virtualSelectedIndex = this._itemCount - 1;
 
@@ -256,7 +260,7 @@ export class ConsoleViewport {
      */
     function focusWithoutScroll(element) {
       // TODO(luoe): Closure has an outdated typedef for Element.prototype.focus.
-      element.focus({preventScroll: true});
+      element.focus({ preventScroll: true });
     }
   }
 
@@ -334,8 +338,9 @@ export class ConsoleViewport {
    * @return {number}
    */
   _cachedItemHeight(index) {
-    return index === 0 ? this._cumulativeHeights[0] :
-                         this._cumulativeHeights[index] - this._cumulativeHeights[index - 1];
+    return index === 0
+      ? this._cumulativeHeights[0]
+      : this._cumulativeHeights[index] - this._cumulativeHeights[index - 1];
   }
 
   /**
@@ -359,7 +364,7 @@ export class ConsoleViewport {
    * @return {!{item: number, node: !Node, offset: number}}
    */
   _createSelectionModel(itemIndex, node, offset) {
-    return {item: itemIndex, node: node, offset: offset};
+    return { item: itemIndex, node: node, offset: offset };
   }
 
   /**
@@ -386,10 +391,16 @@ export class ConsoleViewport {
       }
     }
     if (hasVisibleSelection) {
-      firstSelected =
-          this._createSelectionModel(firstSelected, /** @type {!Node} */ (range.startContainer), range.startOffset);
-      lastSelected =
-          this._createSelectionModel(lastSelected, /** @type {!Node} */ (range.endContainer), range.endOffset);
+      firstSelected = this._createSelectionModel(
+        firstSelected,
+        /** @type {!Node} */ (range.startContainer),
+        range.startOffset
+      );
+      lastSelected = this._createSelectionModel(
+        lastSelected,
+        /** @type {!Node} */ (range.endContainer),
+        range.endOffset
+      );
     }
     const topOverlap = range.intersectsNode(this._topGapElement) && this._topGapElement._active;
     const bottomOverlap = range.intersectsNode(this._bottomGapElement) && this._bottomGapElement._active;
@@ -477,7 +488,7 @@ export class ConsoleViewport {
   _innerRefresh() {
     if (!this._visibleHeight()) {
       return;
-    }  // Do nothing for invisible controls.
+    } // Do nothing for invisible controls.
 
     if (!this._itemCount) {
       for (let i = 0; i < this._renderedItems.length; ++i) {
@@ -505,12 +516,16 @@ export class ConsoleViewport {
     // precise enough to determine next visible indices. This stickToBottom check avoids extra
     // calls to refresh in those cases.
     if (this._stickToBottom) {
-      this._firstActiveIndex =
-          Math.max(this._itemCount - Math.ceil(activeHeight / this._provider.minimumRowHeight()), 0);
+      this._firstActiveIndex = Math.max(
+        this._itemCount - Math.ceil(activeHeight / this._provider.minimumRowHeight()),
+        0
+      );
       this._lastActiveIndex = this._itemCount - 1;
     } else {
-      this._firstActiveIndex =
-          Math.max(this._cumulativeHeights.lowerBound(visibleFrom + 1 - (activeHeight - visibleHeight) / 2), 0);
+      this._firstActiveIndex = Math.max(
+        this._cumulativeHeights.lowerBound(visibleFrom + 1 - (activeHeight - visibleHeight) / 2),
+        0
+      );
       // Proactively render more rows in case some of them will be collapsed without triggering refresh. @see crbug.com/390169
       this._lastActiveIndex = this._firstActiveIndex + Math.ceil(activeHeight / this._provider.minimumRowHeight()) - 1;
       this._lastActiveIndex = Math.min(this._lastActiveIndex, this._itemCount - 1);
@@ -518,7 +533,7 @@ export class ConsoleViewport {
 
     const topGapHeight = this._cumulativeHeights[this._firstActiveIndex - 1] || 0;
     const bottomGapHeight =
-        this._cumulativeHeights[this._cumulativeHeights.length - 1] - this._cumulativeHeights[this._lastActiveIndex];
+      this._cumulativeHeights[this._cumulativeHeights.length - 1] - this._cumulativeHeights[this._lastActiveIndex];
 
     /**
      * @this {ConsoleViewport}
@@ -647,8 +662,11 @@ export class ConsoleViewport {
     let chars = 0;
     let node = itemElement;
     while ((node = node.traverseNextNode(itemElement)) && node !== selectionNode) {
-      if (node.nodeType !== Node.TEXT_NODE || node.parentElement.nodeName === 'STYLE' ||
-          node.parentElement.nodeName === 'SCRIPT') {
+      if (
+        node.nodeType !== Node.TEXT_NODE ||
+        node.parentElement.nodeName === 'STYLE' ||
+        node.parentElement.nodeName === 'SCRIPT'
+      ) {
         continue;
       }
       chars += Components.Linkifier.Linkifier.untruncatedNodeText(node).length;
@@ -713,8 +731,10 @@ export class ConsoleViewport {
       return;
     }
     // If the prompt is visible, then the last item must be fully on screen.
-    if (index === lastVisibleIndex &&
-        this._cumulativeHeights[index] <= this.element.scrollTop + this._visibleHeight()) {
+    if (
+      index === lastVisibleIndex &&
+      this._cumulativeHeights[index] <= this.element.scrollTop + this._visibleHeight()
+    ) {
       return;
     }
     if (makeLast) {
@@ -806,15 +826,12 @@ export class ConsoleViewportProvider {
  * @interface
  */
 export class ConsoleViewportElement {
-  willHide() {
-  }
+  willHide() {}
 
-  wasShown() {
-  }
+  wasShown() {}
 
   /**
    * @return {!Element}
    */
-  element() {
-  }
+  element() {}
 }

@@ -1,4 +1,3 @@
-
 // Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
@@ -55,12 +54,13 @@ export class Runtime {
    * @param {{forceNew: ?boolean, moduleDescriptors: ?Array.<!ModuleDescriptor>}=} opts
    * @return {!Runtime}
    */
-  static instance(opts = {forceNew: null, moduleDescriptors: null}) {
-    const {forceNew, moduleDescriptors} = opts;
+  static instance(opts = { forceNew: null, moduleDescriptors: null }) {
+    const { forceNew, moduleDescriptors } = opts;
     if (!moduleDescriptors || forceNew) {
       if (!moduleDescriptors) {
         throw new Error(
-            `Unable to create settings: targetManager and workspace must be provided: ${new Error().stack}`);
+          `Unable to create settings: targetManager and workspace must be provided: ${new Error().stack}`
+        );
       }
 
       runtimeInstance = new Runtime(moduleDescriptors);
@@ -106,8 +106,11 @@ export class Runtime {
     if (path[0] === '/' && normalizedPath) {
       normalizedPath = '/' + normalizedPath;
     }
-    if ((path[path.length - 1] === '/') || (segments[segments.length - 1] === '.') ||
-        (segments[segments.length - 1] === '..')) {
+    if (
+      path[path.length - 1] === '/' ||
+      segments[segments.length - 1] === '.' ||
+      segments[segments.length - 1] === '..'
+    ) {
       normalizedPath = normalizedPath + '/';
     }
 
@@ -127,10 +130,11 @@ export class Runtime {
    */
   static _experimentsSetting() {
     try {
-      return /** @type {!Object<string,boolean>} */ (
-          JSON.parse(self.localStorage && self.localStorage['experiments'] ? self.localStorage['experiments'] : '{}'));
+      return /** @type {!Object<string,boolean>} */ (JSON.parse(
+        self.localStorage && self.localStorage['experiments'] ? self.localStorage['experiments'] : '{}'
+      ));
     } catch (e) {
-      console.error('Failed to parse localStorage[\'experiments\']');
+      console.error("Failed to parse localStorage['experiments']");
       return {};
     }
   }
@@ -162,8 +166,11 @@ export class Runtime {
     if (activatorExperiment === '*') {
       return true;
     }
-    if (activatorExperiment && activatorExperiment.startsWith('!') &&
-        experiments.isEnabled(activatorExperiment.substring(1))) {
+    if (
+      activatorExperiment &&
+      activatorExperiment.startsWith('!') &&
+      experiments.isEnabled(activatorExperiment.substring(1))
+    ) {
       return false;
     }
     if (activatorExperiment && !activatorExperiment.startsWith('!') && !experiments.isEnabled(activatorExperiment)) {
@@ -385,7 +392,7 @@ export class Runtime {
       const path = typeName.split('.');
       /** @type {*} */
       let object = self;
-      for (let i = 0; object && (i < path.length); ++i) {
+      for (let i = 0; object && i < path.length; ++i) {
         object = object[path[i]];
       }
       if (object) {
@@ -401,8 +408,10 @@ export class Runtime {
    * @template T
    */
   sharedInstance(constructorFunction) {
-    if (instanceSymbol in constructorFunction &&
-        Object.getOwnPropertySymbols(constructorFunction).includes(instanceSymbol)) {
+    if (
+      instanceSymbol in constructorFunction &&
+      Object.getOwnPropertySymbols(constructorFunction).includes(instanceSymbol)
+    ) {
       // @ts-ignore Usage of symbols
       return constructorFunction[instanceSymbol];
     }
@@ -538,17 +547,17 @@ export class RuntimeExtensionDescriptor {
 // NOTE: Update scripts/build/special_case_namespaces.json if you add a special cased namespace.
 /** @type {!Object<string,string>} */
 const specialCases = {
-  'sdk': 'SDK',
-  'js_sdk': 'JSSDK',
-  'browser_sdk': 'BrowserSDK',
-  'ui': 'UI',
-  'object_ui': 'ObjectUI',
-  'javascript_metadata': 'JavaScriptMetadata',
-  'perf_ui': 'PerfUI',
-  'har_importer': 'HARImporter',
-  'sdk_test_runner': 'SDKTestRunner',
-  'cpu_profiler_test_runner': 'CPUProfilerTestRunner',
-  'chi_console': 'Console'
+  sdk: 'SDK',
+  js_sdk: 'JSSDK',
+  browser_sdk: 'BrowserSDK',
+  ui: 'UI',
+  object_ui: 'ObjectUI',
+  javascript_metadata: 'JavaScriptMetadata',
+  perf_ui: 'PerfUI',
+  har_importer: 'HARImporter',
+  sdk_test_runner: 'SDKTestRunner',
+  cpu_profiler_test_runner: 'CPUProfilerTestRunner',
+  chi_console: 'Console',
 };
 
 /**
@@ -623,10 +632,10 @@ export class Module {
     }
 
     this._pendingLoadPromise = Promise.all(dependencyPromises)
-                                   .then(this._loadResources.bind(this))
-                                   .then(this._loadModules.bind(this))
-                                   .then(this._loadScripts.bind(this))
-                                   .then(() => this._loadedForTest = true);
+      .then(this._loadResources.bind(this))
+      .then(this._loadModules.bind(this))
+      .then(this._loadScripts.bind(this))
+      .then(() => (this._loadedForTest = true));
 
     return this._pendingLoadPromise;
   }
@@ -683,8 +692,13 @@ export class Module {
    * @return {string}
    */
   _computeNamespace() {
-    return specialCases[this._name] ||
-        this._name.split('_').map(a => a.substring(0, 1).toUpperCase() + a.substring(1)).join('');
+    return (
+      specialCases[this._name] ||
+      this._name
+        .split('_')
+        .map(a => a.substring(0, 1).toUpperCase() + a.substring(1))
+        .join('')
+    );
   }
 
   /**
@@ -698,7 +712,7 @@ export class Module {
    * @return {string|undefined}
    */
   _remoteBase() {
-    return !Runtime.queryParam('debugFrontend') && this._descriptor.remote && remoteBase || undefined;
+    return (!Runtime.queryParam('debugFrontend') && this._descriptor.remote && remoteBase) || undefined;
   }
 
   /**
@@ -735,9 +749,9 @@ export class Module {
  */
 export class Extension {
   /**
-  * @param {!Module} moduleParam
-  * @param {!RuntimeExtensionDescriptor} descriptor
-  */
+   * @param {!Module} moduleParam
+   * @param {!RuntimeExtensionDescriptor} descriptor
+   */
   constructor(moduleParam, descriptor) {
     this._module = moduleParam;
     this._descriptor = descriptor;
@@ -746,36 +760,36 @@ export class Extension {
     this._hasTypeClass = this._type.charAt(0) === '@';
 
     /**
-    * @type {?string}
-    */
+     * @type {?string}
+     */
     this._className = descriptor.className || null;
     this._factoryName = descriptor.factoryName || null;
   }
 
   /**
-  * @return {!RuntimeExtensionDescriptor}
-  */
+   * @return {!RuntimeExtensionDescriptor}
+   */
   descriptor() {
     return this._descriptor;
   }
 
   /**
-  * @return {!Module}
-  */
+   * @return {!Module}
+   */
   module() {
     return this._module;
   }
 
   /**
-  * @return {boolean}
-  */
+   * @return {boolean}
+   */
   enabled() {
     return this._module.enabled() && Runtime._isDescriptorEnabled(this.descriptor());
   }
 
   /**
-  * @return {?function(new:Object)}
-  */
+   * @return {?function(new:Object)}
+   */
   _typeClass() {
     if (!this._hasTypeClass) {
       return null;
@@ -784,30 +798,30 @@ export class Extension {
   }
 
   /**
-  * @param {?Object} context
-  * @return {boolean}
-  */
+   * @param {?Object} context
+   * @return {boolean}
+   */
   isApplicable(context) {
     return this._module._manager.isExtensionApplicableToContext(this, context);
   }
 
   /**
-  * @return {!Promise.<!Object>}
-  */
+   * @return {!Promise.<!Object>}
+   */
   instance() {
     return this._module._loadPromise().then(this._createInstance.bind(this));
   }
 
   /**
-  * @return {boolean}
-  */
+   * @return {boolean}
+   */
   canInstantiate() {
     return !!(this._className || this._factoryName);
   }
 
   /**
-  * @return {!Object}
-  */
+   * @return {!Object}
+   */
   _createInstance() {
     const className = this._className || this._factoryName;
     if (!className) {
@@ -824,8 +838,8 @@ export class Extension {
   }
 
   /**
-  * @return {string}
-  */
+   * @return {string}
+   */
   title() {
     // @ts-ignore Magic lookup for objects
     const title = this._descriptor['title-' + runtimePlatform] || this._descriptor['title'];
@@ -836,9 +850,9 @@ export class Extension {
   }
 
   /**
-  * @param {function(new:Object)} contextType
-  * @return {boolean}
-  */
+   * @param {function(new:Object)} contextType
+   * @return {boolean}
+   */
   hasContextType(contextType) {
     const contextTypes = this.descriptor().contextTypes;
     if (!contextTypes) {
@@ -854,8 +868,8 @@ export class Extension {
 }
 
 /**
-* @unrestricted
-*/
+ * @unrestricted
+ */
 export class ExperimentsSupport {
   constructor() {
     /** @type {!Array<!Experiment>} */
@@ -869,8 +883,8 @@ export class ExperimentsSupport {
   }
 
   /**
-  * @return {!Array.<!Experiment>}
-  */
+   * @return {!Array.<!Experiment>}
+   */
   allConfigurableExperiments() {
     const result = [];
     for (let i = 0; i < this._experiments.length; i++) {
@@ -883,8 +897,8 @@ export class ExperimentsSupport {
   }
 
   /**
-  * @param {!Object} value
-  */
+   * @param {!Object} value
+   */
   _setExperimentsSetting(value) {
     if (!self.localStorage) {
       return;
@@ -893,10 +907,10 @@ export class ExperimentsSupport {
   }
 
   /**
-  * @param {string} experimentName
-  * @param {string} experimentTitle
-  * @param {boolean=} unstable
-  */
+   * @param {string} experimentName
+   * @param {string} experimentTitle
+   * @param {boolean=} unstable
+   */
   register(experimentName, experimentTitle, unstable) {
     Runtime._assert(!this._experimentNames[experimentName], 'Duplicate registration of experiment ' + experimentName);
     this._experimentNames[experimentName] = true;
@@ -904,9 +918,9 @@ export class ExperimentsSupport {
   }
 
   /**
-  * @param {string} experimentName
-  * @return {boolean}
-  */
+   * @param {string} experimentName
+   * @return {boolean}
+   */
   isEnabled(experimentName) {
     this._checkExperiment(experimentName);
     // Check for explicitly disabled experiments first - the code could call setEnable(false) on the experiment enabled
@@ -925,9 +939,9 @@ export class ExperimentsSupport {
   }
 
   /**
-  * @param {string} experimentName
-  * @param {boolean} enabled
-  */
+   * @param {string} experimentName
+   * @param {boolean} enabled
+   */
   setEnabled(experimentName, enabled) {
     this._checkExperiment(experimentName);
     const experimentsSetting = Runtime._experimentsSetting();
@@ -936,8 +950,8 @@ export class ExperimentsSupport {
   }
 
   /**
-  * @param {!Array.<string>} experimentNames
-  */
+   * @param {!Array.<string>} experimentNames
+   */
   setDefaultExperiments(experimentNames) {
     for (let i = 0; i < experimentNames.length; ++i) {
       this._checkExperiment(experimentNames[i]);
@@ -946,8 +960,8 @@ export class ExperimentsSupport {
   }
 
   /**
-  * @param {!Array.<string>} experimentNames
-  */
+   * @param {!Array.<string>} experimentNames
+   */
   setServerEnabledExperiments(experimentNames) {
     for (const experiment of experimentNames) {
       this._checkExperiment(experiment);
@@ -956,8 +970,8 @@ export class ExperimentsSupport {
   }
 
   /**
-  * @param {string} experimentName
-  */
+   * @param {string} experimentName
+   */
   enableForTest(experimentName) {
     this._checkExperiment(experimentName);
     this._enabledTransiently[experimentName] = true;
@@ -984,23 +998,23 @@ export class ExperimentsSupport {
   }
 
   /**
-  * @param {string} experimentName
-  */
+   * @param {string} experimentName
+   */
   _checkExperiment(experimentName) {
     Runtime._assert(this._experimentNames[experimentName], 'Unknown experiment ' + experimentName);
   }
 }
 
 /**
-* @unrestricted
-*/
+ * @unrestricted
+ */
 class Experiment {
   /**
-  * @param {!ExperimentsSupport} experiments
-  * @param {string} name
-  * @param {string} title
-  * @param {boolean} unstable
-  */
+   * @param {!ExperimentsSupport} experiments
+   * @param {string} name
+   * @param {string} title
+   * @param {boolean} unstable
+   */
   constructor(experiments, name, title, unstable) {
     this.name = name;
     this.title = title;
@@ -1009,15 +1023,15 @@ class Experiment {
   }
 
   /**
-  * @return {boolean}
-  */
+   * @return {boolean}
+   */
   isEnabled() {
     return this._experiments.isEnabled(this.name);
   }
 
   /**
-  * @param {boolean} enabled
-  */
+   * @param {boolean} enabled
+   */
   setEnabled(enabled) {
     this._experiments.setEnabled(this.name, enabled);
   }
@@ -1053,15 +1067,15 @@ function internalLoadResourcePromise(url, asBinary) {
         return;
       }
 
-      const {response} = /** @type {*} */ (e.target);
+      const { response } = /** @type {*} */ (e.target);
 
       const text = asBinary ? new TextDecoder().decode(response) : response;
 
       // DevTools Proxy server can mask 404s as 200s, check the body to be sure
       const status = /^HTTP\/1.1 404/.test(text) ? 404 : xhr.status;
 
-      if ([0, 200, 304].indexOf(status) === -1)  // Testing harness file:/// results in 0.
-      {
+      if ([0, 200, 304].indexOf(status) === -1) {
+        // Testing harness file:/// results in 0.
         reject(new Error('While loading from url ' + url + ' server responded with a status of ' + status));
       } else {
         fulfill(response);
@@ -1122,7 +1136,7 @@ function loadScriptsPromise(scriptNames, base) {
     loadedScripts[sourceURL] = true;
     if (!scriptSource) {
       // Do not reject, as this is normal in the hosted mode.
-      console.error('Empty response arrived for script \'' + sourceURL + '\'');
+      console.error("Empty response arrived for script '" + sourceURL + "'");
       return;
     }
     self.eval(scriptSource + '\n//# sourceURL=' + sourceURL);
@@ -1201,9 +1215,9 @@ function getResourceURL(scriptName, base) {
   }
 })();
 
-(function() {
-const baseUrl = self.location ? self.location.origin + self.location.pathname : '';
-importScriptPathPrefix = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
+(function () {
+  const baseUrl = self.location ? self.location.origin + self.location.pathname : '';
+  importScriptPathPrefix = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
 })();
 
 // This must be constructed after the query parameters have been parsed.

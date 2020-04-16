@@ -108,8 +108,7 @@ export class ConsolePinPane extends UI.ThrottledWidget.ThrottledWidget {
     return Promise.all(updatePromises).then(this._updatedForTest.bind(this));
   }
 
-  _updatedForTest() {
-  }
+  _updatedForTest() {}
 }
 
 /**
@@ -156,48 +155,60 @@ export class ConsolePin extends Common.ObjectWrapper.ObjectWrapper {
 
     this._pinPreview.addEventListener('mouseenter', this.setHovered.bind(this, true), false);
     this._pinPreview.addEventListener('mouseleave', this.setHovered.bind(this, false), false);
-    this._pinPreview.addEventListener('click', event => {
-      if (this._lastNode) {
-        Common.Revealer.reveal(this._lastNode);
-        event.consume();
-      }
-    }, false);
-
-    this._editorPromise = self.runtime.extension(UI.TextEditor.TextEditorFactory).instance().then(factory => {
-      this._editor = factory.createEditor({
-        devtoolsAccessibleName: ls`Live expression editor`,
-        lineNumbers: false,
-        lineWrapping: true,
-        mimeType: 'javascript',
-        autoHeight: true,
-        placeholder: ls`Expression`
-      });
-      this._editor.configureAutocomplete(
-          ObjectUI.JavaScriptAutocomplete.JavaScriptAutocompleteConfig.createConfigForEditor(this._editor));
-      this._editor.widget().show(nameElement);
-      this._editor.widget().element.classList.add('console-pin-editor');
-      this._editor.widget().element.tabIndex = -1;
-      this._editor.setText(expression);
-      this._editor.widget().element.addEventListener('keydown', event => {
-        if (event.key === 'Tab' && !this._editor.text()) {
+    this._pinPreview.addEventListener(
+      'click',
+      event => {
+        if (this._lastNode) {
+          Common.Revealer.reveal(this._lastNode);
           event.consume();
-          return;
         }
-        if (event.keyCode === UI.KeyboardShortcut.Keys.Esc.code) {
-          this._editor.setText(this._committedExpression);
-        }
-      }, true);
-      this._editor.widget().element.addEventListener('focusout', event => {
-        const text = this._editor.text();
-        const trimmedText = text.trim();
-        if (text.length !== trimmedText.length) {
-          this._editor.setText(trimmedText);
-        }
-        this._committedExpression = trimmedText;
-        pinPane._savePins();
-        this._editor.setSelection(TextUtils.TextRange.TextRange.createFromLocation(Infinity, Infinity));
+      },
+      false
+    );
+
+    this._editorPromise = self.runtime
+      .extension(UI.TextEditor.TextEditorFactory)
+      .instance()
+      .then(factory => {
+        this._editor = factory.createEditor({
+          devtoolsAccessibleName: ls`Live expression editor`,
+          lineNumbers: false,
+          lineWrapping: true,
+          mimeType: 'javascript',
+          autoHeight: true,
+          placeholder: ls`Expression`,
+        });
+        this._editor.configureAutocomplete(
+          ObjectUI.JavaScriptAutocomplete.JavaScriptAutocompleteConfig.createConfigForEditor(this._editor)
+        );
+        this._editor.widget().show(nameElement);
+        this._editor.widget().element.classList.add('console-pin-editor');
+        this._editor.widget().element.tabIndex = -1;
+        this._editor.setText(expression);
+        this._editor.widget().element.addEventListener(
+          'keydown',
+          event => {
+            if (event.key === 'Tab' && !this._editor.text()) {
+              event.consume();
+              return;
+            }
+            if (event.keyCode === UI.KeyboardShortcut.Keys.Esc.code) {
+              this._editor.setText(this._committedExpression);
+            }
+          },
+          true
+        );
+        this._editor.widget().element.addEventListener('focusout', event => {
+          const text = this._editor.text();
+          const trimmedText = text.trim();
+          if (text.length !== trimmedText.length) {
+            this._editor.setText(trimmedText);
+          }
+          this._committedExpression = trimmedText;
+          pinPane._savePins();
+          this._editor.setSelection(TextUtils.TextRange.TextRange.createFromLocation(Infinity, Infinity));
+        });
       });
-    });
   }
 
   /**
@@ -256,8 +267,13 @@ export class ConsolePin extends Common.ObjectWrapper.ObjectWrapper {
     const throwOnSideEffect = isEditing && text !== this._committedExpression;
     const timeout = throwOnSideEffect ? 250 : undefined;
     const executionContext = self.UI.context.flavor(SDK.RuntimeModel.ExecutionContext);
-    const {preview, result} = await ObjectUI.JavaScriptREPL.JavaScriptREPL.evaluateAndBuildPreview(
-        text, throwOnSideEffect, timeout, !isEditing /* allowErrors */, 'console');
+    const { preview, result } = await ObjectUI.JavaScriptREPL.JavaScriptREPL.evaluateAndBuildPreview(
+      text,
+      throwOnSideEffect,
+      timeout,
+      !isEditing /* allowErrors */,
+      'console'
+    );
     if (this._lastResult && this._lastExecutionContext) {
       this._lastExecutionContext.runtimeModel.releaseEvaluationResult(this._lastResult);
     }

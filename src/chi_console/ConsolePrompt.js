@@ -9,7 +9,7 @@ import * as SDK from '../sdk/sdk.js';
 import * as TextUtils from '../text_utils/text_utils.js';
 import * as UI from '../ui/ui.js';
 
-import {ConsolePanel} from './ConsolePanel.js';
+import { ConsolePanel } from './ConsolePanel.js';
 
 export class ConsolePrompt extends UI.Widget.Widget {
   constructor() {
@@ -60,15 +60,18 @@ export class ConsolePrompt extends UI.Widget.Widget {
         lineNumbers: false,
         lineWrapping: true,
         mimeType: 'javascript',
-        autoHeight: true
+        autoHeight: true,
       });
 
-      this._defaultAutocompleteConfig =
-          ObjectUI.JavaScriptAutocomplete.JavaScriptAutocompleteConfig.createConfigForEditor(this._editor);
-      this._editor.configureAutocomplete(Object.assign({}, this._defaultAutocompleteConfig, {
-        suggestionsCallback: this._wordsWithQuery.bind(this),
-        anchorBehavior: UI.GlassPane.AnchorBehavior.PreferTop
-      }));
+      this._defaultAutocompleteConfig = ObjectUI.JavaScriptAutocomplete.JavaScriptAutocompleteConfig.createConfigForEditor(
+        this._editor
+      );
+      this._editor.configureAutocomplete(
+        Object.assign({}, this._defaultAutocompleteConfig, {
+          suggestionsCallback: this._wordsWithQuery.bind(this),
+          anchorBehavior: UI.GlassPane.AnchorBehavior.PreferTop,
+        })
+      );
       this._editor.widget().element.addEventListener('keydown', this._editorKeyDown.bind(this), true);
       this._editor.widget().show(editorContainerElement);
       this._editor.addEventListener(UI.TextEditor.Events.CursorChanged, this._updatePromptIcon, this);
@@ -122,8 +125,11 @@ export class ConsolePrompt extends UI.Widget.Widget {
   async _requestPreview() {
     const text = this._editor.textWithCurrentSuggestion().trim();
     const executionContext = self.UI.context.flavor(SDK.RuntimeModel.ExecutionContext);
-    const {preview, result} =
-        await ObjectUI.JavaScriptREPL.JavaScriptREPL.evaluateAndBuildPreview(text, true /* throwOnSideEffect */, 500);
+    const { preview, result } = await ObjectUI.JavaScriptREPL.JavaScriptREPL.evaluateAndBuildPreview(
+      text,
+      true /* throwOnSideEffect */,
+      500
+    );
     this._innerPreviewElement.removeChildren();
     if (preview.deepTextContent() !== this._editor.textWithCurrentSuggestion().trim()) {
       this._innerPreviewElement.appendChild(preview);
@@ -232,17 +238,29 @@ export class ConsolePrompt extends UI.Widget.Widget {
         newText = this._history.next();
         break;
       }
-      case UI.KeyboardShortcut.Keys.P.code: {  // Ctrl+P = Previous
-        if (Host.Platform.isMac() && keyboardEvent.ctrlKey && !keyboardEvent.metaKey && !keyboardEvent.altKey &&
-            !keyboardEvent.shiftKey) {
+      case UI.KeyboardShortcut.Keys.P.code: {
+        // Ctrl+P = Previous
+        if (
+          Host.Platform.isMac() &&
+          keyboardEvent.ctrlKey &&
+          !keyboardEvent.metaKey &&
+          !keyboardEvent.altKey &&
+          !keyboardEvent.shiftKey
+        ) {
           newText = this._history.previous(this.text());
           isPrevious = true;
         }
         break;
       }
-      case UI.KeyboardShortcut.Keys.N.code: {  // Ctrl+N = Next
-        if (Host.Platform.isMac() && keyboardEvent.ctrlKey && !keyboardEvent.metaKey && !keyboardEvent.altKey &&
-            !keyboardEvent.shiftKey) {
+      case UI.KeyboardShortcut.Keys.N.code: {
+        // Ctrl+N = Next
+        if (
+          Host.Platform.isMac() &&
+          keyboardEvent.ctrlKey &&
+          !keyboardEvent.metaKey &&
+          !keyboardEvent.altKey &&
+          !keyboardEvent.shiftKey
+        ) {
           newText = this._history.next();
         }
         break;
@@ -328,15 +346,18 @@ export class ConsolePrompt extends UI.Widget.Widget {
       const message = SDK.ConsoleModel.ConsoleModel.instance().addCommandMessage(executionContext, text);
       const expression = ObjectUI.JavaScriptREPL.JavaScriptREPL.preprocessExpression(text);
       SDK.ConsoleModel.ConsoleModel.instance().evaluateCommandInConsole(
-          executionContext, message, expression, useCommandLineAPI);
+        executionContext,
+        message,
+        expression,
+        useCommandLineAPI
+      );
       if (ConsolePanel.instance().isShowing()) {
         Host.userMetrics.actionTaken(Host.UserMetrics.Action.CommandEvaluatedInConsolePanel);
       }
     }
   }
 
-  _enterProcessedForTest() {
-  }
+  _enterProcessedForTest() {}
 
   /**
    * @param {string} prefix
@@ -360,8 +381,11 @@ export class ConsolePrompt extends UI.Widget.Widget {
         continue;
       }
       set.add(item);
-      result.push(
-          {text: item.substring(text.length - prefix.length), iconType: 'smallicon-text-prompt', isSecondary: true});
+      result.push({
+        text: item.substring(text.length - prefix.length),
+        iconType: 'smallicon-text-prompt',
+        isSecondary: true,
+      });
     }
     return result;
   }
@@ -390,8 +414,7 @@ export class ConsolePrompt extends UI.Widget.Widget {
     return words.concat(historyWords);
   }
 
-  _editorSetForTest() {
-  }
+  _editorSetForTest() {}
 }
 
 /**
@@ -450,7 +473,7 @@ export class ConsoleHistoryManager {
   _pushCurrentText(currentText) {
     if (this._uncommittedIsTop) {
       this._data.pop();
-    }  // Throw away obsolete uncommitted text.
+    } // Throw away obsolete uncommitted text.
     this._uncommittedIsTop = true;
     this._data.push(currentText);
   }
@@ -490,5 +513,5 @@ export class ConsoleHistoryManager {
 }
 
 export const Events = {
-  TextChanged: Symbol('TextChanged')
+  TextChanged: Symbol('TextChanged'),
 };
