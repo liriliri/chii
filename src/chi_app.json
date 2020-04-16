@@ -1,18 +1,29 @@
 {
   "modules": [
+    { "name": "mobile_throttling", "type": "autostart" },
+
+    { "name": "chi_cookie_table" },
     { "name": "chi_elements" },
+    { "name": "har_importer" },
+    { "name": "chi_network" },
 
     { "name": "cm" },
     { "name": "cm_web_modes" },
     { "name": "color_picker" },
     { "name": "chi_console" },
     { "name": "data_grid" },
+    { "name": "diff" },
     { "name": "event_listeners" },
     { "name": "formatter" },
+    { "name": "heap_snapshot_model" },
     { "name": "inline_editor" },
     { "name": "object_ui" },
+    { "name": "perf_ui" },
+    { "name": "profiler" },
+    { "name": "search" },
     { "name": "source_frame" },
-    { "name": "text_editor" }
+    { "name": "text_editor" },
+    { "name": "workspace_diff" }
   ],
   "extends": "empty_app",
   "has_html": true
