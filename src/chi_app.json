@@ -1,10 +1,15 @@
 {
   "modules": [
+    { "name": "chi_elements" },
+
     { "name": "cm" },
     { "name": "cm_web_modes" },
+    { "name": "color_picker" },
     { "name": "chi_console" },
     { "name": "data_grid" },
+    { "name": "event_listeners" },
     { "name": "formatter" },
+    { "name": "inline_editor" },
     { "name": "object_ui" },
     { "name": "source_frame" },
     { "name": "text_editor" }
