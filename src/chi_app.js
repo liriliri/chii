@@ -859,11 +859,6 @@ Root.allDescriptors.push(
             },
           ],
         },
-        {
-          type: 'context-menu-item',
-          location: 'mainMenu/default',
-          actionId: 'sources.search',
-        },
       ],
       dependencies: [
         'components',
@@ -1140,16 +1135,6 @@ Root.allDescriptors.push(
           type: '@QuickOpen.FilteredListWidget.Provider',
           prefix: '?',
           className: 'QuickOpen.HelpQuickOpen',
-        },
-        {
-          type: 'context-menu-item',
-          location: 'mainMenu/default',
-          actionId: 'commandMenu.show',
-        },
-        {
-          type: 'context-menu-item',
-          location: 'mainMenu/default',
-          actionId: 'quickOpen.show',
         },
       ],
       dependencies: ['ui', 'diff'],
