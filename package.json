@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "Chrome devtools framework",
   "main": "index.js",
+  "bin": {
+    "chi": "./bin/chi.js"
+  },
   "scripts": {
-    "format": "prettier src/**/*.{html,js,json} *.js scripts/*.js --write",
+    "format": "prettier src/**/*.{html,js,json} *.js scripts/*.js bin/*.js server/**/*.js --write",
     "build:debug": "node scripts/build_debug"
   },
   "repository": {
@@ -24,5 +27,9 @@
     "licia": "^1.21.0",
     "ncp": "^2.0.0",
     "prettier": "^2.0.4"
+  },
+  "dependencies": {
+    "commander": "^5.0.0",
+    "koa": "^2.11.0"
   }
 }
