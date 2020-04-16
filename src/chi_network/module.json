@@ -107,25 +107,6 @@
       ]
     },
     {
-      "type": "view",
-      "location": "drawer-view",
-      "id": "network.blocked-urls",
-      "title": "Request blocking",
-      "persistence": "closeable",
-      "order": 60,
-      "className": "Network.BlockedURLsPane"
-    },
-    {
-      "type": "view",
-      "location": "drawer-view",
-      "id": "network.config",
-      "title": "Network conditions",
-      "persistence": "closeable",
-      "order": 40,
-      "className": "Network.NetworkConfigView",
-      "tags": "disk cache, network throttling, useragent, user agent, user-agent"
-    },
-    {
       "type": "@UI.ViewLocationResolver",
       "name": "network-sidebar",
       "category": "Network",
