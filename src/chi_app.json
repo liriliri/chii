@@ -2,7 +2,7 @@
   "modules": [
     { "name": "cm" },
     { "name": "cm_web_modes" },
-    { "name": "console" },
+    { "name": "chi_console" },
     { "name": "data_grid" },
     { "name": "formatter" },
     { "name": "object_ui" },
