@@ -4,7 +4,7 @@
   "description": "Chrome devtools framework",
   "main": "index.js",
   "scripts": {
-    "format": "prettier src/**/*.{html,js,json} *.js --write",
+    "format": "prettier src/**/*.{html,js,json} *.js scripts/*.js --write",
     "build:debug": "node scripts/build_debug"
   },
   "repository": {

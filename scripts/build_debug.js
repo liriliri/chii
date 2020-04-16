@@ -1,70 +1,67 @@
-const path = require('path')
-const concat = require('licia/concat')
-const rmdir = require('licia/rmdir')
-const endWith = require('licia/endWith')
-const ncp = require('ncp').ncp
+const path = require('path');
+const concat = require('licia/concat');
+const rmdir = require('licia/rmdir');
+const endWith = require('licia/endWith');
+const sleep = require('licia/sleep');
+const ncp = require('ncp').ncp;
 const fs = {
   ...require('fs'),
-  ...require('fs').promises
-}
+  ...require('fs').promises,
+};
 
-const pathFolders = [
-  path.resolve(__dirname, '../src'),
-  path.resolve(__dirname, '../devtools-frontend/front_end')
-]
+const pathFolders = [path.resolve(__dirname, '../src'), path.resolve(__dirname, '../devtools-frontend/front_end')];
 
-const outFolder = path.resolve(__dirname, '../front_end')
+const outFolder = path.resolve(__dirname, '../front_end');
 
 function lookupFile(fileName) {
   for (const pathFolder of pathFolders) {
     const absoluteFileName = path.join(pathFolder, fileName);
-    if (fs.existsSync(absoluteFileName))
-      return absoluteFileName
+    if (fs.existsSync(absoluteFileName)) return absoluteFileName;
   }
-  return ''
+  return '';
 }
 
 async function loadSource(fileName) {
-  return await fs.readFile(lookupFile(fileName), 'utf8')
+  return await fs.readFile(lookupFile(fileName), 'utf8');
 }
 
 async function loadAppDescriptor(appName) {
   let descriptor = {
-    modules: []
-  }
+    modules: [],
+  };
 
   while (true) {
-    const source = await loadSource(appName + '.json')
-    const content = JSON.parse(source)
+    const source = await loadSource(appName + '.json');
+    const content = JSON.parse(source);
     if (content.modules) {
-      descriptor.modules = concat(descriptor.modules, content.modules)
+      descriptor.modules = concat(descriptor.modules, content.modules);
     }
     if (content.extends) {
-      appName = content.extends
+      appName = content.extends;
     } else {
-      break
+      break;
     }
   }
 
-  return descriptor
+  return descriptor;
 }
 
 async function copyModule(name) {
-  const descriptor = JSON.parse(await loadSource(name + '/module.json'))
-  const outDir = path.join(outFolder, name)
-  let files = descriptor.modules || []
-  files.push('module.json')
-  files = concat(files, descriptor.resources || [])
+  const descriptor = JSON.parse(await loadSource(name + '/module.json'));
+  const outDir = path.join(outFolder, name);
+  let files = descriptor.modules || [];
+  files.push('module.json');
+  files = concat(files, descriptor.resources || []);
   for (let file of files) {
-    const srcPath = lookupFile(name + '/' + file)
-    const destPath = path.join(outDir, file)
-    await copyFile(srcPath, destPath)
+    const srcPath = lookupFile(name + '/' + file);
+    const destPath = path.join(outDir, file);
+    await copyFile(srcPath, destPath);
   }
 }
 
 async function copyFile(srcPath, destPath) {
-  await mkdir(path.dirname(destPath))
-  await fs.copyFile(srcPath, destPath)
+  await mkdir(path.dirname(destPath));
+  await fs.copyFile(srcPath, destPath);
 }
 
 async function copyApp(appName) {
@@ -74,77 +71,83 @@ async function copyApp(appName) {
     appName + '.json',
     'root.js',
     'shell.js',
-    'RuntimeInstantiator.js'
-  ]
+    'RuntimeInstantiator.js',
+  ];
 
   while (true) {
-    const descriptor = await loadSource(appName + '.json')
-    const content = JSON.parse(descriptor)
+    const descriptor = await loadSource(appName + '.json');
+    const content = JSON.parse(descriptor);
     if (content.extends) {
-      appName = content.extends
-      files.push(appName + '.json')
+      appName = content.extends;
+      files.push(appName + '.json');
     } else {
-      break
+      break;
     }
   }
 
   for (let file of files) {
-    const srcPath = lookupFile(file)
-    const destPath = path.join(outFolder, file)
-    await copyFile(srcPath, destPath)
+    const srcPath = lookupFile(file);
+    const destPath = path.join(outFolder, file);
+    await copyFile(srcPath, destPath);
   }
 }
 
 async function mkdir(dir) {
   try {
-    await fs.stat(dir)
+    await fs.stat(dir);
   } catch (e) {
     await fs.mkdir(dir, {
-      recursive: true
-    })
+      recursive: true,
+    });
   }
 }
 
 async function buildApp(appName) {
-  await copyApp(appName)
-  const descriptor = await loadAppDescriptor(appName)
-  const modules = descriptor.modules.map(module => module.name)
+  await copyApp(appName);
+  const descriptor = await loadAppDescriptor(appName);
+  const modules = descriptor.modules.map(module => module.name);
   for (let module of modules) {
-    await copyModule(module)
+    await copyModule(module);
   }
 }
 
 function copyImages() {
   const promises = pathFolders.map(pathFolder => {
     return new Promise(async (resolve, reject) => {
-      const srcPath = path.join(pathFolder, 'Images')
-      const outPath = path.join(outFolder, 'Images')
-      await mkdir(outPath)
+      const srcPath = path.join(pathFolder, 'Images');
+      const outPath = path.join(outFolder, 'Images');
+      await mkdir(outPath);
       if (fs.existsSync(srcPath)) {
-        ncp(srcPath, outPath, {
-          filter(name) {
-            return !endWith(name, '.md') && !endWith(name, '.hashes')
+        ncp(
+          srcPath,
+          outPath,
+          {
+            filter(name) {
+              return !endWith(name, '.md') && !endWith(name, '.hashes');
+            },
+          },
+          err => {
+            if (err) return reject(err);
+            resolve();
           }
-        }, err => {
-          if (err) return reject(err)
-          resolve()
-        })
+        );
       } else {
-        resolve()
+        resolve();
       }
-    })
-  })
+    });
+  });
 
-  return Promise.all(promises)
+  return Promise.all(promises);
 }
 
 async function buildApps(appNames) {
-  await copyImages()
+  await copyImages();
   for (let appName of appNames) {
-    await buildApp(appName)
+    await buildApp(appName);
   }
 }
 
-rmdir(outFolder, async () => {
-  await buildApps(['chi_app'])
-})
+rmdir(outFolder, async err => {
+  await sleep(500);
+  await buildApps(['chi_app']);
+});
