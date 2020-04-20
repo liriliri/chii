@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "commonjs",
+    "strictPropertyInitialization": false,
+    "removeComments": true,
+    "noUnusedLocals": true,
+    "target": "ES5",
+    "esModuleInterop": true
+  },
+  "include": [
+    "client/**/*"
+  ]
+}

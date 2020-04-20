@@ -7,8 +7,10 @@
     "chi": "./bin/chi.js"
   },
   "scripts": {
-    "format": "prettier front_end/**/*.{html,js,json} *.js scripts/*.js bin/*.js server/**/*.js --write",
-    "build:debug": "node scripts/build_debug"
+    "format": "prettier front_end/**/*.{html,js,json} *.js scripts/*.js bin/*.js server/**/*.js tests/*.html --write",
+    "dev:client": "webpack --mode=development",
+    "build:client": "webpack --mode=production",
+    "build:front_end": "node scripts/build_front_end"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,11 @@
   "devDependencies": {
     "licia": "^1.21.0",
     "ncp": "^2.0.0",
-    "prettier": "^2.0.4"
+    "prettier": "^2.0.4",
+    "ts-loader": "^7.0.1",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "commander": "^5.0.0",
