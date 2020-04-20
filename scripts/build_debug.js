@@ -9,9 +9,12 @@ const fs = {
   ...require('fs').promises,
 };
 
-const pathFolders = [path.resolve(__dirname, '../src'), path.resolve(__dirname, '../devtools-frontend/front_end')];
+const pathFolders = [
+  path.resolve(__dirname, '../front_end'),
+  path.resolve(__dirname, '../devtools-frontend/front_end'),
+];
 
-const outFolder = path.resolve(__dirname, '../front_end');
+const outFolder = path.resolve(__dirname, '../public/front_end');
 
 function lookupFile(fileName) {
   for (const pathFolder of pathFolders) {

@@ -7,7 +7,7 @@
     "chi": "./bin/chi.js"
   },
   "scripts": {
-    "format": "prettier src/**/*.{html,js,json} *.js scripts/*.js bin/*.js server/**/*.js --write",
+    "format": "prettier front_end/**/*.{html,js,json} *.js scripts/*.js bin/*.js server/**/*.js --write",
     "build:debug": "node scripts/build_debug"
   },
   "repository": {
@@ -31,6 +31,7 @@
   "dependencies": {
     "commander": "^5.0.0",
     "koa": "^2.11.0",
-    "koa-router": "^8.0.8"
+    "koa-router": "^8.0.8",
+    "koa-send": "^5.0.0"
   }
 }
