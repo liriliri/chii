@@ -7,9 +7,9 @@
     "chi": "./bin/chi.js"
   },
   "scripts": {
-    "format": "prettier front_end/**/*.{html,js,json} *.js scripts/*.js bin/*.js server/**/*.js tests/*.html client/**/*.ts --write",
-    "dev:client": "webpack --mode=development",
-    "build:client": "webpack --mode=production",
+    "format": "prettier front_end/**/*.{html,js,json} *.js scripts/*.js bin/*.js server/**/*.js tests/*.html target/**/*.ts --write",
+    "dev:target": "webpack --mode=development",
+    "build:target": "webpack --mode=production",
     "build:front_end": "node scripts/build_front_end"
   },
   "repository": {

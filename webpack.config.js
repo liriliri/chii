@@ -1,10 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: './client/index.ts',
+  entry: './target/index.ts',
   devtool: 'source-map',
   output: {
-    filename: 'client.js',
+    filename: 'target.js',
     path: path.resolve(__dirname, 'public'),
   },
   resolve: {
