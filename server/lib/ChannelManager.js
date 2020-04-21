@@ -5,32 +5,45 @@ module.exports = class ChannelManager {
     this._targets = {};
     this._clients = {};
   }
-  create(ws) {
-    const { type, id } = ws;
+  createTarget(id, ws, url, title) {
+    const channel = new Channel(ws);
+
+    console.log(`target ${id} connected`);
+    this._targets[id] = {
+      id,
+      title,
+      url,
+      channel,
+    };
+
+    channel.on('close', () => this.removeTarget(id));
+  }
+  createClient(id, ws, target) {
+    target = this._targets[target];
+    if (!target) {
+      return ws.close();
+    }
 
     const channel = new Channel(ws);
-    if (type === 'target') {
-      console.log(`target ${id} connected`);
-      this._targets[id] = {
-        title: ws.title,
-        url: ws.url,
-        channel,
-      };
-      channel.on('close', () => this.remove(type, id));
-    } else {
-      console.log(`client ${id} connected`);
-      this._clients[id] = {
-        channel,
-      };
-    }
+    console.log(`client ${id} connected to target ${target.id}`);
+    channel.connect(target.channel);
+
+    this._clients[id] = {
+      id,
+      target: target.id,
+      channel,
+    };
+
+    channel.on('close', () => this.removeClient(id));
+    target.channel.on('close', () => channel.destroy());
   }
-  remove(type, id) {
-    console.log(`${type} ${id} disconnected`);
-    if (type === 'target') {
-      delete this._targets[id];
-    } else {
-      delete this._clients[id];
-    }
+  removeTarget(id) {
+    console.log(`target ${id} disconnected`);
+    delete this._targets[id];
+  }
+  removeClient(id) {
+    console.log(`client ${id} disconnected`);
+    delete this._clients[id];
   }
   getTargets() {
     return this._targets;

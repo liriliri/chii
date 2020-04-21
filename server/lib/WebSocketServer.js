@@ -10,7 +10,14 @@ module.exports = class WebSocketServer {
     const wss = (this._wss = new WebSocket.Server({ noServer: true }));
 
     wss.on('connection', ws => {
-      this.channelManager.create(ws);
+      const type = ws.type;
+      if (type === 'target') {
+        const { id, url, title } = ws;
+        this.channelManager.createTarget(id, ws, url, title);
+      } else {
+        const { id, target } = ws;
+        this.channelManager.createClient(id, ws, target);
+      }
     });
   }
   start(server) {
@@ -27,10 +34,12 @@ module.exports = class WebSocketServer {
         wss.handleUpgrade(request, socket, head, ws => {
           ws.type = type;
           ws.id = id;
+          const q = query.parse(urlObj.query);
           if (type === 'target') {
-            const q = query.parse(urlObj.query);
             ws.url = q.url;
             ws.title = q.title;
+          } else {
+            ws.target = q.target;
           }
           wss.emit('connection', ws, request);
         });
