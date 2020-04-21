@@ -4,10 +4,81 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inspect with Chi</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI',Arial,'Microsoft Yahei',sans-serif;
+      padding: 0 20px;  
+      font-size: 13px;
+    }
+    img {
+      flex-shrink: 0;
+      height: 16px;
+      padding-left: 2px;
+      padding-right: 5px;
+      vertical-align: top;
+      width: 23px;
+    }
+    .content-header {
+      background: linear-gradient(white, white 40%, rgba(255, 255, 255, 0.92));
+      border-bottom: 1px solid #eee;
+      font-size: 150%;
+      padding: 20px 0 10px 0;
+      z-index: 1;
+    }
+    .row {
+      padding: 6px 0;
+      position: relative;
+    }
+    .properties-box {
+      display: flex;
+    }
+    .subrow-box {
+      display: inline-block;
+      vertical-align: top;
+    }
+    .subrow {
+      display: flex;
+      flex-flow: row wrap;
+    }
+    .subrow > div {
+      margin-right: 0.5em;
+    }
+    .url {
+      color: #999;
+    }
+    .action {
+      color: rgb(17, 85, 204);
+      cursor: pointer;
+      margin-right: 15px;
+    }
+  </style>
 </head>
 <body>
-  <div>
-
-  </div>
+  <div class="content-header">Pages</div>
+  {{#each targets}}
+    <div class="row">
+      <div class="properties-box">
+        <img/>
+        <div class="subrow-box">
+          <div class="subrow">
+            <div class="name">{{title}}</div>
+            <div class="url">{{url}}</div>
+          </div>
+          <div class="actions">
+            <a class="action" onclick="inspect('{{@key}}')">inspect</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+  <script>
+    function inspect(id) {
+      const url = `/front_end/chi_app.html?ws=${location.host}/client/${id}`;
+      window.open(url, '_blank');
+    }
+  </script>
 </body>
 </html>

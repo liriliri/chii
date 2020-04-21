@@ -1,12 +1,14 @@
 const path = require('path');
 const Router = require('koa-router');
 const send = require('koa-send');
+const readTpl = require('../lib/readTpl');
 
-module.exports = function () {
+module.exports = function (channelManager) {
   const router = new Router();
 
-  router.get('/', ctx => {
-    ctx.body = 'hello world';
+  router.get('/inspect', async ctx => {
+    const tpl = await readTpl('inspect');
+    ctx.body = tpl({ targets: channelManager.getTargets() });
   });
 
   function createStatic(prefix, folder) {

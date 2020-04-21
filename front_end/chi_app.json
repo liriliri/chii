@@ -1,5 +1,6 @@
 {
   "modules": [
+    { "name": "chi_main", "type": "autostart" },
     { "name": "mobile_throttling", "type": "autostart" },
 
     { "name": "chi_cookie_table" },
