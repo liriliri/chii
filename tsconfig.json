@@ -6,7 +6,9 @@
     "removeComments": true,
     "noUnusedLocals": true,
     "target": "ES5",
-    "esModuleInterop": true
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "lib": ["DOM", "ES2015"]
   },
   "include": [
     "target/**/*"
