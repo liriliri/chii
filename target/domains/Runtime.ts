@@ -1,9 +1,8 @@
 import connector from '../lib/connector';
 import each from 'licia/each';
-import type from 'licia/type';
 import map from 'licia/map';
-import toStr from 'licia/toStr';
 import now from 'licia/now';
+import * as stringify from '../lib/stringify';
 
 const executionContext = {
   id: 1,
@@ -20,12 +19,22 @@ export async function enable() {
   });
 }
 
+export async function getProperties(params: any) {
+  return stringify.getProperties(params);
+}
+
 declare const console: any;
 
 each(['log'], name => {
   let origin = console[name].bind(console);
   console[name] = (...args: any[]) => {
-    args = map(args, arg => ({ type: type(arg), value: toStr(arg) }));
+    origin(...args);
+
+    args = map(args, arg =>
+      stringify.wrap(arg, {
+        generatePreview: true,
+      })
+    );
 
     connector.send({
       method: 'Runtime.consoleAPICalled',
@@ -37,7 +46,5 @@ each(['log'], name => {
         timestamp: now(),
       },
     });
-
-    origin(...args);
   };
 });

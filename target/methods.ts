@@ -11,6 +11,7 @@ const methods: any = {
   'Page.getResourceTree': Page.getResourceTree,
 
   'Runtime.enable': Runtime.enable,
+  'Runtime.getProperties': Runtime.getProperties,
 
   'Page.enable': noop,
 
