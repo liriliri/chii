@@ -27,9 +27,36 @@ export async function discardConsoleEntries() {
   stringify.clear();
 }
 
+export async function evaluate(params: any) {
+  const { expression } = params;
+
+  let ret;
+
+  try {
+    ret = eval.call(window, `(${expression})`);
+  } catch (e) {
+    ret = eval.call(window, expression);
+  }
+
+  return {
+    result: stringify.wrap(ret),
+  };
+}
+
 declare const console: any;
 
-each(['log'], name => {
+const methods: any = {
+  log: 'log',
+  warn: 'warning',
+  error: 'error',
+  info: 'info',
+  table: 'table',
+  group: 'startGroup',
+  groupEnd: 'endGroup',
+  clear: 'clear',
+};
+
+each(methods, (type, name) => {
   let origin = console[name].bind(console);
   console[name] = (...args: any[]) => {
     origin(...args);
@@ -43,7 +70,7 @@ each(['log'], name => {
     connector.send({
       method: 'Runtime.consoleAPICalled',
       params: {
-        type: name,
+        type,
         args,
         stackTrace: { callFrames: [] },
         executionContextId: executionContext.id,

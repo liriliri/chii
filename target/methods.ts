@@ -12,6 +12,7 @@ const methods: any = {
 
   'Runtime.discardConsoleEntries': Runtime.discardConsoleEntries,
   'Runtime.enable': Runtime.enable,
+  'Runtime.evaluate': Runtime.evaluate,
   'Runtime.getProperties': Runtime.getProperties,
 
   'Page.enable': noop,
