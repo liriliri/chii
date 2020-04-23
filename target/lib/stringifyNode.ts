@@ -60,3 +60,7 @@ function filterNodes(childNodes: any[]) {
     return !(node.nodeType === 3 && trim(node.nodeValue) === '');
   });
 }
+
+export function getNode(nodeId: number) {
+  return nodes.get(nodeId);
+}

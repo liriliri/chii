@@ -1,6 +1,7 @@
 import * as Runtime from './domains/Runtime';
 import * as Page from './domains/Page';
 import * as DOM from './domains/DOM';
+import * as CSS from './domains/CSS';
 
 const methods: any = {
   'DOM.enable': noop,
@@ -25,6 +26,7 @@ const methods: any = {
   'Audits.enable': noop,
 
   'CSS.enable': noop,
+  'CSS.getComputedStyleForNode': CSS.getComputedStyleForNode,
 
   'Inspector.enable': noop,
 
