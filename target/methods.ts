@@ -2,6 +2,8 @@ import * as Runtime from './domains/Runtime';
 import * as Page from './domains/Page';
 import * as DOM from './domains/DOM';
 import * as CSS from './domains/CSS';
+import * as DOMStorage from './domains/DOMStorage';
+import * as Network from './domains/Network';
 
 const methods: any = {
   'DOM.enable': noop,
@@ -10,7 +12,9 @@ const methods: any = {
 
   'Log.enable': noop,
 
+  'Network.deleteCookies': Network.deleteCookies,
   'Network.enable': noop,
+  'Network.getCookies': Network.getCookies,
 
   'Page.getResourceTree': Page.getResourceTree,
 
@@ -27,6 +31,11 @@ const methods: any = {
 
   'CSS.enable': noop,
   'CSS.getComputedStyleForNode': CSS.getComputedStyleForNode,
+
+  'DOMStorage.clear': DOMStorage.clear,
+  'DOMStorage.getDOMStorageItems': DOMStorage.getDOMStorageItems,
+  'DOMStorage.removeDOMStorageItem': DOMStorage.removeDOMStorageItem,
+  'DOMStorage.setDOMStorageItem': DOMStorage.setDOMStorageItem,
 
   'Inspector.enable': noop,
 
