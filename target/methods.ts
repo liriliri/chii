@@ -10,6 +10,7 @@ const methods: any = {
 
   'Page.getResourceTree': Page.getResourceTree,
 
+  'Runtime.discardConsoleEntries': Runtime.discardConsoleEntries,
   'Runtime.enable': Runtime.enable,
   'Runtime.getProperties': Runtime.getProperties,
 

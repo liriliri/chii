@@ -23,6 +23,10 @@ export async function getProperties(params: any) {
   return stringify.getProperties(params);
 }
 
+export async function discardConsoleEntries() {
+  stringify.clear();
+}
+
 declare const console: any;
 
 each(['log'], name => {

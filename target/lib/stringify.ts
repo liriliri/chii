@@ -9,14 +9,15 @@ import toSrc from 'licia/toSrc';
 import allKeys from 'licia/allKeys';
 import isNative from 'licia/isNative';
 import getProto from 'licia/getProto';
-import has from 'licia/has';
 import isSymbol from 'licia/isSymbol';
+import has from 'licia/has';
 
 const objects = new Map();
 const objectIds = new Map();
+const selfs = new Map();
 let id = 0;
 
-function createObjId(obj: any) {
+function createObjId(obj: any, self: any) {
   let objId = objectIds.get(obj);
   if (objId) return objId;
 
@@ -26,11 +27,18 @@ function createObjId(obj: any) {
   });
   objectIds.set(obj, objId);
   objects.set(objId, obj);
+  selfs.set(objId, self);
 
   return objId;
 }
 
-export function wrap(value: any, { generatePreview = false } = {}): any {
+export function clear() {
+  objects.clear();
+  objectIds.clear();
+  selfs.clear();
+}
+
+export function wrap(value: any, { generatePreview = false, self = value } = {}): any {
   let ret = basic(value);
   const { type, subtype } = ret;
 
@@ -50,7 +58,7 @@ export function wrap(value: any, { generatePreview = false } = {}): any {
   }
 
   if (type === 'symbol') {
-    ret.objectId = createObjId(value);
+    ret.objectId = createObjId(value, self);
     ret.description = toStr(value);
     return ret;
   }
@@ -71,17 +79,18 @@ export function wrap(value: any, { generatePreview = false } = {}): any {
   if (generatePreview) {
     ret.preview = {
       ...ret,
-      ...preview(value),
+      ...preview(value, self),
     };
   }
 
-  ret.objectId = createObjId(value);
+  ret.objectId = createObjId(value, self);
+  selfs;
 
   return ret;
 }
 
 export function getProperties(params: any) {
-  const { accessorPropertiesOnly, objectId, ownProperties } = params;
+  const { accessorPropertiesOnly, objectId, ownProperties, generatePreview } = params;
   const properties = [];
 
   const options = {
@@ -91,18 +100,19 @@ export function getProperties(params: any) {
   };
 
   const obj = objects.get(objectId);
+  const self = selfs.get(objectId);
   const keys = allKeys(obj, options);
   const proto = getProto(obj);
   for (let i = 0, len = keys.length; i < len; i++) {
     const name = keys[i];
     let propVal;
     try {
-      propVal = obj[name];
+      propVal = self[name];
     } catch (e) {}
 
     const property: any = {
       name: toStr(name),
-      isOwn: has(obj, name),
+      isOwn: has(self, name),
     };
 
     let descriptor = Object.getOwnPropertyDescriptor(obj, name);
@@ -126,11 +136,21 @@ export function getProperties(params: any) {
       }
     }
 
-    if (isSymbol(name)) {
-      property.symbol = wrap(name);
-      property.value = { type: 'undefined' };
-    } else {
-      property.value = wrap(propVal);
+    if (proto && has(proto, name) && property.enumerable) {
+      property.isOwn = true;
+    }
+
+    let accessValue = true;
+    if (!property.isOwn && property.get) accessValue = false;
+    if (accessValue) {
+      if (isSymbol(name)) {
+        property.symbol = wrap(name);
+        property.value = { type: 'undefined' };
+      } else {
+        property.value = wrap(propVal, {
+          generatePreview,
+        });
+      }
     }
 
     if (accessorPropertiesOnly) {
@@ -144,8 +164,10 @@ export function getProperties(params: any) {
       name: '__proto__',
       configurable: true,
       enumerable: false,
-      isOwn: true,
-      // value: wrap(proto),
+      isOwn: has(obj, '__proto__'),
+      value: wrap(proto, {
+        self,
+      }),
       writable: false,
     });
   }
@@ -157,7 +179,7 @@ export function getProperties(params: any) {
 
 const MAX_PREVIEW_LEN = 5;
 
-function preview(obj: any) {
+function preview(obj: any, self: any) {
   let overflow = false;
   let properties = [];
 
@@ -170,7 +192,7 @@ function preview(obj: any) {
 
   for (let i = 0; i < len; i++) {
     const name = keys[i];
-    const propVal = obj[name];
+    const propVal = self[name];
     const property: any = basic(propVal);
     property.name = name;
     const { subtype, type } = property;
