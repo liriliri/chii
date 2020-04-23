@@ -1,8 +1,11 @@
 import * as Runtime from './domains/Runtime';
 import * as Page from './domains/Page';
+import * as DOM from './domains/DOM';
 
 const methods: any = {
   'DOM.enable': noop,
+  'DOM.getDocument': DOM.getDocument,
+  'DOM.requestChildNodes': DOM.requestChildNodes,
 
   'Log.enable': noop,
 

@@ -2,7 +2,7 @@ import connector from '../lib/connector';
 import each from 'licia/each';
 import map from 'licia/map';
 import now from 'licia/now';
-import * as stringify from '../lib/stringify';
+import * as stringifyObj from '../lib/stringifyObj';
 
 const executionContext = {
   id: 1,
@@ -20,11 +20,11 @@ export async function enable() {
 }
 
 export async function getProperties(params: any) {
-  return stringify.getProperties(params);
+  return stringifyObj.getProperties(params);
 }
 
 export async function discardConsoleEntries() {
-  stringify.clear();
+  stringifyObj.clear();
 }
 
 export async function evaluate(params: any) {
@@ -39,7 +39,7 @@ export async function evaluate(params: any) {
   }
 
   return {
-    result: stringify.wrap(ret),
+    result: stringifyObj.wrap(ret),
   };
 }
 
@@ -62,7 +62,7 @@ each(methods, (type, name) => {
     origin(...args);
 
     args = map(args, arg =>
-      stringify.wrap(arg, {
+      stringifyObj.wrap(arg, {
         generatePreview: true,
       })
     );
