@@ -1,5 +1,6 @@
 devtools-frontend
 front_end
+!public/front_end
 scripts
 target
 tests
