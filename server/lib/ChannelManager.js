@@ -1,5 +1,7 @@
 const Channel = require('./Channel');
 const Emitter = require('licia/Emitter');
+const truncate = require('licia/truncate');
+const ansiColor = require('licia/ansiColor');
 
 module.exports = class ChannelManager extends Emitter {
   constructor() {
@@ -11,7 +13,7 @@ module.exports = class ChannelManager extends Emitter {
   createTarget(id, ws, url, title) {
     const channel = new Channel(ws);
 
-    console.log(`target ${id} connected`);
+    console.log(`${ansiColor.yellow('target')} ${id}:${truncate(title, 10)} ${ansiColor.green('connected')}`);
     this._targets[id] = {
       id,
       title,
@@ -19,7 +21,7 @@ module.exports = class ChannelManager extends Emitter {
       channel,
     };
 
-    channel.on('close', () => this.removeTarget(id));
+    channel.on('close', () => this.removeTarget(id, title));
 
     this.emit('target_changed');
   }
@@ -30,7 +32,12 @@ module.exports = class ChannelManager extends Emitter {
     }
 
     const channel = new Channel(ws);
-    console.log(`client ${id} connected to target ${target.id}`);
+    console.log(
+      `${ansiColor.blue('client')} ${id} ${ansiColor.green('connected')} to target ${target.id}:${truncate(
+        target.title,
+        10
+      )}`
+    );
     channel.connect(target.channel);
 
     this._clients[id] = {
@@ -42,14 +49,14 @@ module.exports = class ChannelManager extends Emitter {
     channel.on('close', () => this.removeClient(id));
     target.channel.on('close', () => channel.destroy());
   }
-  removeTarget(id) {
-    console.log(`target ${id} disconnected`);
+  removeTarget(id, title = '') {
+    console.log(`${ansiColor.yellow('target')} ${id}:${title} ${ansiColor.red('disconnected')}`);
     delete this._targets[id];
 
     this.emit('target_changed');
   }
   removeClient(id) {
-    console.log(`client ${id} disconnected`);
+    console.log(`${ansiColor.blue('client')} ${id} ${ansiColor.red('disconnected')}`);
     delete this._clients[id];
   }
   getTargets() {

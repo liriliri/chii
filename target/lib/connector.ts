@@ -1,6 +1,6 @@
 import Emitter from 'licia/Emitter';
-import uuid from 'licia/uuid';
 import query from 'licia/query';
+import randomId from 'licia/randomId';
 
 class Connector extends Emitter {
   private ws: WebSocket;
@@ -8,7 +8,7 @@ class Connector extends Emitter {
     super();
 
     this.ws = new WebSocket(
-      `ws://${location.host}/target/${uuid()}?${query.stringify({
+      `ws://${location.host}/target/${randomId(6)}?${query.stringify({
         url: location.href,
         title: document.title,
       })}`

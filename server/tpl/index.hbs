@@ -10,8 +10,12 @@
     }
     body {
       font-family: 'Segoe UI',Arial,'Microsoft Yahei',sans-serif;
-      padding: 0 20px;  
+      padding: 0 20px;
       font-size: 13px;
+      font-family: Roboto;
+    }
+    a {
+      color: #1966d2;
     }
     img {
       flex-shrink: 0;
@@ -54,6 +58,12 @@
       cursor: pointer;
       margin-right: 15px;
     }
+
+    .description {
+      margin: 1rem 0;
+      font-size: .875rem;
+      line-height: 2;
+    }
   </style>
 </head>
 <body>
@@ -73,13 +83,18 @@
         </div>
       </div>
     </div>
+  {{else}}
+    <div class="description">
+      You can use this script to inject the chii target code into your web page.<br/>
+      <a target="_blank" href="http://localhost:{{port}}/public/target.js">http://localhost:{{port}}/public/target.js</a>
+    </div>  
   {{/each}}
   <script>
-    !function(o,r){"function"==typeof define&&define.amd?define([],r):"object"==typeof module&&module.exports?module.exports=r():o._=r()}(this,function(){var _={};"object"==typeof window&&window._&&(_=window._);var isBrowser=_.isBrowser="object"==typeof window&&"object"==typeof document&&9===document.nodeType,objToStr=_.objToStr=(e=Object.prototype.toString,function(o){return e.call(o)}),e,isNode=_.isNode="undefined"!=typeof process&&"[object process]"===objToStr(process),random=_.random=function(o,r,t){null==r&&(r=o,o=0);var e=Math.random();return t||o%1||r%1?Math.min(o+e*(r-o+parseFloat("1e-"+((e+"").length-1))),r):o+Math.floor(e*(r-o+1))},randomBytes=_.randomBytes=function(exports){var crypto;return exports=function(o){for(var r=new Uint8Array(o),t=0;t<o;t++)r[t]=random(0,255);return r},isBrowser?(crypto=window.crypto||window.msCrypto,crypto&&(exports=function(o){var r=new Uint8Array(o);return crypto.getRandomValues(r),r})):isNode&&(crypto=eval("require")("crypto"),exports=function(o){return crypto.randomBytes(o)}),exports}({});return _.uuid=function(o){o=function(){var o=randomBytes(16);return o[6]=15&o[6]|64,o[8]=63&o[8]|128,r[o[0]]+r[o[1]]+r[o[2]]+r[o[3]]+"-"+r[o[4]]+r[o[5]]+"-"+r[o[6]]+r[o[7]]+"-"+r[o[8]]+r[o[9]]+"-"+r[o[10]]+r[o[11]]+r[o[12]]+r[o[13]]+r[o[14]]+r[o[15]]};for(var r=[],t=0;t<256;t++)r[t]=(t+256).toString(16).substr(1);return o}({}),_});
+    !function(o,e){"function"==typeof define&&define.amd?define([],e):"object"==typeof module&&module.exports?module.exports=e():o._=e()}(this,function(){var _={};"object"==typeof window&&window._&&(_=window._);var isBrowser=_.isBrowser="object"==typeof window&&"object"==typeof document&&9===document.nodeType,objToStr=_.objToStr=(e=Object.prototype.toString,function(o){return e.call(o)}),e,isNode=_.isNode="undefined"!=typeof process&&"[object process]"===objToStr(process),random=_.random=function(o,e,r){null==e&&(e=o,o=0);var t=Math.random();return r||o%1||e%1?Math.min(o+t*(e-o+parseFloat("1e-"+((t+"").length-1))),e):o+Math.floor(t*(e-o+1))},randomBytes=_.randomBytes=function(exports){var crypto;return exports=function(o){for(var e=new Uint8Array(o),r=0;r<o;r++)e[r]=random(0,255);return e},isBrowser?(crypto=window.crypto||window.msCrypto,crypto&&(exports=function(o){var e=new Uint8Array(o);return crypto.getRandomValues(e),e})):isNode&&(crypto=eval("require")("crypto"),exports=function(o){return crypto.randomBytes(o)}),exports}({});return _.randomId=function(){for(var o=0<arguments.length&&void 0!==arguments[0]?arguments[0]:21,e=1<arguments.length&&void 0!==arguments[1]?arguments[1]:"ModuleSymbhasOwnPr-0123456789ABCDEFGHIJKLNQRTUVWXYZ_cfgijkpqtvxz",r="",t=e.length,n=randomBytes(21);0<o--;)r+=e[n[o]%t];return r},_});
   </script>
   <script>
     function inspect(id) {
-      const url = `/front_end/chii_app.html?ws=${location.host}/client/${_.uuid()}?target=${id}`;
+      const url = `/front_end/chii_app.html?ws=${location.host}/client/${_.randomId(6)}?target=${id}`;
       window.open(url, '_blank');
     }
 
@@ -87,7 +102,7 @@
     setInterval(() => {
       fetch('/timestamp').then(res => res.text()).then(timestamp => {
         if (timestamp > start) location.reload();
-      });
+      }, () => {});
     }, 2000);
   </script>
 </body>

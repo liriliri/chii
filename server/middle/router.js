@@ -4,12 +4,15 @@ const send = require('koa-send');
 const readTpl = require('../lib/readTpl');
 const now = require('licia/now');
 
-module.exports = function (channelManager) {
+module.exports = function (channelManager, port) {
   const router = new Router();
 
   router.get('/', async ctx => {
     const tpl = await readTpl('index');
-    ctx.body = tpl({ targets: channelManager.getTargets() });
+    ctx.body = tpl({
+      targets: channelManager.getTargets(),
+      port,
+    });
   });
 
   let timestamp = now();

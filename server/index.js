@@ -7,7 +7,7 @@ function start(port = 8080) {
   const app = new Koa();
   const wss = new WebSocketServer();
 
-  app.use(router(wss.channelManager));
+  app.use(router(wss.channelManager, port));
 
   console.log(`starting server at http://localhost:${port}`);
   const server = app.listen(port);
