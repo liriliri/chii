@@ -30,8 +30,13 @@ module.exports = function (channelManager, port) {
   }
 
   createStatic('/front_end', '/public/front_end');
-  createStatic('/public', '/public');
   createStatic('/tests', '/tests');
+
+  router.get('/target.js', async ctx => {
+    await send(ctx, 'target.js', {
+      root: path.resolve(__dirname, `../../public`),
+    });
+  });
 
   return router.routes();
 };
