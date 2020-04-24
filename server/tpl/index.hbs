@@ -82,6 +82,13 @@
       const url = `/front_end/chii_app.html?ws=${location.host}/client/${_.uuid()}?target=${id}`;
       window.open(url, '_blank');
     }
+
+    const start = Date.now();
+    setInterval(() => {
+      fetch('/timestamp').then(res => res.text()).then(timestamp => {
+        if (timestamp > start) location.reload();
+      });
+    }, 2000);
   </script>
 </body>
 </html>

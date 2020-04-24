@@ -2,6 +2,7 @@ const path = require('path');
 const Router = require('koa-router');
 const send = require('koa-send');
 const readTpl = require('../lib/readTpl');
+const now = require('licia/now');
 
 module.exports = function (channelManager) {
   const router = new Router();
@@ -10,6 +11,12 @@ module.exports = function (channelManager) {
     const tpl = await readTpl('index');
     ctx.body = tpl({ targets: channelManager.getTargets() });
   });
+
+  let timestamp = now();
+  router.get('/timestamp', ctx => {
+    ctx.body = timestamp;
+  });
+  channelManager.on('target_changed', () => (timestamp = now()));
 
   function createStatic(prefix, folder) {
     router.get(`${prefix}/*`, async ctx => {

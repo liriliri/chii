@@ -1,7 +1,10 @@
 const Channel = require('./Channel');
+const Emitter = require('licia/Emitter');
 
-module.exports = class ChannelManager {
+module.exports = class ChannelManager extends Emitter {
   constructor() {
+    super();
+
     this._targets = {};
     this._clients = {};
   }
@@ -17,6 +20,8 @@ module.exports = class ChannelManager {
     };
 
     channel.on('close', () => this.removeTarget(id));
+
+    this.emit('target_changed');
   }
   createClient(id, ws, target) {
     target = this._targets[target];
@@ -40,6 +45,8 @@ module.exports = class ChannelManager {
   removeTarget(id) {
     console.log(`target ${id} disconnected`);
     delete this._targets[id];
+
+    this.emit('target_changed');
   }
   removeClient(id) {
     console.log(`client ${id} disconnected`);
