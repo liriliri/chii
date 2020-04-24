@@ -8,7 +8,7 @@ class Connector extends Emitter {
     super();
 
     this.ws = new WebSocket(
-      `ws://${location.host}/target/${randomId(6)}?${query.stringify({
+      `ws://${ChiiServerUrl}/target/${randomId(6)}?${query.stringify({
         url: location.href,
         title: document.title,
       })}`
@@ -24,6 +24,29 @@ class Connector extends Emitter {
   }
   close() {
     this.ws.close();
+  }
+}
+
+let ChiiServerUrl = (window as any).ChiiServerUrl || location.host;
+
+function getTargetScriptEl() {
+  const elements = document.getElementsByTagName('script');
+  let i = 0;
+  while (i < elements.length) {
+    let element = elements[i];
+    if (-1 !== element.src.indexOf('/target.js')) {
+      return element;
+    }
+    i++;
+  }
+}
+
+const element = getTargetScriptEl();
+if (element) {
+  const pattern = /((https?:)?\/\/(.*?)\/)/;
+  const match = pattern.exec(element.src);
+  if (match) {
+    ChiiServerUrl = match[3];
   }
 }
 
