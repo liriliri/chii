@@ -6,8 +6,8 @@ const readTpl = require('../lib/readTpl');
 module.exports = function (channelManager) {
   const router = new Router();
 
-  router.get('/inspect', async ctx => {
-    const tpl = await readTpl('inspect');
+  router.get('/', async ctx => {
+    const tpl = await readTpl('index');
     ctx.body = tpl({ targets: channelManager.getTargets() });
   });
 

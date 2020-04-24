@@ -3,7 +3,7 @@ const Koa = require('koa');
 const router = require('./middle/router');
 const WebSocketServer = require('./lib/WebSocketServer');
 
-function start(port = 3000) {
+function start(port = 8080) {
   const app = new Koa();
   const wss = new WebSocketServer();
 
