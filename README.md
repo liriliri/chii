@@ -1,3 +1,3 @@
-# chi
+# Chii
 
-Chrome devtools framework, used for customizing your own devtools.
+Remote debugging tool like weinre, using the latest chrome devtools frontend. 

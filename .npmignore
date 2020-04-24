@@ -1,3 +1,11 @@
 devtools-frontend
 front_end
 scripts
+target
+tests
+.gitignore
+.gitmodules
+.npmignore
+prettier.config.js
+tsconfig.json
+webpack.config.js
