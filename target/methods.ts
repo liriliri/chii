@@ -4,6 +4,7 @@ import * as DOM from './domains/DOM';
 import * as CSS from './domains/CSS';
 import * as DOMStorage from './domains/DOMStorage';
 import * as Network from './domains/Network';
+import * as Overlay from './domains/Overlay';
 
 const methods: any = {
   'DOM.enable': noop,
@@ -40,6 +41,8 @@ const methods: any = {
   'Inspector.enable': noop,
 
   'Overlay.enable': noop,
+  'Overlay.hideHighlight': Overlay.hideHighlight,
+  'Overlay.highlightNode': Overlay.highlightNode,
 
   'ServiceWorker.enable': noop,
 };
