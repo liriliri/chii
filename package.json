@@ -1,10 +1,10 @@
 {
-  "name": "chi",
-  "version": "1.0.0",
+  "name": "chii",
+  "version": "0.1.0",
   "description": "Chrome devtools framework",
   "main": "index.js",
   "bin": {
-    "chi": "./bin/chi.js"
+    "chii": "./bin/chii.js"
   },
   "scripts": {
     "format": "prettier front_end/**/*.{html,js,json} *.js scripts/*.js bin/*.js server/**/*.js tests/*.{html,json} target/**/*.ts --write",

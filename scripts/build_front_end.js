@@ -152,5 +152,5 @@ async function buildApps(appNames) {
 
 rmdir(outFolder, async err => {
   await sleep(500);
-  await buildApps(['chi_app', 'devtools_app']);
+  await buildApps(['chii_app', 'devtools_app']);
 });

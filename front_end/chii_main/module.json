@@ -1,0 +1,14 @@
+{
+  "extensions": [
+    { "type": "early-initialization", "className": "ChiiMain.ChiiMain" },
+    {
+      "type": "setting",
+      "category": "Appearance",
+      "title": "Disable paused state overlay",
+      "settingName": "disablePausedStateOverlay",
+      "settingType": "boolean",
+      "defaultValue": false
+    }
+  ],
+  "modules": ["chii_main.js", "chii_main-legacy.js", "ChiiMain.js"]
+}
