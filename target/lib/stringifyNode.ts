@@ -18,6 +18,11 @@ export function getNodeId(node: any) {
   return nodeId;
 }
 
+export function clear() {
+  nodes.clear();
+  nodeIds.clear();
+}
+
 export function isNewNode(node: any) {
   return !nodeIds.get(node);
 }
@@ -44,22 +49,19 @@ export function wrap(node: any, { depth = 1 } = {}) {
   const childNodes = filterNodes(node.childNodes);
   ret.childNodeCount = childNodes.length;
   if (depth > 0) {
-    ret.children = map(childNodes, node => wrap(node, { depth: depth - 1 }));
+    ret.children = getChildNodes(node, depth);
   }
 
   return ret;
 }
 
-export function getChildNodes(params: any) {
-  const { nodeId, depth } = params;
-
-  const node = nodes.get(nodeId);
+export function getChildNodes(node: any, depth: number) {
   const childNodes = filterNodes(node.childNodes);
 
   return map(childNodes, node => wrap(node, { depth: depth - 1 }));
 }
 
-export function getPreviousNodeId(node: any) {
+export function getPreviousNode(node: any) {
   let previousNode = node.previousSibling;
   if (!previousNode) return;
 
@@ -67,7 +69,7 @@ export function getPreviousNodeId(node: any) {
     previousNode = previousNode.previousSibling;
   }
   if (previousNode && isValidNode(previousNode)) {
-    return getNodeId(previousNode);
+    return previousNode;
   }
 }
 

@@ -9,6 +9,7 @@ import trim from 'licia/trim';
 
 export async function enable() {
   mutationObserver.observe();
+  stringifyNode.clear();
 }
 
 export async function getDocument() {
@@ -43,11 +44,12 @@ export async function removeNode(params: any) {
 }
 
 export async function requestChildNodes(params: any) {
-  const { nodeId } = params;
+  const { nodeId, depth = 1 } = params;
+  const node = stringifyNode.getNode(nodeId);
 
   connector.trigger('DOM.setChildNodes', {
     parentId: nodeId,
-    nodes: stringifyNode.getChildNodes(params),
+    nodes: stringifyNode.getChildNodes(node, depth),
   });
 }
 
@@ -89,6 +91,8 @@ function parseAttributes(text: string) {
 }
 
 mutationObserver.on('attributes', (target: any, name: string) => {
+  if (stringifyNode.isNewNode(target)) return;
+
   const nodeId = stringifyNode.getNodeId(target);
   const value = target.getAttribute(name);
 
@@ -107,31 +111,41 @@ mutationObserver.on('attributes', (target: any, name: string) => {
 });
 
 mutationObserver.on('childList', (target: Node, addedNodes: NodeList, removedNodes: NodeList) => {
+  if (stringifyNode.isNewNode(target)) return;
+
   const parentNodeId = stringifyNode.getNodeId(target);
+
+  function childNodeCountUpdated() {
+    connector.trigger('DOM.childNodeCountUpdated', {
+      childNodeCount: stringifyNode.wrap(target, {
+        depth: 0,
+      }).childNodeCount,
+      nodeId: parentNodeId,
+    });
+  }
 
   if (!isEmpty(addedNodes)) {
     each(addedNodes, node => {
-      if (!stringifyNode.isNewNode(node)) {
-        return connector.trigger('DOM.childNodeCountUpdated', {
-          childNodeCount: stringifyNode.filterNodes(node.childNodes as any).length,
-          nodeId: parentNodeId,
-        });
-      }
-
+      const previousNode = stringifyNode.getPreviousNode(node);
+      const previousNodeId = previousNode ? stringifyNode.getNodeId(previousNode) : 0;
       const params: any = {
         node: stringifyNode.wrap(node, {
           depth: 0,
         }),
         parentNodeId,
-        previousNodeId: stringifyNode.getPreviousNodeId(node) || 0,
+        previousNodeId,
       };
 
+      childNodeCountUpdated();
       connector.trigger('DOM.childNodeInserted', params);
     });
   }
 
   if (!isEmpty(removedNodes)) {
     each(removedNodes, node => {
+      if (stringifyNode.isNewNode(node)) {
+        return childNodeCountUpdated();
+      }
       connector.trigger('DOM.childNodeRemoved', {
         nodeId: stringifyNode.getNodeId(node),
         parentNodeId,
