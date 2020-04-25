@@ -55,10 +55,24 @@ export function getChildNodes(params: any) {
   return map(childNodes, node => wrap(node, { depth: depth - 1 }));
 }
 
+export function getPreviousNodeId(node: any) {
+  let previousNode = node.previousSibling;
+  if (!previousNode) return;
+
+  while (!isValidNode(previousNode) && previousNode.previousSibling) {
+    previousNode = previousNode.previousSibling;
+  }
+  if (previousNode && isValidNode(previousNode)) {
+    return getNodeId(previousNode);
+  }
+}
+
 function filterNodes(childNodes: any[]) {
-  return filter(childNodes, (node: any) => {
-    return !(node.nodeType === 3 && trim(node.nodeValue) === '');
-  });
+  return filter(childNodes, (node: any) => isValidNode(node));
+}
+
+function isValidNode(node: any) {
+  return !(node.nodeType === 3 && trim(node.nodeValue) === '');
 }
 
 export function getNode(nodeId: number) {

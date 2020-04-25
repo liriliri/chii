@@ -55,6 +55,20 @@ mutationObserver.on('childList', (target: Node, addedNodes: NodeList, removedNod
   const parentNodeId = stringifyNode.getNodeId(target);
 
   if (!isEmpty(addedNodes)) {
+    each(addedNodes, node => {
+      const params: any = {
+        node: stringifyNode.wrap(node, {
+          depth: 0,
+        }),
+        parentNodeId,
+      };
+
+      const previousNodeId = stringifyNode.getPreviousNodeId(node);
+      if (previousNodeId) {
+        params.previousNodeId = previousNodeId;
+      }
+      connector.trigger('DOM.childNodeInserted', params);
+    });
   }
 
   if (!isEmpty(removedNodes)) {
