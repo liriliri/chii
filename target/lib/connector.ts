@@ -22,6 +22,12 @@ class Connector extends Emitter {
   send(message: any) {
     this.ws.send(JSON.stringify(message));
   }
+  trigger(method: string, params: any) {
+    this.send({
+      method,
+      params,
+    });
+  }
   close() {
     this.ws.close();
   }

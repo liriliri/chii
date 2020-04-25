@@ -62,23 +62,17 @@ each(['local', 'session'], type => {
     const oldValue = store.getItem(key);
     originSetItem(key, value);
     if (oldValue) {
-      connector.send({
-        method: 'DOMStorage.domStorageItemUpdated',
-        params: {
-          key,
-          newValue: value,
-          oldValue,
-          storageId,
-        },
+      connector.trigger('DOMStorage.domStorageItemUpdated', {
+        key,
+        newValue: value,
+        oldValue,
+        storageId,
       });
     } else {
-      connector.send({
-        method: 'DOMStorage.domStorageItemAdded',
-        params: {
-          key,
-          newValue: value,
-          storageId,
-        },
+      connector.trigger('DOMStorage.domStorageItemAdded', {
+        key,
+        newValue: value,
+        storageId,
       });
     }
   };
@@ -89,12 +83,9 @@ each(['local', 'session'], type => {
     const oldValue = store.getItem(key);
     if (oldValue) {
       originRemoveItem(key);
-      connector.send({
-        method: 'DOMStorage.domStorageItemRemoved',
-        params: {
-          key,
-          storageId,
-        },
+      connector.trigger('DOMStorage.domStorageItemRemoved', {
+        key,
+        storageId,
       });
     }
   };
@@ -102,11 +93,8 @@ each(['local', 'session'], type => {
   const originClear = store.clear.bind(store);
   store.clear = function () {
     originClear();
-    connector.send({
-      method: 'DOMStorage.domStorageItemsCleared',
-      params: {
-        storageId,
-      },
+    connector.trigger('DOMStorage.domStorageItemsCleared', {
+      storageId,
     });
   };
 });

@@ -11,11 +11,8 @@ const executionContext = {
 };
 
 export async function enable() {
-  connector.send({
-    method: 'Runtime.executionContextCreated',
-    params: {
-      context: executionContext,
-    },
+  connector.trigger('Runtime.executionContextCreated', {
+    context: executionContext,
   });
 }
 
@@ -67,15 +64,12 @@ each(methods, (type, name) => {
       })
     );
 
-    connector.send({
-      method: 'Runtime.consoleAPICalled',
-      params: {
-        type,
-        args,
-        stackTrace: { callFrames: [] },
-        executionContextId: executionContext.id,
-        timestamp: now(),
-      },
+    connector.trigger('Runtime.consoleAPICalled', {
+      type,
+      args,
+      stackTrace: { callFrames: [] },
+      executionContextId: executionContext.id,
+      timestamp: now(),
     });
   };
 });

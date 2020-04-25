@@ -7,7 +7,7 @@ import * as Network from './domains/Network';
 import * as Overlay from './domains/Overlay';
 
 const methods: any = {
-  'DOM.enable': noop,
+  'DOM.enable': DOM.enable,
   'DOM.getDocument': DOM.getDocument,
   'DOM.requestChildNodes': DOM.requestChildNodes,
 

@@ -7,7 +7,7 @@ const nodes = new Map();
 const nodeIds = new Map();
 let id = 0;
 
-function getNodeId(node: any) {
+export function getNodeId(node: any) {
   let nodeId = nodeIds.get(node);
   if (nodeId) return nodeId;
 
