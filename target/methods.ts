@@ -10,6 +10,7 @@ const methods: any = {
   'DOM.enable': DOM.enable,
   'DOM.getDocument': DOM.getDocument,
   'DOM.getOuterHTML': DOM.getOuterHTML,
+  'DOM.moveTo': DOM.moveTo,
   'DOM.removeNode': DOM.removeNode,
   'DOM.requestChildNodes': DOM.requestChildNodes,
   'DOM.setAttributesAsText': DOM.setAttributesAsText,

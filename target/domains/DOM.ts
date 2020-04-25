@@ -27,6 +27,15 @@ export async function getOuterHTML(params: any) {
   };
 }
 
+export async function moveTo(params: any) {
+  const { nodeId, targetNodeId } = params;
+
+  const node = stringifyNode.getNode(nodeId);
+  const targetNode = stringifyNode.getNode(targetNodeId);
+
+  targetNode.appendChild(node);
+}
+
 export async function removeNode(params: any) {
   const node = stringifyNode.getNode(params.nodeId);
 
@@ -102,17 +111,21 @@ mutationObserver.on('childList', (target: Node, addedNodes: NodeList, removedNod
 
   if (!isEmpty(addedNodes)) {
     each(addedNodes, node => {
+      if (!stringifyNode.isNewNode(node)) {
+        return connector.trigger('DOM.childNodeCountUpdated', {
+          childNodeCount: stringifyNode.filterNodes(node.childNodes as any).length,
+          nodeId: parentNodeId,
+        });
+      }
+
       const params: any = {
         node: stringifyNode.wrap(node, {
           depth: 0,
         }),
         parentNodeId,
+        previousNodeId: stringifyNode.getPreviousNodeId(node) || 0,
       };
 
-      const previousNodeId = stringifyNode.getPreviousNodeId(node);
-      if (previousNodeId) {
-        params.previousNodeId = previousNodeId;
-      }
       connector.trigger('DOM.childNodeInserted', params);
     });
   }

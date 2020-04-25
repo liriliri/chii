@@ -5,7 +5,7 @@ import trim from 'licia/trim';
 
 const nodes = new Map();
 const nodeIds = new Map();
-let id = 0;
+let id = 1;
 
 export function getNodeId(node: any) {
   let nodeId = nodeIds.get(node);
@@ -16,6 +16,10 @@ export function getNodeId(node: any) {
   nodes.set(nodeId, node);
 
   return nodeId;
+}
+
+export function isNewNode(node: any) {
+  return !nodeIds.get(node);
 }
 
 export function wrap(node: any, { depth = 1 } = {}) {
@@ -67,7 +71,7 @@ export function getPreviousNodeId(node: any) {
   }
 }
 
-function filterNodes(childNodes: any[]) {
+export function filterNodes(childNodes: any[]) {
   return filter(childNodes, (node: any) => isValidNode(node));
 }
 

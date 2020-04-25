@@ -15,7 +15,7 @@ import has from 'licia/has';
 const objects = new Map();
 const objectIds = new Map();
 const selfs = new Map();
-let id = 0;
+let id = 1;
 
 function getObjId(obj: any, self: any) {
   let objId = objectIds.get(obj);
