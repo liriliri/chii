@@ -5,6 +5,7 @@ import $ from 'licia/$';
 import isNull from 'licia/isNull';
 import isEmpty from 'licia/isEmpty';
 import each from 'licia/each';
+import trim from 'licia/trim';
 
 export async function enable() {
   mutationObserver.observe();
@@ -31,6 +32,36 @@ export async function requestChildNodes(params: any) {
     parentId: nodeId,
     nodes: stringifyNode.getChildNodes(params),
   });
+}
+
+export async function setAttributesAsText(params: any) {
+  const { name, text, nodeId } = params;
+
+  const node = stringifyNode.getNode(nodeId);
+  if (name) {
+    node.removeAttribute(name);
+  }
+  $(node).attr(parseAttributes(text));
+}
+
+function parseAttributes(text: string) {
+  const texts = text.split(/\s+/);
+
+  const attributes: any = {};
+  each(texts, text => {
+    const equalPos = text.indexOf('=');
+    let name = '';
+    let value = '';
+    if (equalPos < 0) {
+      name = text;
+    } else {
+      name = text.slice(0, equalPos);
+      value = trim(text.slice(equalPos + 1), '"');
+    }
+    return (attributes[name] = value);
+  });
+
+  return attributes;
 }
 
 mutationObserver.on('attributes', (target: any, name: string) => {

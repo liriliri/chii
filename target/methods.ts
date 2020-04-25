@@ -11,6 +11,7 @@ const methods: any = {
   'DOM.getDocument': DOM.getDocument,
   'DOM.removeNode': DOM.removeNode,
   'DOM.requestChildNodes': DOM.requestChildNodes,
+  'DOM.setAttributesAsText': DOM.setAttributesAsText,
 
   'Log.enable': noop,
 
