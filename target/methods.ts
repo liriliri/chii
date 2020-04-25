@@ -9,6 +9,7 @@ import * as Overlay from './domains/Overlay';
 const methods: any = {
   'DOM.enable': DOM.enable,
   'DOM.getDocument': DOM.getDocument,
+  'DOM.removeNode': DOM.removeNode,
   'DOM.requestChildNodes': DOM.requestChildNodes,
 
   'Log.enable': noop,

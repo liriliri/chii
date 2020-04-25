@@ -19,6 +19,8 @@ class Observer extends Emitter {
   private handleMutation(mutation: MutationRecord) {
     if (mutation.type === 'attributes') {
       this.emit('attributes', mutation.target, mutation.attributeName);
+    } else if (mutation.type === 'childList') {
+      this.emit('childList', mutation.target, mutation.addedNodes, mutation.removedNodes);
     }
   }
 }
