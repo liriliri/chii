@@ -19,6 +19,14 @@ export async function getDocument() {
   };
 }
 
+export async function getOuterHTML(params: any) {
+  const node = stringifyNode.getNode(params.nodeId);
+
+  return {
+    outerHTML: node.outerHTML,
+  };
+}
+
 export async function removeNode(params: any) {
   const node = stringifyNode.getNode(params.nodeId);
 
@@ -42,6 +50,13 @@ export async function setAttributesAsText(params: any) {
     node.removeAttribute(name);
   }
   $(node).attr(parseAttributes(text));
+}
+
+export async function setOuterHTML(params: any) {
+  const { nodeId, outerHTML } = params;
+
+  const node = stringifyNode.getNode(nodeId);
+  node.outerHTML = outerHTML;
 }
 
 function parseAttributes(text: string) {

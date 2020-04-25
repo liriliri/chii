@@ -9,9 +9,11 @@ import * as Overlay from './domains/Overlay';
 const methods: any = {
   'DOM.enable': DOM.enable,
   'DOM.getDocument': DOM.getDocument,
+  'DOM.getOuterHTML': DOM.getOuterHTML,
   'DOM.removeNode': DOM.removeNode,
   'DOM.requestChildNodes': DOM.requestChildNodes,
   'DOM.setAttributesAsText': DOM.setAttributesAsText,
+  'DOM.setOuterHTML': DOM.setOuterHTML,
 
   'Log.enable': noop,
 
