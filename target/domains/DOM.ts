@@ -91,9 +91,9 @@ function parseAttributes(text: string) {
 }
 
 mutationObserver.on('attributes', (target: any, name: string) => {
-  if (stringifyNode.isNewNode(target)) return;
-
   const nodeId = stringifyNode.getNodeId(target);
+  if (!nodeId) return;
+
   const value = target.getAttribute(name);
 
   if (isNull(value)) {
@@ -111,9 +111,8 @@ mutationObserver.on('attributes', (target: any, name: string) => {
 });
 
 mutationObserver.on('childList', (target: Node, addedNodes: NodeList, removedNodes: NodeList) => {
-  if (stringifyNode.isNewNode(target)) return;
-
   const parentNodeId = stringifyNode.getNodeId(target);
+  if (!parentNodeId) return;
 
   function childNodeCountUpdated() {
     connector.trigger('DOM.childNodeCountUpdated', {
@@ -143,7 +142,8 @@ mutationObserver.on('childList', (target: Node, addedNodes: NodeList, removedNod
 
   if (!isEmpty(removedNodes)) {
     each(removedNodes, node => {
-      if (stringifyNode.isNewNode(node)) {
+      const nodeId = stringifyNode.getNodeId(node);
+      if (!nodeId) {
         return childNodeCountUpdated();
       }
       connector.trigger('DOM.childNodeRemoved', {

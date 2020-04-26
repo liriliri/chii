@@ -17,7 +17,7 @@ const objectIds = new Map();
 const selfs = new Map();
 let id = 1;
 
-function getObjId(obj: any, self: any) {
+function getOrCreateObjId(obj: any, self: any) {
   let objId = objectIds.get(obj);
   if (objId) return objId;
 
@@ -58,7 +58,7 @@ export function wrap(value: any, { generatePreview = false, self = value } = {})
   }
 
   if (type === 'symbol') {
-    ret.objectId = getObjId(value, self);
+    ret.objectId = getOrCreateObjId(value, self);
     ret.description = toStr(value);
     return ret;
   }
@@ -83,7 +83,7 @@ export function wrap(value: any, { generatePreview = false, self = value } = {})
     };
   }
 
-  ret.objectId = getObjId(value, self);
+  ret.objectId = getOrCreateObjId(value, self);
   selfs;
 
   return ret;

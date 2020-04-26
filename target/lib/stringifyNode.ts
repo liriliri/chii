@@ -7,7 +7,7 @@ const nodes = new Map();
 const nodeIds = new Map();
 let id = 1;
 
-export function getNodeId(node: any) {
+function getOrCreateNodeId(node: any) {
   let nodeId = nodeIds.get(node);
   if (nodeId) return nodeId;
 
@@ -23,8 +23,8 @@ export function clear() {
   nodeIds.clear();
 }
 
-export function isNewNode(node: any) {
-  return !nodeIds.get(node);
+export function getNodeId(node: any) {
+  return nodeIds.get(node);
 }
 
 export function wrap(node: any, { depth = 1 } = {}) {
@@ -33,11 +33,11 @@ export function wrap(node: any, { depth = 1 } = {}) {
     nodeType: node.nodeType,
     localName: node.localName || '',
     nodeValue: node.nodeValue || '',
-    nodeId: getNodeId(node),
+    nodeId: getOrCreateNodeId(node),
   };
 
   if (node.parentNode) {
-    ret.parentId = getNodeId(node.parentNode);
+    ret.parentId = getOrCreateNodeId(node.parentNode);
   }
 
   if (node.attributes) {
@@ -48,7 +48,8 @@ export function wrap(node: any, { depth = 1 } = {}) {
 
   const childNodes = filterNodes(node.childNodes);
   ret.childNodeCount = childNodes.length;
-  if (depth > 0) {
+  const hasOneTextNode = ret.childNodeCount === 1 && childNodes[0].nodeType === 3;
+  if (depth > 0 || hasOneTextNode) {
     ret.children = getChildNodes(node, depth);
   }
 
