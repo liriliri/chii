@@ -7,6 +7,16 @@ import isEmpty from 'licia/isEmpty';
 import each from 'licia/each';
 import trim from 'licia/trim';
 
+export function copyTo(params: any) {
+  const { nodeId, targetNodeId } = params;
+
+  const node = stringifyNode.getNode(nodeId);
+  const targetNode = stringifyNode.getNode(targetNodeId);
+
+  const cloneNode = node.cloneNode(true);
+  targetNode.appendChild(cloneNode);
+}
+
 export function enable() {
   mutationObserver.observe();
   stringifyNode.clear();

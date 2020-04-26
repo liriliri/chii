@@ -94,7 +94,7 @@ export const enable = once(function enable() {
       });
     };
   });
-})
+});
 
 function getStorageId(type: string) {
   return {

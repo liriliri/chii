@@ -7,6 +7,7 @@ import * as Network from './domains/Network';
 import * as Overlay from './domains/Overlay';
 
 const methods: any = {
+  'DOM.copyTo': DOM.copyTo,
   'DOM.enable': DOM.enable,
   'DOM.getDocument': DOM.getDocument,
   'DOM.getOuterHTML': DOM.getOuterHTML,

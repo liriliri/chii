@@ -10,7 +10,10 @@ class Observer extends Emitter {
     });
   }
   observe() {
-    this.observer.observe(document.documentElement, {
+    const { observer } = this;
+
+    observer.disconnect();
+    observer.observe(document.documentElement, {
       attributes: true,
       childList: true,
       subtree: true,
