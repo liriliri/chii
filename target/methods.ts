@@ -7,6 +7,11 @@ import * as Network from './domains/Network';
 import * as Overlay from './domains/Overlay';
 
 const methods: any = {
+  'Debugger.enable': noop,
+  'Debugger.setAsyncCallStackDepth': noop,
+  'Debugger.setBlackboxPatterns': noop,
+  'Debugger.setPauseOnExceptions': noop,
+
   'DOM.copyTo': DOM.copyTo,
   'DOM.enable': DOM.enable,
   'DOM.getDocument': DOM.getDocument,
