@@ -3,6 +3,7 @@ import each from 'licia/each';
 import map from 'licia/map';
 import now from 'licia/now';
 import * as stringifyObj from '../lib/stringifyObj';
+import evaluateJs, { setGlobal } from '../lib/evaluate';
 
 const executionContext = {
   id: 1,
@@ -25,18 +26,11 @@ export function discardConsoleEntries() {
 }
 
 export function evaluate(params: any) {
-  const { expression } = params;
-
-  let ret;
-
-  try {
-    ret = eval.call(window, `(${expression})`);
-  } catch (e) {
-    ret = eval.call(window, expression);
-  }
+  const result = evaluateJs(params.expression);
+  setGlobal('$_', result);
 
   return {
-    result: stringifyObj.wrap(ret),
+    result: stringifyObj.wrap(result),
   };
 }
 

@@ -6,6 +6,7 @@ import isNull from 'licia/isNull';
 import isEmpty from 'licia/isEmpty';
 import each from 'licia/each';
 import trim from 'licia/trim';
+import { setGlobal } from '../lib/evaluate';
 
 export function copyTo(params: any) {
   const { nodeId, targetNodeId } = params;
@@ -71,6 +72,17 @@ export function setAttributesAsText(params: any) {
     node.removeAttribute(name);
   }
   $(node).attr(parseAttributes(text));
+}
+
+const history: any[] = [];
+
+export function setInspectedNode(params: any) {
+  const node = stringifyNode.getNode(params.nodeId);
+  history.unshift(node);
+  if (history.length > 5) history.pop();
+  for (let i = 0; i < 5; i++) {
+    setGlobal(`$${i}`, history[i]);
+  }
 }
 
 export function setOuterHTML(params: any) {

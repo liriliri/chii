@@ -20,6 +20,7 @@ const methods: any = {
   'DOM.removeNode': DOM.removeNode,
   'DOM.requestChildNodes': DOM.requestChildNodes,
   'DOM.setAttributesAsText': DOM.setAttributesAsText,
+  'DOM.setInspectedNode': DOM.setInspectedNode,
   'DOM.setOuterHTML': DOM.setOuterHTML,
 
   'Log.enable': noop,
