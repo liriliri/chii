@@ -3,11 +3,11 @@ import each from 'licia/each';
 import decodeUriComponent from 'licia/decodeUriComponent';
 import rmCookie from 'licia/rmCookie';
 
-export async function deleteCookies(params: any) {
+export function deleteCookies(params: any) {
   rmCookie(params.name);
 }
 
-export async function getCookies() {
+export function getCookies() {
   const cookies: any[] = [];
 
   const cookie = document.cookie;

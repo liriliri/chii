@@ -1,6 +1,6 @@
 import { getNode } from '../lib/stringifyNode';
 
-export async function getComputedStyleForNode(params: any) {
+export function getComputedStyleForNode(params: any) {
   const node = getNode(params.nodeId);
 
   const computedStyle: any = window.getComputedStyle(node);

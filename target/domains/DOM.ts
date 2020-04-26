@@ -7,12 +7,12 @@ import isEmpty from 'licia/isEmpty';
 import each from 'licia/each';
 import trim from 'licia/trim';
 
-export async function enable() {
+export function enable() {
   mutationObserver.observe();
   stringifyNode.clear();
 }
 
-export async function getDocument() {
+export function getDocument() {
   return {
     root: stringifyNode.wrap(document, {
       depth: 2,
@@ -20,7 +20,7 @@ export async function getDocument() {
   };
 }
 
-export async function getOuterHTML(params: any) {
+export function getOuterHTML(params: any) {
   const node = stringifyNode.getNode(params.nodeId);
 
   return {
@@ -28,7 +28,7 @@ export async function getOuterHTML(params: any) {
   };
 }
 
-export async function moveTo(params: any) {
+export function moveTo(params: any) {
   const { nodeId, targetNodeId } = params;
 
   const node = stringifyNode.getNode(nodeId);
@@ -37,13 +37,13 @@ export async function moveTo(params: any) {
   targetNode.appendChild(node);
 }
 
-export async function removeNode(params: any) {
+export function removeNode(params: any) {
   const node = stringifyNode.getNode(params.nodeId);
 
   $(node).remove();
 }
 
-export async function requestChildNodes(params: any) {
+export function requestChildNodes(params: any) {
   const { nodeId, depth = 1 } = params;
   const node = stringifyNode.getNode(nodeId);
 
@@ -53,7 +53,7 @@ export async function requestChildNodes(params: any) {
   });
 }
 
-export async function setAttributesAsText(params: any) {
+export function setAttributesAsText(params: any) {
   const { name, text, nodeId } = params;
 
   const node = stringifyNode.getNode(nodeId);
@@ -63,7 +63,7 @@ export async function setAttributesAsText(params: any) {
   $(node).attr(parseAttributes(text));
 }
 
-export async function setOuterHTML(params: any) {
+export function setOuterHTML(params: any) {
   const { nodeId, outerHTML } = params;
 
   const node = stringifyNode.getNode(nodeId);

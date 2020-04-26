@@ -21,7 +21,7 @@ connector.on('message', async (message: any) => {
 
 async function callMethod(method: string, params: any) {
   if (methods[method]) {
-    return (await methods[method](params)) || {};
+    return methods[method](params) || {};
   } else {
     throw Error(`${method} unimplemented`);
   }

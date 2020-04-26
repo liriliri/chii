@@ -5,7 +5,7 @@ import toNum from 'licia/toNum';
 
 const transparent: any = { r: 0, g: 0, b: 0, a: 0 };
 
-export async function highlightNode(params: any) {
+export function highlightNode(params: any) {
   const { nodeId, highlightConfig } = params;
   let {
     marginColor = transparent,
@@ -85,7 +85,7 @@ export async function highlightNode(params: any) {
   });
 }
 
-export async function hideHighlight() {
+export function hideHighlight() {
   $container.hide();
 }
 

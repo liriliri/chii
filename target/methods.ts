@@ -39,6 +39,7 @@ const methods: any = {
   'CSS.getComputedStyleForNode': CSS.getComputedStyleForNode,
 
   'DOMStorage.clear': DOMStorage.clear,
+  'DOMStorage.enable': DOMStorage.enable,
   'DOMStorage.getDOMStorageItems': DOMStorage.getDOMStorageItems,
   'DOMStorage.removeDOMStorageItem': DOMStorage.removeDOMStorageItem,
   'DOMStorage.setDOMStorageItem': DOMStorage.setDOMStorageItem,

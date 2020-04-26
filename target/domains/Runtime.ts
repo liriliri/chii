@@ -10,21 +10,21 @@ const executionContext = {
   origin: location.origin,
 };
 
-export async function enable() {
+export function enable() {
   connector.trigger('Runtime.executionContextCreated', {
     context: executionContext,
   });
 }
 
-export async function getProperties(params: any) {
+export function getProperties(params: any) {
   return stringifyObj.getProperties(params);
 }
 
-export async function discardConsoleEntries() {
+export function discardConsoleEntries() {
   stringifyObj.clear();
 }
 
-export async function evaluate(params: any) {
+export function evaluate(params: any) {
   const { expression } = params;
 
   let ret;

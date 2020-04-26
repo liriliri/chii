@@ -1,4 +1,4 @@
-export async function getResourceTree() {
+export function getResourceTree() {
   return {
     frameTree: {
       frame: {
