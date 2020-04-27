@@ -241,9 +241,12 @@ function basic(value: any) {
     ret.subtype = 'regexp';
   }
 
-  if (isEl(value)) {
-    ret.subtype = 'node';
-  }
+  try {
+    // Accessing nodeType may throw exception
+    if (isEl(value)) {
+      ret.subtype = 'node';
+    }
+  } catch (e) {}
 
   return ret;
 }

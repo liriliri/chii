@@ -106,10 +106,3 @@ async function callFn(functionDeclaration: string, args: any[], ctx: any = null)
   fn = Function.apply(null, fnParams);
   return fn.apply(ctx, args);
 }
-
-export function callFnSync(functionDeclaration: string, args: any[], ctx: any = null) {
-  const fnParams = parseFn(functionDeclaration);
-
-  const fn = Function.apply(null, fnParams);
-  return fn.apply(ctx, args);
-}
