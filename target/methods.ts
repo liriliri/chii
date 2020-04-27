@@ -23,7 +23,10 @@ const methods: any = {
   'DOM.setInspectedNode': DOM.setInspectedNode,
   'DOM.setOuterHTML': DOM.setOuterHTML,
 
+  'Emulation.setEmulatedMedia': noop,
+
   'Log.enable': noop,
+  'Log.startViolationsReport': noop,
 
   'Network.deleteCookies': Network.deleteCookies,
   'Network.enable': noop,
@@ -34,7 +37,9 @@ const methods: any = {
   'Runtime.discardConsoleEntries': Runtime.discardConsoleEntries,
   'Runtime.enable': Runtime.enable,
   'Runtime.evaluate': Runtime.evaluate,
+  'Runtime.getIsolateId': noop,
   'Runtime.getProperties': Runtime.getProperties,
+  'Runtime.runIfWaitingForDebugger': noop,
 
   'Page.enable': noop,
 
@@ -44,6 +49,9 @@ const methods: any = {
 
   'CSS.enable': noop,
   'CSS.getComputedStyleForNode': CSS.getComputedStyleForNode,
+  'CSS.getInlineStylesForNode': CSS.getInlineStylesForNode,
+  'CSS.getMatchedStylesForNode': CSS.getMatchedStylesForNode,
+  'CSS.getPlatformFontsForNode': noop,
 
   'DOMStorage.clear': DOMStorage.clear,
   'DOMStorage.enable': DOMStorage.enable,

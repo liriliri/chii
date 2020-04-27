@@ -20,3 +20,29 @@ export function getComputedStyleForNode(params: any) {
     computedStyle: ret,
   };
 }
+
+export function getInlineStylesForNode(params: any) {
+  const { style } = getNode(params.nodeId);
+
+  const cssProperties = [];
+  for (let i = 0, len = style.length; i < len; i++) {
+    const name = style[i];
+    cssProperties.push({
+      name,
+      value: style[name],
+    });
+  }
+
+  return {
+    inlineStyle: {
+      cssProperties,
+      shorthandEntries: [],
+    },
+  };
+}
+
+export function getMatchedStylesForNode() {
+  return {
+    matchedCSSRules: [],
+  };
+}

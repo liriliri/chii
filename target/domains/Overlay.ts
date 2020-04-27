@@ -16,6 +16,25 @@ export function highlightNode(params: any) {
 
   const node = getNode(nodeId);
 
+  if (node.nodeType === 3) {
+    const range = document.createRange();
+    range.selectNode(node);
+    const { left, width, top, height } = range.getBoundingClientRect();
+    range.detach();
+    $container.css({ left, top, width, height }).show();
+    $margin.css({ width: 0, height: 0 });
+    $border.css({ width: 0, height: 0 });
+    $padding.css({ width: 0, height: 0 });
+    $content.css({
+      left: 0,
+      top: 0,
+      width,
+      height,
+      background: toColor(contentColor),
+    });
+    return;
+  }
+
   const { left, width, top, height } = $(node).offset();
   $container.css({ left, top, width, height }).show();
 
