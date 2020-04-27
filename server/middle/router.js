@@ -3,14 +3,24 @@ const Router = require('koa-router');
 const send = require('koa-send');
 const readTpl = require('../lib/readTpl');
 const now = require('licia/now');
+const pairs = require('licia/pairs');
+const reverse = require('licia/reverse');
+const map = require('licia/map');
 
 module.exports = function (channelManager, port) {
   const router = new Router();
 
   router.get('/', async ctx => {
+    const targets = reverse(
+      map(pairs(channelManager.getTargets()), item => ({
+        id: item[0],
+        ...item[1],
+      }))
+    );
+
     const tpl = await readTpl('index');
     ctx.body = tpl({
-      targets: channelManager.getTargets(),
+      targets,
       port,
     });
   });

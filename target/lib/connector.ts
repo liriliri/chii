@@ -1,14 +1,23 @@
 import Emitter from 'licia/Emitter';
 import query from 'licia/query';
 import randomId from 'licia/randomId';
+import safeStorage from 'licia/safeStorage';
+
+const sessionStore = safeStorage('session');
 
 class Connector extends Emitter {
   private ws: WebSocket;
   constructor() {
     super();
 
+    let id = sessionStore.getItem('chii-id');
+    if (!id) {
+      id = randomId(6);
+      sessionStore.setItem('chii-id', id);
+    }
+
     this.ws = new WebSocket(
-      `ws://${ChiiServerUrl}/target/${randomId(6)}?${query.stringify({
+      `ws://${ChiiServerUrl}/target/${id}?${query.stringify({
         url: location.href,
         title: document.title,
       })}`
