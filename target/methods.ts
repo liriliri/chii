@@ -46,14 +46,23 @@ const methods: any = {
   'Runtime.evaluate': Runtime.evaluate,
   'Runtime.getIsolateId': noop,
   'Runtime.getProperties': Runtime.getProperties,
+  'Runtime.releaseObject': noop,
   'Runtime.releaseObjectGroup': noop,
   'Runtime.runIfWaitingForDebugger': noop,
 
+  'ApplicationCache.enable': noop,
+  'ApplicationCache.getFramesWithManifests': noop,
+  'Page.getManifestIcons': noop,
+
   'Page.enable': noop,
+  'Page.getAppManifest': noop,
+  'Page.getInstallabilityErrors': noop,
 
   'Profiler.enable': noop,
 
   'Audits.enable': noop,
+
+  'CacheStorage.requestCacheNames': noop,
 
   'CSS.enable': noop,
   'CSS.getComputedStyleForNode': CSS.getComputedStyleForNode,
@@ -61,13 +70,20 @@ const methods: any = {
   'CSS.getMatchedStylesForNode': CSS.getMatchedStylesForNode,
   'CSS.getPlatformFontsForNode': noop,
 
+  'Database.enable': noop,
+
   'DOMStorage.clear': DOMStorage.clear,
   'DOMStorage.enable': DOMStorage.enable,
   'DOMStorage.getDOMStorageItems': DOMStorage.getDOMStorageItems,
   'DOMStorage.removeDOMStorageItem': DOMStorage.removeDOMStorageItem,
   'DOMStorage.setDOMStorageItem': DOMStorage.setDOMStorageItem,
 
+  'HeapProfiler.enable': noop,
+
+  'IndexedDB.enable': noop,
+
   'Inspector.enable': noop,
+  'IndexedDB.requestDatabaseNames': noop,
 
   'Overlay.enable': noop,
   'Overlay.hideHighlight': Overlay.hideHighlight,
@@ -75,6 +91,9 @@ const methods: any = {
   'Overlay.setShowViewportSizeOnResize': Overlay.setShowViewportSizeOnResize,
 
   'ServiceWorker.enable': noop,
+
+  'Storage.trackCacheStorageForOrigin': noop,
+  'Storage.trackIndexedDBForOrigin': noop,
 };
 
 async function noop() {}
