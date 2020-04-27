@@ -56,6 +56,7 @@ const methods: any = {
   'Overlay.enable': noop,
   'Overlay.hideHighlight': Overlay.hideHighlight,
   'Overlay.highlightNode': Overlay.highlightNode,
+  'Overlay.setShowViewportSizeOnResize': Overlay.setShowViewportSizeOnResize,
 
   'ServiceWorker.enable': noop,
 };

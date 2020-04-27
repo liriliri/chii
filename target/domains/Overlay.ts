@@ -89,6 +89,40 @@ export function hideHighlight() {
   $container.hide();
 }
 
+let showViewportSizeOnResize = false;
+export function setShowViewportSizeOnResize(params: any) {
+  showViewportSizeOnResize = params.show;
+}
+
+const viewportSize = h('div', {
+  style: {
+    position: 'fixed',
+    right: 0,
+    top: 0,
+    background: '#fff',
+    fontSize: 13,
+    opacity: 0.5,
+    padding: '4px 6px',
+  },
+});
+const $viewportSize: any = $(viewportSize);
+
+let viewportSizeTimer: any;
+window.addEventListener('resize', () => {
+  if (!showViewportSizeOnResize) return;
+
+  $viewportSize.text(`${window.innerWidth}px × ${window.innerHeight}px`);
+  if (viewportSizeTimer) {
+    clearTimeout(viewportSizeTimer);
+  } else {
+    document.documentElement.appendChild(viewportSize);
+  }
+  viewportSizeTimer = setTimeout(() => {
+    $viewportSize.remove();
+    viewportSizeTimer = null;
+  }, 1000);
+});
+
 const container = h('div', {
   style: {
     position: 'absolute',
