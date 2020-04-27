@@ -2,6 +2,7 @@ import toStr from 'licia/toStr';
 import isNull from 'licia/isNull';
 import isArr from 'licia/isArr';
 import isFn from 'licia/isFn';
+import isEl from 'licia/isEl';
 import isRegExp from 'licia/isRegExp';
 import getType from 'licia/type';
 import getKeys from 'licia/keys';
@@ -87,6 +88,10 @@ export function wrap(value: any, { generatePreview = false, self = value } = {})
   selfs;
 
   return ret;
+}
+
+export function getObj(objectId: number) {
+  return objects.get(objectId);
 }
 
 export function getProperties(params: any) {
@@ -234,6 +239,10 @@ function basic(value: any) {
 
   if (isRegExp(value)) {
     ret.subtype = 'regexp';
+  }
+
+  if (isEl(value)) {
+    ret.subtype = 'node';
   }
 
   return ret;

@@ -19,12 +19,15 @@ const methods: any = {
   'DOM.moveTo': DOM.moveTo,
   'DOM.removeNode': DOM.removeNode,
   'DOM.requestChildNodes': DOM.requestChildNodes,
+  'DOM.requestNode': DOM.requestNode,
+  'DOM.resolveNode': DOM.resolveNode,
   'DOM.setAttributesAsText': DOM.setAttributesAsText,
   'DOM.setInspectedNode': DOM.setInspectedNode,
   'DOM.setOuterHTML': DOM.setOuterHTML,
 
   'Emulation.setEmulatedMedia': noop,
 
+  'Log.clear': noop,
   'Log.enable': noop,
   'Log.startViolationsReport': noop,
 
