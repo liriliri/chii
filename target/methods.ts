@@ -5,6 +5,7 @@ import * as CSS from './domains/CSS';
 import * as DOMStorage from './domains/DOMStorage';
 import * as Network from './domains/Network';
 import * as Overlay from './domains/Overlay';
+import * as DOMDebugger from './domains/DOMDebugger';
 
 const methods: any = {
   'Debugger.enable': noop,
@@ -25,6 +26,8 @@ const methods: any = {
   'DOM.setInspectedNode': DOM.setInspectedNode,
   'DOM.setOuterHTML': DOM.setOuterHTML,
 
+  'DOMDebugger.getEventListeners': DOMDebugger.getEventListeners,
+
   'Emulation.setEmulatedMedia': noop,
 
   'Log.clear': noop,
@@ -37,11 +40,13 @@ const methods: any = {
 
   'Page.getResourceTree': Page.getResourceTree,
 
-  'Runtime.discardConsoleEntries': Runtime.discardConsoleEntries,
+  'Runtime.callFunctionOn': Runtime.callFunctionOn,
+  'Runtime.discardConsoleEntries': noop,
   'Runtime.enable': Runtime.enable,
   'Runtime.evaluate': Runtime.evaluate,
   'Runtime.getIsolateId': noop,
   'Runtime.getProperties': Runtime.getProperties,
+  'Runtime.releaseObjectGroup': noop,
   'Runtime.runIfWaitingForDebugger': noop,
 
   'Page.enable': noop,

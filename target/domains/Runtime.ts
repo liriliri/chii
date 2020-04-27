@@ -2,6 +2,8 @@ import connector from '../lib/connector';
 import each from 'licia/each';
 import map from 'licia/map';
 import now from 'licia/now';
+import fnParams from 'licia/fnParams';
+import startWith from 'licia/startWith';
 import * as stringifyObj from '../lib/stringifyObj';
 import evaluateJs, { setGlobal } from '../lib/evaluate';
 
@@ -11,6 +13,19 @@ const executionContext = {
   origin: location.origin,
 };
 
+export async function callFunctionOn(params: any) {
+  const { functionDeclaration, objectId } = params;
+
+  let ctx = null;
+  if (objectId) {
+    ctx = stringifyObj.getObj(objectId);
+  }
+
+  return {
+    result: stringifyObj.wrap(await callFn(functionDeclaration, [], ctx)),
+  };
+}
+
 export function enable() {
   connector.trigger('Runtime.executionContextCreated', {
     context: executionContext,
@@ -19,10 +34,6 @@ export function enable() {
 
 export function getProperties(params: any) {
   return stringifyObj.getProperties(params);
-}
-
-export function discardConsoleEntries() {
-  stringifyObj.clear();
 }
 
 export function evaluate(params: any) {
@@ -67,3 +78,38 @@ each(methods, (type, name) => {
     });
   };
 });
+
+const Function = window.Function;
+const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+
+function parseFn(fnStr: string) {
+  const result = fnParams(fnStr);
+
+  if (fnStr[fnStr.length - 1] !== '}') {
+    result.push('return ' + fnStr.slice(fnStr.indexOf('=>') + 2));
+  } else {
+    result.push(fnStr.slice(fnStr.indexOf('{') + 1, fnStr.lastIndexOf('}')));
+  }
+
+  return result;
+}
+
+async function callFn(functionDeclaration: string, args: any[], ctx: any = null) {
+  const fnParams = parseFn(functionDeclaration);
+  let fn;
+
+  if (startWith(functionDeclaration, 'async')) {
+    fn = AsyncFunction.apply(null, fnParams);
+    return await fn.apply(ctx, args);
+  }
+
+  fn = Function.apply(null, fnParams);
+  return fn.apply(ctx, args);
+}
+
+export function callFnSync(functionDeclaration: string, args: any[], ctx: any = null) {
+  const fnParams = parseFn(functionDeclaration);
+
+  const fn = Function.apply(null, fnParams);
+  return fn.apply(ctx, args);
+}
