@@ -7,7 +7,7 @@ const nodes = new Map();
 const nodeIds = new Map();
 let id = 1;
 
-function getOrCreateNodeId(node: any) {
+export function getOrCreateNodeId(node: any) {
   let nodeId = nodeIds.get(node);
   if (nodeId) return nodeId;
 
@@ -28,12 +28,15 @@ export function getNodeId(node: any) {
 }
 
 export function wrap(node: any, { depth = 1 } = {}) {
+  const nodeId = getOrCreateNodeId(node);
+
   const ret: any = {
     nodeName: node.nodeName,
     nodeType: node.nodeType,
     localName: node.localName || '',
     nodeValue: node.nodeValue || '',
-    nodeId: getOrCreateNodeId(node),
+    nodeId,
+    backendNodeId: nodeId,
   };
 
   if (node.parentNode) {

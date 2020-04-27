@@ -50,6 +50,12 @@ export function moveTo(params: any) {
   targetNode.appendChild(node);
 }
 
+export function pushNodesByBackendIdsToFrontend(params: any) {
+  return {
+    nodeIds: params.backendNodeIds,
+  };
+}
+
 export function removeNode(params: any) {
   const node = getNode(params.nodeId);
 

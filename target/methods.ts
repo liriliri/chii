@@ -19,6 +19,7 @@ const methods: any = {
   'DOM.getOuterHTML': DOM.getOuterHTML,
   'DOM.markUndoableState': noop,
   'DOM.moveTo': DOM.moveTo,
+  'DOM.pushNodesByBackendIdsToFrontend': DOM.pushNodesByBackendIdsToFrontend,
   'DOM.removeNode': DOM.removeNode,
   'DOM.requestChildNodes': DOM.requestChildNodes,
   'DOM.requestNode': DOM.requestNode,
@@ -40,6 +41,7 @@ const methods: any = {
   'Network.enable': noop,
   'Network.getCookies': Network.getCookies,
 
+  'Page.getResourceContent': noop,
   'Page.getResourceTree': Page.getResourceTree,
 
   'Runtime.callFunctionOn': Runtime.callFunctionOn,
@@ -91,6 +93,7 @@ const methods: any = {
   'Overlay.hideHighlight': Overlay.hideHighlight,
   'Overlay.highlightFrame': noop,
   'Overlay.highlightNode': Overlay.highlightNode,
+  'Overlay.setInspectMode': Overlay.setInspectMode,
   'Overlay.setShowViewportSizeOnResize': Overlay.setShowViewportSizeOnResize,
 
   'ServiceWorker.enable': noop,

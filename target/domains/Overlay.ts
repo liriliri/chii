@@ -1,7 +1,9 @@
-import { getNode } from '../lib/stringifyNode';
+import { getNode, getOrCreateNodeId } from '../lib/stringifyNode';
 import $ from 'licia/$';
 import h from 'licia/h';
+import isMobile from 'licia/isMobile';
 import toNum from 'licia/toNum';
+import connector from '../lib/connector';
 
 const transparent: any = { r: 0, g: 0, b: 0, a: 0 };
 
@@ -113,6 +115,71 @@ export function hideHighlight() {
 let showViewportSizeOnResize = false;
 export function setShowViewportSizeOnResize(params: any) {
   showViewportSizeOnResize = params.show;
+}
+
+let highlightConfig: any = {};
+let inspectMode: string = 'none';
+export function setInspectMode(params: any) {
+  highlightConfig = params.highlightConfig;
+  inspectMode = params.mode;
+}
+
+function getElementFromPoint(e: any) {
+  if (isMobile()) {
+    const touch = e.touches[0] || e.changedTouches[0];
+    return document.elementFromPoint(touch.pageX, touch.pageY);
+  }
+
+  return document.elementFromPoint(e.clientX, e.clientY);
+}
+
+function moveListener(e: any) {
+  if (inspectMode === 'none') return;
+
+  const node = getElementFromPoint(e);
+  const nodeId = getOrCreateNodeId(node);
+
+  highlightNode({
+    nodeId,
+    highlightConfig,
+  });
+
+  connector.trigger('Overlay.nodeHighlightRequested', {
+    nodeId,
+  });
+}
+
+function outListener() {
+  if (inspectMode === 'none') return;
+
+  hideHighlight();
+}
+
+function clickListener(e: any) {
+  if (inspectMode === 'none') return;
+
+  e.preventDefault();
+  e.stopImmediatePropagation();
+
+  const node = getElementFromPoint(e);
+  connector.trigger('Overlay.inspectNodeRequested', {
+    backendNodeId: getOrCreateNodeId(node),
+  });
+
+  hideHighlight();
+}
+
+function addEvent(type: string, listener: any) {
+  document.documentElement.addEventListener(type, listener, true);
+}
+if (isMobile()) {
+  addEvent('touchstart', moveListener);
+  addEvent('touchmove', moveListener);
+  addEvent('touchend', clickListener);
+} else {
+  addEvent('mousemove', moveListener);
+  addEvent('mouseout', outListener);
+  addEvent('click', clickListener);
 }
 
 const viewportSize = h('div', {
