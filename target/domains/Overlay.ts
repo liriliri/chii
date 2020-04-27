@@ -35,6 +35,8 @@ export function highlightNode(params: any) {
     return;
   }
 
+  if (node.nodeType !== 1) return;
+
   const { left, width, top, height } = $(node).offset();
   $container.css({ left, top, width, height }).show();
 
