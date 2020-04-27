@@ -50,7 +50,7 @@ export class CookiesTable extends UI.Widget.VBox {
   constructor(renderInline, saveCallback, refreshCallback, selectedCallback, deleteCallback) {
     super();
 
-    this.registerRequiredCSS('cookie_table/cookiesTable.css');
+    this.registerRequiredCSS('chii_cookie_table/cookiesTable.css');
     this.element.classList.add('cookies-table');
 
     this._saveCallback = saveCallback;

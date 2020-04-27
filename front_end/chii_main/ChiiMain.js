@@ -4,7 +4,15 @@ import * as SDK from '../sdk/sdk.js';
 
 export class ChiiMainImpl extends Common.ObjectWrapper.ObjectWrapper {
   async run() {
-    await SDK.Connections.initMainConnection(() => {},
-    Components.TargetDetachedDialog.TargetDetachedDialog.webSocketConnectionLost);
+    await SDK.Connections.initMainConnection(async () => {
+      SDK.SDKModel.TargetManager.instance().createTarget(
+        'main',
+        Common.UIString.UIString('Main'),
+        SDK.SDKModel.Type.Frame,
+        null,
+        undefined,
+        false
+      );
+    }, Components.TargetDetachedDialog.TargetDetachedDialog.webSocketConnectionLost);
   }
 }
