@@ -103,6 +103,12 @@ export function setInspectedNode(params: any) {
   }
 }
 
+export function setNodeValue(params: any) {
+  const { nodeId, value } = params;
+  const node = getNode(nodeId);
+  node.nodeValue = value;
+}
+
 export function setOuterHTML(params: any) {
   const { nodeId, outerHTML } = params;
 
@@ -192,4 +198,14 @@ mutationObserver.on('childList', (target: Node, addedNodes: NodeList, removedNod
       });
     });
   }
+});
+
+mutationObserver.on('characterData', (target: Node) => {
+  const nodeId = getNodeId(target);
+  if (!nodeId) return;
+
+  connector.trigger('DOM.characterDataModified', {
+    characterData: target.nodeValue,
+    nodeId,
+  });
 });

@@ -17,6 +17,7 @@ const methods: any = {
   'DOM.enable': DOM.enable,
   'DOM.getDocument': DOM.getDocument,
   'DOM.getOuterHTML': DOM.getOuterHTML,
+  'DOM.markUndoableState': noop,
   'DOM.moveTo': DOM.moveTo,
   'DOM.removeNode': DOM.removeNode,
   'DOM.requestChildNodes': DOM.requestChildNodes,
@@ -24,6 +25,7 @@ const methods: any = {
   'DOM.resolveNode': DOM.resolveNode,
   'DOM.setAttributesAsText': DOM.setAttributesAsText,
   'DOM.setInspectedNode': DOM.setInspectedNode,
+  'DOM.setNodeValue': DOM.setNodeValue,
   'DOM.setOuterHTML': DOM.setOuterHTML,
 
   'DOMDebugger.getEventListeners': DOMDebugger.getEventListeners,
@@ -87,6 +89,7 @@ const methods: any = {
 
   'Overlay.enable': noop,
   'Overlay.hideHighlight': Overlay.hideHighlight,
+  'Overlay.highlightFrame': noop,
   'Overlay.highlightNode': Overlay.highlightNode,
   'Overlay.setShowViewportSizeOnResize': Overlay.setShowViewportSizeOnResize,
 

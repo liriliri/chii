@@ -16,6 +16,7 @@ class Observer extends Emitter {
     observer.observe(document.documentElement, {
       attributes: true,
       childList: true,
+      characterData: true,
       subtree: true,
     });
   }
@@ -24,6 +25,8 @@ class Observer extends Emitter {
       this.emit('attributes', mutation.target, mutation.attributeName);
     } else if (mutation.type === 'childList') {
       this.emit('childList', mutation.target, mutation.addedNodes, mutation.removedNodes);
+    } else if (mutation.type === 'characterData') {
+      this.emit('characterData', mutation.target);
     }
   }
 }
