@@ -4,11 +4,12 @@ import h from 'licia/h';
 import isMobile from 'licia/isMobile';
 import toNum from 'licia/toNum';
 import connector from '../lib/connector';
+import * as stringifyObj from '../lib/stringifyObj';
 
 const transparent: any = { r: 0, g: 0, b: 0, a: 0 };
 
 export function highlightNode(params: any) {
-  const { nodeId, highlightConfig } = params;
+  const { nodeId, highlightConfig, objectId } = params;
   let {
     marginColor = transparent,
     paddingColor = transparent,
@@ -16,7 +17,13 @@ export function highlightNode(params: any) {
     borderColor = transparent,
   } = highlightConfig;
 
-  const node = getNode(nodeId);
+  let node: any;
+  if (nodeId) {
+    node = getNode(nodeId);
+  }
+  if (objectId) {
+    node = stringifyObj.getObj(objectId);
+  }
 
   if (node.nodeType === 3) {
     const range = document.createRange();

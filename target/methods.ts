@@ -6,9 +6,10 @@ import * as DOMStorage from './domains/DOMStorage';
 import * as Network from './domains/Network';
 import * as Overlay from './domains/Overlay';
 import * as DOMDebugger from './domains/DOMDebugger';
+import * as Debugger from './domains/Debugger';
 
 const methods: any = {
-  'Debugger.enable': noop,
+  'Debugger.enable': Debugger.enable,
   'Debugger.setAsyncCallStackDepth': noop,
   'Debugger.setBlackboxPatterns': noop,
   'Debugger.setPauseOnExceptions': noop,

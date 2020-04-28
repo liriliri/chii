@@ -5,6 +5,7 @@ import isBool from 'licia/isBool';
 import keys from 'licia/keys';
 import each from 'licia/each';
 import * as stringifyObj from '../lib/stringifyObj';
+import * as scripts from '../lib/scripts';
 
 export function getEventListeners(params: any) {
   const obj = stringifyObj.getObj(params.objectId);
@@ -12,12 +13,19 @@ export function getEventListeners(params: any) {
   const events = obj.chiiEvents || [];
   const listeners: any[] = [];
 
+  const script = scripts.get();
+
   each(events, (events: any[], type) => {
     each(events, event => {
       listeners.push({
         type,
         useCapture: event.useCapture,
         handler: stringifyObj.wrap(event.listener),
+        passive: false,
+        once: false,
+        scriptId: script.scriptId,
+        columnNumber: 0,
+        lineNumber: 0,
       });
     });
   });
