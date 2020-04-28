@@ -46,6 +46,7 @@ const methods: any = {
   'Page.getResourceTree': Page.getResourceTree,
 
   'Runtime.callFunctionOn': Runtime.callFunctionOn,
+  'Runtime.compileScript': noop,
   'Runtime.discardConsoleEntries': noop,
   'Runtime.enable': Runtime.enable,
   'Runtime.evaluate': Runtime.evaluate,
@@ -67,6 +68,8 @@ const methods: any = {
   'Profiler.enable': noop,
 
   'Audits.enable': noop,
+
+  'BackgroundService.startObserving': noop,
 
   'CacheStorage.requestCacheNames': noop,
 
