@@ -101,7 +101,7 @@ export function highlightNode(params: any) {
 
   $content.css({
     left: bl + pl,
-    top: bl + pt,
+    top: bt + pt,
     width: pw - pl - pr,
     height: ph - pt - pb,
     background: toColor(contentColor),
