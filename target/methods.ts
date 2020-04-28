@@ -59,6 +59,7 @@ const methods: any = {
   'ApplicationCache.getFramesWithManifests': noop,
   'Page.getManifestIcons': noop,
 
+  'Page.bringToFront': noop,
   'Page.enable': noop,
   'Page.getAppManifest': noop,
   'Page.getInstallabilityErrors': noop,
@@ -69,7 +70,7 @@ const methods: any = {
 
   'CacheStorage.requestCacheNames': noop,
 
-  'CSS.enable': noop,
+  'CSS.enable': CSS.enable,
   'CSS.getComputedStyleForNode': CSS.getComputedStyleForNode,
   'CSS.getInlineStylesForNode': CSS.getInlineStylesForNode,
   'CSS.getMatchedStylesForNode': CSS.getMatchedStylesForNode,
