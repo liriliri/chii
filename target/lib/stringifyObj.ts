@@ -94,6 +94,13 @@ export function getObj(objectId: number) {
   return objects.get(objectId);
 }
 
+export function releaseObj(objectId: number) {
+  const object = getObj(objectId);
+  objectIds.delete(object);
+  selfs.delete(objectId);
+  objects.delete(objectId);
+}
+
 export function getProperties(params: any) {
   const { accessorPropertiesOnly, objectId, ownProperties, generatePreview } = params;
   const properties = [];

@@ -45,6 +45,10 @@ export function evaluate(params: any) {
   };
 }
 
+export function releaseObject(params: any) {
+  stringifyObj.releaseObj(params.objectId);
+}
+
 declare const console: any;
 
 const methods: any = {
