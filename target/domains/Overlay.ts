@@ -224,20 +224,20 @@ const container = h('div', {
     pointerEvents: 'none',
   },
 });
-const $container: any = $(container);
+const $container = $(container);
 document.documentElement.appendChild(container);
 
 const margin = createEl(100);
-const $margin: any = $(margin);
+const $margin = $(margin);
 
 const border = createEl(200);
-const $border: any = $(border);
+const $border = $(border);
 
 const padding = createEl(300);
-const $padding: any = $(padding);
+const $padding = $(padding);
 
 const content = createEl(400);
-const $content: any = $(content);
+const $content = $(content);
 
 function createEl(zIndex: number) {
   const el = h('div', {
