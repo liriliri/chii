@@ -7,7 +7,7 @@ import $ from 'licia/$';
 import isNull from 'licia/isNull';
 import isEmpty from 'licia/isEmpty';
 import each from 'licia/each';
-import trim from 'licia/trim';
+import html from 'licia/html';
 import { setGlobal } from '../lib/evaluate';
 
 export function copyTo(params: any) {
@@ -122,24 +122,10 @@ export function setOuterHTML(params: any) {
   node.outerHTML = outerHTML;
 }
 
-function parseAttributes(text: string) {
-  const texts = text.split(/\s+/);
+function parseAttributes(str: string) {
+  str = `<div ${str}></div>`;
 
-  const attributes: any = {};
-  each(texts, text => {
-    const equalPos = text.indexOf('=');
-    let name = '';
-    let value = '';
-    if (equalPos < 0) {
-      name = text;
-    } else {
-      name = text.slice(0, equalPos);
-      value = trim(text.slice(equalPos + 1), '"');
-    }
-    return (attributes[name] = value);
-  });
-
-  return attributes;
+  return html.parse(str)[0].attrs;
 }
 
 mutationObserver.on('attributes', (target: any, name: string) => {

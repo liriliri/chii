@@ -1,8 +1,10 @@
 import each from 'licia/each';
-import toStr from 'licia/toStr';
 import Emitter from 'licia/Emitter';
+import uniqId from 'licia/uniqId';
+import random from 'licia/random';
 
-let id = 1;
+const prefix = random(1000, 9999) + '.';
+const createId = () => uniqId(prefix);
 
 const elProto: any = Element.prototype;
 
@@ -29,7 +31,7 @@ export function getMatchedCssRules(node: any) {
   each(document.styleSheets, (styleSheet: any) => {
     let styleSheetId = styleSheet.styleSheetId;
     if (!styleSheetId) {
-      styleSheetId = toStr(id++);
+      styleSheetId = createId();
       styleSheet.styleSheetId = styleSheetId;
       emitter.emit('styleSheetAdded', styleSheet);
     }
@@ -72,4 +74,26 @@ export function formatStyle(style: any) {
   }
 
   return ret;
+}
+
+const inlineStyleSheetIds = new Map();
+const inlineStyleNodeIds = new Map();
+
+export function getOrCreateInlineStyleSheetId(nodeId: any) {
+  let styleSheetId = inlineStyleSheetIds.get(nodeId);
+  if (styleSheetId) return styleSheetId;
+
+  styleSheetId = createId();
+  inlineStyleSheetIds.set(nodeId, styleSheetId);
+  inlineStyleNodeIds.set(styleSheetId, nodeId);
+
+  return styleSheetId;
+}
+
+export function getInlineStyleSheetId(node: any) {
+  return inlineStyleSheetIds.get(node);
+}
+
+export function getInlineStyleNodeId(styleSheetId: string) {
+  return inlineStyleNodeIds.get(styleSheetId);
 }
