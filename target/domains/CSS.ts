@@ -43,37 +43,35 @@ export function getInlineStylesForNode(params: any) {
   if (style) {
     const styleSheetId = stylesheet.getOrCreateInlineStyleSheetId(nodeId);
     inlineStyle.styleSheetId = styleSheetId;
-    inlineStyle.cssText = node.getAttribute('style') || '';
+    const cssText = node.getAttribute('style') || '';
+    inlineStyle.cssText = cssText;
     inlineStyle.range = {
       startLine: 0,
       startColumn: 0,
-      endLine: 0,
+      endLine: getLineCount(cssText) - 1,
       endColumn: inlineStyle.cssText.length,
     };
-    inlineStyle.cssProperties = map(
-      toCssProperties(stylesheet.formatStyle(style)),
-      ({ name, value }: { name: string; value: string }) => {
-        const ret: any = {
-          name,
-          value,
+    const shorthandEntries = getShorthandEntries(style);
+    let cssProperties = toCssProperties(stylesheet.formatStyle(style));
+    each(shorthandEntries, shorthandEntry => cssProperties.push(shorthandEntry));
+    cssProperties = map(cssProperties, ({ name, value }: { name: string; value: string }) => {
+      let ret: any = {
+        name,
+        value,
+      };
+      const range = getInlineStyleRange(name, value, cssText);
+      if (range) {
+        ret = {
+          ...ret,
+          ...range,
           disabled: false,
           implicit: false,
         };
-        const reg = new RegExp(`${name}:\\s*${value};?`);
-        const match = inlineStyle.cssText.match(reg);
-        if (match) {
-          ret.text = match[0];
-          ret.range = {
-            startLine: 0,
-            startColumn: match.index,
-            endLine: 0,
-            endColumn: match.index + ret.text.length,
-          };
-        }
-
-        return ret;
       }
-    );
+      return ret;
+    });
+    inlineStyle.shorthandEntries = shorthandEntries;
+    inlineStyle.cssProperties = cssProperties;
   }
 
   return {
@@ -169,4 +167,57 @@ function toCssProperties(style: any) {
   });
 
   return cssProperties;
+}
+
+function getLineCount(str: string) {
+  return str.split('\n').length;
+}
+
+const shortHandNames = ['background', 'font', 'border', 'margin', 'padding'];
+
+function getShorthandEntries(style: CSSStyleDeclaration) {
+  const ret: any[] = [];
+
+  each(shortHandNames, name => {
+    const value = (style as any)[name];
+    if (value) {
+      ret.push({
+        name,
+        value,
+      });
+    }
+  });
+
+  return ret;
+}
+
+function getInlineStyleRange(name: string, value: string, cssText: string) {
+  const lines = cssText.split('\n');
+  let startLine = 0;
+  let endLine = 0;
+  let startColumn = 0;
+  let endColumn = 0;
+  let text = '';
+
+  const reg = new RegExp(`${name}:\\s*${value};?`);
+  for (let i = 0, len = lines.length; i < len; i++) {
+    const line = lines[i];
+    const match = line.match(reg);
+    if (match) {
+      text = match[0];
+      startLine = i;
+      startColumn = match.index || 0;
+      endLine = i;
+      endColumn = startColumn + text.length;
+      return {
+        range: {
+          startLine,
+          endLine,
+          startColumn,
+          endColumn,
+        },
+        text,
+      };
+    }
+  }
 }
