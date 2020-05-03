@@ -199,7 +199,7 @@ export class RequestTimingView extends UI.Widget.VBox {
    */
   static createTimingTable(request, calculator) {
     const tableElement = createElementWithClass('table', 'network-timing-table');
-    UI.Utils.appendStyle(tableElement, 'network/networkTimingTable.css');
+    UI.Utils.appendStyle(tableElement, 'chii_network/networkTimingTable.css');
     const colgroup = tableElement.createChild('colgroup');
     colgroup.createChild('col', 'labels');
     colgroup.createChild('col', 'bars');

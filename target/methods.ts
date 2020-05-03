@@ -39,8 +39,9 @@ const methods: any = {
   'Log.startViolationsReport': noop,
 
   'Network.deleteCookies': Network.deleteCookies,
-  'Network.enable': noop,
+  'Network.enable': Network.enable,
   'Network.getCookies': Network.getCookies,
+  'Network.getResponseBody': Network.getResponseBody,
 
   'Page.getResourceContent': noop,
   'Page.getResourceTree': Page.getResourceTree,
