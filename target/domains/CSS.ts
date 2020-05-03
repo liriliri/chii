@@ -1,8 +1,10 @@
-import { getNode } from '../lib/stringifyNode';
+import { getNode, getNodeId } from '../lib/stringifyNode';
 import * as stylesheet from '../lib/stylesheet';
 import map from 'licia/map';
+import last from 'licia/last';
 import each from 'licia/each';
 import connector from '../lib/connector';
+import mutationObserver from '../lib/mutationObserver';
 
 export function enable() {
   each(stylesheet.getStyleSheets(), (styleSheet: any) => {
@@ -49,7 +51,7 @@ export function getInlineStylesForNode(params: any) {
       startLine: 0,
       startColumn: 0,
       endLine: getLineCount(cssText) - 1,
-      endColumn: inlineStyle.cssText.length,
+      endColumn: last(cssText.split('\n')).length,
     };
     const shorthandEntries = getShorthandEntries(style);
     let cssProperties = toCssProperties(stylesheet.formatStyle(style));
@@ -109,8 +111,8 @@ export function setStyleTexts(params: any) {
     if (nodeId) {
       const node = getNode(nodeId);
       let cssText = node.getAttribute('style') || '';
-      const { startColumn, endColumn } = range;
-      cssText = cssText.slice(0, startColumn) + text + cssText.slice(endColumn);
+      const { start, end } = getPosFromRange(range, cssText);
+      cssText = cssText.slice(0, start) + text + cssText.slice(end);
 
       node.setAttribute('style', cssText);
       return getInlineStylesForNode({ nodeId }).inlineStyle;
@@ -221,3 +223,43 @@ function getInlineStyleRange(name: string, value: string, cssText: string) {
     }
   }
 }
+
+function getPosFromRange(range: any, cssText: string) {
+  const { startLine, startColumn, endLine, endColumn } = range;
+  let start = 0;
+  let end = 0;
+
+  const lines = cssText.split('\n');
+  for (let i = 0; i <= endLine; i++) {
+    const line = lines[i] + 1;
+    const len = line.length;
+    if (i < startLine) {
+      start += len;
+    } else if (i === startLine) {
+      start += startColumn;
+    }
+    if (i < endLine) {
+      end += len;
+    } else if (i === endLine) {
+      end += endColumn;
+    }
+  }
+
+  return {
+    start,
+    end,
+  };
+}
+
+mutationObserver.on('attributes', (target: any, name: string) => {
+  const nodeId = getNodeId(target);
+  if (!nodeId) return;
+  if (name !== 'style') return;
+
+  const styleSheetId = stylesheet.getInlineStyleSheetId(nodeId);
+  if (styleSheetId) {
+    connector.trigger('CSS.styleSheetChanged', {
+      styleSheetId,
+    });
+  }
+});

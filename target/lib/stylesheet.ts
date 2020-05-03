@@ -90,8 +90,8 @@ export function getOrCreateInlineStyleSheetId(nodeId: any) {
   return styleSheetId;
 }
 
-export function getInlineStyleSheetId(node: any) {
-  return inlineStyleSheetIds.get(node);
+export function getInlineStyleSheetId(nodeId: any) {
+  return inlineStyleSheetIds.get(nodeId);
 }
 
 export function getInlineStyleNodeId(styleSheetId: string) {
