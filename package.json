@@ -8,10 +8,11 @@
   },
   "scripts": {
     "format": "prettier front_end/**/*.{html,js,json} *.js scripts/*.js bin/*.js server/**/*.js tests/*.{html,json} target/**/*.ts --write",
-    "dev:target": "webpack --mode=development -w",
-    "build": "npm run build:target && npm run build:front_end",
+    "build": "gulp clean && npm run build:target && npm run build:front_end",
     "build:target": "webpack --mode=production",
-    "build:front_end": "node scripts/build_front_end"
+    "build:front_end": "node scripts/build_front_end && gulp uglify",
+    "dev:target": "webpack --mode=development -w",
+    "dev:front_end": "node scripts/build_front_end"
   },
   "repository": {
     "type": "git",
@@ -27,8 +28,12 @@
   },
   "homepage": "https://github.com/liriliri/chi#readme",
   "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-uglify-es": "^2.0.0",
     "ncp": "^2.0.0",
     "prettier": "^2.0.4",
+    "terser": "^4.6.13",
     "ts-loader": "^7.0.1",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
