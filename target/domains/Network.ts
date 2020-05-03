@@ -3,7 +3,8 @@ import each from 'licia/each';
 import decodeUriComponent from 'licia/decodeUriComponent';
 import rmCookie from 'licia/rmCookie';
 import once from 'licia/once';
-import { XhrRequest } from '../lib/request';
+import isNative from 'licia/isNative';
+import { XhrRequest, FetchRequest } from '../lib/request';
 import connector from '../lib/connector';
 
 export function deleteCookies(params: any) {
@@ -105,6 +106,50 @@ export const enable = once(function () {
     }
 
     origSetRequestHeader.apply(this, arguments);
+  };
+
+  let isFetchSupported = false;
+  if (window.fetch) isFetchSupported = isNative(window.fetch);
+  if (!isFetchSupported) return;
+
+  const origFetch = window.fetch;
+
+  window.fetch = function (...args) {
+    const req = new FetchRequest(...args);
+    req.on('send', (id, data) => {
+      connector.trigger('Network.requestWillBeSent', {
+        requestId: id,
+        type: 'Fetch',
+        request: {
+          method: data.method,
+          url: data.url,
+          headers: data.reqHeaders,
+        },
+        timestamp: data.time / 1000,
+      });
+    });
+    req.on('done', (id, data) => {
+      connector.trigger('Network.responseReceived', {
+        requestId: id,
+        type: 'Fetch',
+        response: {
+          status: data.status,
+          headers: data.resHeaders,
+        },
+        timestamp: data.time / 1000,
+      });
+      resTxtMap.set(id, data.resTxt);
+      connector.trigger('Network.loadingFinished', {
+        requestId: id,
+        encodedDataLength: data.size,
+        timestamp: data.time / 1000,
+      });
+    });
+
+    const fetchResult = origFetch(...args);
+    req.send(fetchResult);
+
+    return fetchResult;
   };
 });
 

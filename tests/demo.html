@@ -120,6 +120,9 @@
         // xhr.addEventListener("readystatechange", function() {logXhr(this)})
         xhr.open('GET', '../tests/demo.json', true);
         xhr.send();
+
+        // do an FETCH
+        fetch('../tests/demo.json');
       }
 
       //------------------------------------------------------------------------------

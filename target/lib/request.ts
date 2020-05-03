@@ -90,6 +90,83 @@ export class XhrRequest extends Emitter {
   }
 }
 
+export class FetchRequest extends Emitter {
+  private url: string;
+  private id: string;
+  private method: string;
+  private options: any;
+  private reqHeaders: any;
+  constructor(url: any, options: any = {}) {
+    super();
+
+    if (url instanceof window.Request) url = url.url;
+
+    this.url = fullUrl(url);
+    this.id = createId();
+    this.options = options;
+    this.reqHeaders = options.headers || {};
+    this.method = options.method || 'GET';
+  }
+  send(fetchResult: any) {
+    const options = this.options;
+
+    const data = isStr(options.body) ? options.body : '';
+
+    this.emit('send', this.id, {
+      name: getFileName(this.url),
+      url: this.url,
+      data,
+      time: now(),
+      method: this.method,
+    });
+
+    fetchResult.then((res: any) => {
+      res = res.clone();
+
+      const type = getType(res.headers.get('Content-Type'));
+      res.text().then((resTxt: string) => {
+        const data: any = {
+          type: type.type,
+          subType: type.subType,
+          time: now(),
+          size: getFetchSize(res, resTxt),
+          resTxt: resTxt,
+          resHeaders: getFetchHeaders(res),
+          status: res.status,
+        };
+        if (!isEmpty(this.reqHeaders)) {
+          data.reqHeaders = this.reqHeaders;
+        }
+        this.emit('done', this.id, data);
+      });
+
+      return res;
+    });
+  }
+}
+
+function getFetchSize(res: any, resTxt: string) {
+  let size = 0;
+
+  const contentLen = res.headers.get('Content-length');
+
+  if (contentLen) {
+    size = toNum(contentLen);
+  } else {
+    size = lenToUtf8Bytes(resTxt);
+  }
+
+  return size;
+}
+
+function getFetchHeaders(res: any) {
+  const ret: any = {};
+
+  res.headers.forEach((val: string, key: string) => (ret[key] = val));
+
+  return ret;
+}
+
 function getHeaders(xhr: XMLHttpRequest) {
   const raw = xhr.getAllResponseHeaders();
   const lines = raw.split('\n');
