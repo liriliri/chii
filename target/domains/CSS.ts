@@ -3,6 +3,9 @@ import * as stylesheet from '../lib/stylesheet';
 import map from 'licia/map';
 import last from 'licia/last';
 import each from 'licia/each';
+import trim from 'licia/trim';
+import startWith from 'licia/startWith';
+import concat from 'licia/concat';
 import connector from '../lib/connector';
 import mutationObserver from '../lib/mutationObserver';
 
@@ -53,27 +56,33 @@ export function getInlineStylesForNode(params: any) {
       endLine: getLineCount(cssText) - 1,
       endColumn: last(cssText.split('\n')).length,
     };
-    const shorthandEntries = getShorthandEntries(style);
-    let cssProperties = toCssProperties(stylesheet.formatStyle(style));
-    each(shorthandEntries, shorthandEntry => cssProperties.push(shorthandEntry));
-    cssProperties = map(cssProperties, ({ name, value }: { name: string; value: string }) => {
-      let ret: any = {
+    let cssPropertiesWithRange = toCssProperties(parseCssText(cssText));
+    cssPropertiesWithRange = map(cssPropertiesWithRange, ({ name, value }) => {
+      const { text, range } = getInlineStyleRange(name, value, cssText);
+
+      const ret: any = {
         name,
         value,
+        text,
+        range,
       };
-      const range = getInlineStyleRange(name, value, cssText);
-      if (range) {
-        ret = {
-          ...ret,
-          ...range,
-          disabled: false,
-          implicit: false,
-        };
+
+      if (startWith(text, '/*')) {
+        ret.disabled = true;
+      } else {
+        ret.disabled = false;
+        ret.implicit = false;
+        ret.parsedOk = style[name] === value;
       }
+
       return ret;
     });
-    inlineStyle.shorthandEntries = shorthandEntries;
-    inlineStyle.cssProperties = cssProperties;
+    const parsedStyle = stylesheet.formatStyle(style);
+    each(cssPropertiesWithRange, ({ name }) => delete parsedStyle[name]);
+    const cssPropertiesWithoutRange = toCssProperties(parsedStyle);
+
+    inlineStyle.shorthandEntries = getShorthandEntries(style);
+    inlineStyle.cssProperties = concat(cssPropertiesWithRange, cssPropertiesWithoutRange);
   }
 
   return {
@@ -158,7 +167,16 @@ stylesheet.onStyleSheetAdded((styleSheet: any) => {
   });
 });
 
-function toCssProperties(style: any) {
+interface ICSSProperty {
+  name: string;
+  value: string;
+  disabled?: boolean;
+  implicit?: boolean;
+  parsedOk?: boolean;
+  text?: string;
+}
+
+function toCssProperties(style: any): ICSSProperty[] {
   const cssProperties: any[] = [];
 
   each(style, (value: string, name: string) => {
@@ -193,6 +211,25 @@ function getShorthandEntries(style: CSSStyleDeclaration) {
   return ret;
 }
 
+function parseCssText(cssText: string) {
+  cssText = cssText.replace(/\/\*/g, '').replace(/\*\//g, '');
+  const properties = cssText.split(';');
+  const ret: any = {};
+
+  each(properties, property => {
+    property = trim(property);
+    if (!property) return;
+    const colonPos = property.indexOf(':');
+    if (colonPos) {
+      const name = trim(property.slice(0, colonPos));
+      const value = trim(property.slice(colonPos + 1));
+      ret[name] = value;
+    }
+  });
+
+  return ret;
+}
+
 function getInlineStyleRange(name: string, value: string, cssText: string) {
   const lines = cssText.split('\n');
   let startLine = 0;
@@ -201,7 +238,7 @@ function getInlineStyleRange(name: string, value: string, cssText: string) {
   let endColumn = 0;
   let text = '';
 
-  const reg = new RegExp(`${name}:\\s*${value};?`);
+  const reg = new RegExp(`(\\/\\*)?\\s*${name}:\\s*${value};?\\s*(\\*\\/)?`);
   for (let i = 0, len = lines.length; i < len; i++) {
     const line = lines[i];
     const match = line.match(reg);
@@ -211,17 +248,19 @@ function getInlineStyleRange(name: string, value: string, cssText: string) {
       startColumn = match.index || 0;
       endLine = i;
       endColumn = startColumn + text.length;
-      return {
-        range: {
-          startLine,
-          endLine,
-          startColumn,
-          endColumn,
-        },
-        text,
-      };
+      break;
     }
   }
+
+  return {
+    range: {
+      startLine,
+      endLine,
+      startColumn,
+      endColumn,
+    },
+    text,
+  };
 }
 
 function getPosFromRange(range: any, cssText: string) {
