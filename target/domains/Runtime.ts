@@ -4,6 +4,7 @@ import map from 'licia/map';
 import now from 'licia/now';
 import fnParams from 'licia/fnParams';
 import startWith from 'licia/startWith';
+import isObj from 'licia/isObj';
 import * as stringifyObj from '../lib/stringifyObj';
 import evaluateJs, { setGlobal } from '../lib/evaluate';
 
@@ -15,6 +16,16 @@ const executionContext = {
 
 export async function callFunctionOn(params: any) {
   const { functionDeclaration, objectId } = params;
+  let args = params.arguments;
+
+  args = map(args, (arg: any) => {
+    if (isObj(arg) && arg.objectId) {
+      const obj = stringifyObj.getObj(arg.objectId);
+      if (obj) return obj;
+    }
+
+    return arg;
+  });
 
   let ctx = null;
   if (objectId) {
@@ -22,7 +33,7 @@ export async function callFunctionOn(params: any) {
   }
 
   return {
-    result: stringifyObj.wrap(await callFn(functionDeclaration, [], ctx)),
+    result: stringifyObj.wrap(await callFn(functionDeclaration, args, ctx)),
   };
 }
 
