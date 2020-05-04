@@ -113,12 +113,6 @@
       "location": "styles-sidebarpane-toolbar"
     },
     {
-      "type": "@UI.ToolbarItem.Provider",
-      "className": "Elements.StylesSidebarPane.ButtonProvider",
-      "order": 100,
-      "location": "styles-sidebarpane-toolbar"
-    },
-    {
       "type": "action",
       "actionId": "elements.hide-element",
       "category": "Elements",
