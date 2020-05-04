@@ -108,12 +108,6 @@
     },
     {
       "type": "@UI.ToolbarItem.Provider",
-      "className": "Elements.ElementStatePaneWidget.ButtonProvider",
-      "order": 1,
-      "location": "styles-sidebarpane-toolbar"
-    },
-    {
-      "type": "@UI.ToolbarItem.Provider",
       "className": "Elements.ClassesPaneWidget.ButtonProvider",
       "order": 2,
       "location": "styles-sidebarpane-toolbar"

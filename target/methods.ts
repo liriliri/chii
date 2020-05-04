@@ -14,6 +14,7 @@ const methods: any = {
   'Debugger.setBlackboxPatterns': noop,
   'Debugger.setPauseOnExceptions': noop,
 
+  'DOM.collectClassNamesFromSubtree': DOM.collectClassNamesFromSubtree,
   'DOM.copyTo': DOM.copyTo,
   'DOM.enable': DOM.enable,
   'DOM.getDocument': DOM.getDocument,
@@ -26,6 +27,7 @@ const methods: any = {
   'DOM.requestNode': DOM.requestNode,
   'DOM.resolveNode': DOM.resolveNode,
   'DOM.setAttributesAsText': DOM.setAttributesAsText,
+  'DOM.setAttributeValue': DOM.setAttributeValue,
   'DOM.setInspectedNode': DOM.setInspectedNode,
   'DOM.setNodeValue': DOM.setNodeValue,
   'DOM.setOuterHTML': DOM.setOuterHTML,

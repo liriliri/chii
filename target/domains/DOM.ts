@@ -8,7 +8,26 @@ import isNull from 'licia/isNull';
 import isEmpty from 'licia/isEmpty';
 import each from 'licia/each';
 import html from 'licia/html';
+import unique from 'licia/unique';
 import { setGlobal } from '../lib/evaluate';
+
+export function collectClassNamesFromSubtree(params: any) {
+  const node = getNode(params.nodeId);
+
+  const classNames: string[] = [];
+
+  traverseNode(node, (node: any) => {
+    const className = node.getAttribute('class');
+    if (className) {
+      const names = className.split(/\s+/);
+      for (const name of names) classNames.push(name);
+    }
+  });
+
+  return {
+    classNames: unique(classNames),
+  };
+}
 
 export function copyTo(params: any) {
   const { nodeId, targetNodeId } = params;
@@ -98,6 +117,12 @@ export function setAttributesAsText(params: any) {
   $(node).attr(parseAttributes(text));
 }
 
+export function setAttributeValue(params: any) {
+  const { nodeId, name, value } = params;
+  const node = getNode(nodeId);
+  node.setAttribute(name, value);
+}
+
 const history: any[] = [];
 
 export function setInspectedNode(params: any) {
@@ -126,6 +151,15 @@ function parseAttributes(str: string) {
   str = `<div ${str}></div>`;
 
   return html.parse(str)[0].attrs;
+}
+
+function traverseNode(node: any, cb: Function) {
+  const children = node.children;
+  for (let i = 0, len = children.length; i < len; i++) {
+    const child = children[i];
+    cb(child);
+    traverseNode(child, cb);
+  }
 }
 
 mutationObserver.on('attributes', (target: any, name: string) => {
