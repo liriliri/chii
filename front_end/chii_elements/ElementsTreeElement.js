@@ -541,11 +541,15 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
         );
     }
     this.populateNodeContextMenu(contextMenu);
-    ElementsTreeElement.populateForcedPseudoStateItems(contextMenu, treeElement.node());
+    if (!window.ChiiMain) {
+      ElementsTreeElement.populateForcedPseudoStateItems(contextMenu, treeElement.node());
+    }
     this.populateScrollIntoView(contextMenu);
-    contextMenu.viewSection().appendItem(Common.UIString.UIString('Focus'), async () => {
-      await this._node.focus();
-    });
+    if (!window.ChiiMain) {
+      contextMenu.viewSection().appendItem(Common.UIString.UIString('Focus'), async () => {
+        await this._node.focus();
+      });
+    }
   }
 
   /**
