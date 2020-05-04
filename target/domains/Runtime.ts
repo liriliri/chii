@@ -16,7 +16,7 @@ const executionContext = {
 
 export async function callFunctionOn(params: any) {
   const { functionDeclaration, objectId } = params;
-  let args = params.arguments;
+  let args = params.arguments || [];
 
   args = map(args, (arg: any) => {
     if (isObj(arg) && arg.objectId) {
