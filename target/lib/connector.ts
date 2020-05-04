@@ -2,6 +2,9 @@ import Emitter from 'licia/Emitter';
 import query from 'licia/query';
 import randomId from 'licia/randomId';
 import safeStorage from 'licia/safeStorage';
+import $ from 'licia/$';
+import contain from 'licia/contain';
+import { fullUrl } from './request';
 
 const sessionStore = safeStorage('session');
 
@@ -20,6 +23,7 @@ class Connector extends Emitter {
       `ws://${ChiiServerUrl}/target/${id}?${query.stringify({
         url: location.href,
         title: document.title,
+        favicon: getFavicon(),
       })}`
     );
     this.ws.addEventListener('open', () => {
@@ -63,6 +67,20 @@ if (element) {
   if (match) {
     ChiiServerUrl = match[3];
   }
+}
+
+function getFavicon() {
+  let favicon = location.origin + '/favicon.ico';
+
+  const $link = $('link');
+  $link.each(function (this: HTMLElement) {
+    if (contain(this.getAttribute('rel') || '', 'icon')) {
+      const href = this.getAttribute('href');
+      if (href) favicon = fullUrl(href);
+    }
+  });
+
+  return favicon;
 }
 
 export default new Connector();

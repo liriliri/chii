@@ -216,7 +216,7 @@ function getSize(xhr: XMLHttpRequest, headersOnly: boolean, url: string) {
 
 const link = document.createElement('a');
 
-function fullUrl(href: string) {
+export function fullUrl(href: string) {
   link.href = href;
 
   return link.protocol + '//' + link.host + link.pathname + link.search + link.hash;
