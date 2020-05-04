@@ -140,6 +140,9 @@ function formatMatchedCssRule(node: any, matchedCssRule: any) {
   const { selectorText } = matchedCssRule;
   const selectors = map(selectorText.split(','), trim);
 
+  const shorthandEntries = getShorthandEntries(matchedCssRule.style);
+  const style = stylesheet.formatStyle(matchedCssRule.style);
+
   const rule: any = {
     styleSheetId: matchedCssRule.styleSheetId,
     selectorList: {
@@ -147,8 +150,8 @@ function formatMatchedCssRule(node: any, matchedCssRule: any) {
       text: selectorText,
     },
     style: {
-      cssProperties: toCssProperties(matchedCssRule.style),
-      shorthandEntries: [],
+      cssProperties: toCssProperties(style),
+      shorthandEntries,
     },
   };
 

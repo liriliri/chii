@@ -59,7 +59,7 @@ export function getMatchedCssRules(node: any) {
 
       ret.push({
         selectorText: cssRule.selectorText,
-        style: formatStyle(cssRule.style),
+        style: cssRule.style,
         styleSheetId,
       });
     });
