@@ -3,7 +3,6 @@ front_end
 !public/front_end
 scripts
 target
-tests
 .gitignore
 .gitmodules
 .npmignore

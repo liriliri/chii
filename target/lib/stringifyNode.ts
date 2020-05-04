@@ -2,6 +2,7 @@ import map from 'licia/map';
 import filter from 'licia/filter';
 import each from 'licia/each';
 import trim from 'licia/trim';
+import contain from 'licia/contain';
 
 const nodes = new Map();
 const nodeIds = new Map();
@@ -81,8 +82,13 @@ export function filterNodes(childNodes: any[]) {
   return filter(childNodes, (node: any) => isValidNode(node));
 }
 
-function isValidNode(node: any) {
-  return !(node.nodeType === 3 && trim(node.nodeValue) === '');
+function isValidNode(node: Node) {
+  if (node.nodeType === 1) {
+    const className = (node as Element).getAttribute('class') || '';
+    if (contain(className, '__chii-hide__')) return false;
+  }
+
+  return !(node.nodeType === 3 && trim(node.nodeValue || '') === '');
 }
 
 export function getNode(nodeId: number) {

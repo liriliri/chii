@@ -190,6 +190,7 @@ if (isMobile()) {
 }
 
 const viewportSize = h('div', {
+  class: '__chii-hide__',
   style: {
     position: 'fixed',
     right: 0,
@@ -219,6 +220,7 @@ window.addEventListener('resize', () => {
 });
 
 const container = h('div', {
+  class: '__chii-hide__',
   style: {
     position: 'absolute',
     pointerEvents: 'none',
