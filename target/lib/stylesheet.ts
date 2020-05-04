@@ -16,6 +16,10 @@ if (elProto.webkitMatchesSelector) {
   matchesSel = (el: any, selText: string) => el.mozMatchesSelector(selText);
 }
 
+export function matchesSelector(el: any, selText: string) {
+  return matchesSel(el, selText);
+}
+
 const emitter = new Emitter();
 export function onStyleSheetAdded(fn: any) {
   emitter.on('styleSheetAdded', fn);
@@ -47,7 +51,7 @@ export function getMatchedCssRules(node: any) {
 
       // Mobile safari will throw DOM Exception 12 error, need to try catch it.
       try {
-        matchesEl = matchesSel(node, cssRule.selectorText);
+        matchesEl = matchesSelector(node, cssRule.selectorText);
         /* eslint-disable no-empty */
       } catch (e) {}
 

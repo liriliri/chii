@@ -91,10 +91,11 @@ export function getInlineStylesForNode(params: any) {
 }
 
 export function getMatchedStylesForNode(params: any) {
-  const matchedCSSRules = stylesheet.getMatchedCssRules(getNode(params.nodeId));
+  const node = getNode(params.nodeId);
+  const matchedCSSRules = stylesheet.getMatchedCssRules(node);
 
   return {
-    matchedCSSRules: map(matchedCSSRules, formatMatchedCssRule),
+    matchedCSSRules: map(matchedCSSRules, matchedCSSRule => formatMatchedCssRule(node, matchedCSSRule)),
     ...getInlineStylesForNode(params),
   };
 }
@@ -135,18 +136,28 @@ export function setStyleTexts(params: any) {
   };
 }
 
-function formatMatchedCssRule(matchedCssRule: any) {
+function formatMatchedCssRule(node: any, matchedCssRule: any) {
+  const { selectorText } = matchedCssRule;
+  const selectors = map(selectorText.split(','), trim);
+
   const rule: any = {
     styleSheetId: matchedCssRule.styleSheetId,
     selectorList: {
-      selectors: [{ text: matchedCssRule.selectorText }],
-      text: matchedCssRule.selectorText,
+      selectors: map(selectors, selector => ({ text: selector })),
+      text: selectorText,
     },
     style: {
       cssProperties: toCssProperties(matchedCssRule.style),
       shorthandEntries: [],
     },
   };
+
+  const matchingSelectors: number[] = [];
+  each(selectors, (selector, idx) => {
+    if (stylesheet.matchesSelector(node, selector)) {
+      matchingSelectors.push(idx);
+    }
+  });
 
   return {
     matchingSelectors: [0],
