@@ -870,7 +870,7 @@ Root.allDescriptors.push(
         'quick_open',
         'inline_editor',
         'color_picker',
-        'event_listeners',
+        'chii_event_listeners',
         'object_ui',
         'formatter',
         'coverage',

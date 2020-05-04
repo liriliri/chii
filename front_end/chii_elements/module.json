@@ -254,7 +254,7 @@
       "className": "Elements.NodeStackTraceWidget"
     }
   ],
-  "dependencies": ["components", "extensions", "inline_editor", "color_picker", "event_listeners"],
+  "dependencies": ["components", "extensions", "inline_editor", "color_picker", "chii_event_listeners"],
   "scripts": [],
   "modules": [
     "chii_elements.js",

@@ -28,7 +28,7 @@
  */
 
 import * as Common from '../common/common.js';
-import * as EventListeners from '../event_listeners/event_listeners.js';
+import * as EventListeners from '../chii_event_listeners/chii_event_listeners.js';
 import * as SDK from '../sdk/sdk.js';
 import * as UI from '../ui/ui.js';
 

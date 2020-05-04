@@ -10,6 +10,7 @@ const sessionStore = safeStorage('session');
 
 class Connector extends Emitter {
   private ws: WebSocket;
+  private isInit: boolean = false;
   constructor() {
     super();
 
@@ -27,12 +28,14 @@ class Connector extends Emitter {
       })}`
     );
     this.ws.addEventListener('open', () => {
+      this.isInit = true;
       this.ws.addEventListener('message', event => {
         this.emit('message', JSON.parse(event.data));
       });
     });
   }
   send(message: any) {
+    if (!this.isInit) return;
     this.ws.send(JSON.stringify(message));
   }
   trigger(method: string, params: any) {

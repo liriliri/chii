@@ -4,6 +4,7 @@ import isFn from 'licia/isFn';
 import isBool from 'licia/isBool';
 import keys from 'licia/keys';
 import each from 'licia/each';
+import defaults from 'licia/defaults';
 import * as stringifyObj from '../lib/stringifyObj';
 import * as scripts from '../lib/scripts';
 
@@ -21,8 +22,8 @@ export function getEventListeners(params: any) {
         type,
         useCapture: event.useCapture,
         handler: stringifyObj.wrap(event.listener),
-        passive: false,
-        once: false,
+        passive: event.passive,
+        once: event.once,
         scriptId: script.scriptId,
         columnNumber: 0,
         lineNumber: 0,
@@ -44,30 +45,43 @@ const winEventProto = getWinEventProto();
 const origAddEvent = winEventProto.addEventListener;
 const origRmEvent = winEventProto.removeEventListener;
 
-winEventProto.addEventListener = function (type: string, listener: any, useCapture: boolean) {
-  addEvent(this, type, listener, useCapture);
+winEventProto.addEventListener = function (type: string, listener: any, options: any) {
+  addEvent(this, type, listener, options);
   origAddEvent.apply(this, arguments);
 };
 
-winEventProto.removeEventListener = function (type: string, listener: any, useCapture: boolean) {
-  rmEvent(this, type, listener, useCapture);
+winEventProto.removeEventListener = function (type: string, listener: any) {
+  rmEvent(this, type, listener);
   origRmEvent.apply(this, arguments);
 };
 
-function addEvent(el: any, type: string, listener: any, useCapture = false) {
-  if (!isEl(el) || !isFn(listener) || !isBool(useCapture)) return;
+function addEvent(el: any, type: string, listener: any, options: any = false) {
+  if (!isEl(el) || !isFn(listener)) return;
+
+  if (isBool(options)) {
+    options = {
+      capture: options,
+    };
+  }
+  defaults(options, {
+    capture: false,
+    passive: false,
+    once: false,
+  });
 
   const events = (el.chiiEvents = el.chiiEvents || {});
 
   events[type] = events[type] || [];
   events[type].push({
-    listener: listener,
-    useCapture: useCapture,
+    listener,
+    useCapture: options.capture,
+    passive: options.passive,
+    once: options.once,
   });
 }
 
-function rmEvent(el: any, type: string, listener: any, useCapture = false) {
-  if (!isEl(el) || !isFn(listener) || !isBool(useCapture)) return;
+function rmEvent(el: any, type: string, listener: any) {
+  if (!isEl(el) || !isFn(listener)) return;
 
   const events = el.chiiEvents;
 
