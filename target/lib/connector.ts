@@ -55,7 +55,7 @@ function getTargetScriptEl() {
   const elements = document.getElementsByTagName('script');
   let i = 0;
   while (i < elements.length) {
-    let element = elements[i];
+    const element = elements[i];
     if (-1 !== element.src.indexOf('/target.js')) {
       return element;
     }

@@ -13,7 +13,9 @@
     "build:front_end": "node scripts/build_front_end && gulp uglify",
     "dev:target": "webpack --mode=development -w",
     "dev:front_end": "node scripts/build_front_end",
-    "lint:server": "eslint server/**/*.js"
+    "lint": "npm run lint:server && npm run lint:target",
+    "lint:server": "eslint server/**/*.js",
+    "lint:target": "tslint target/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -38,6 +40,8 @@
     "prettier": "^2.0.4",
     "terser": "^4.6.13",
     "ts-loader": "^7.0.1",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"

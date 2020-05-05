@@ -130,7 +130,7 @@ export class FetchRequest extends Emitter {
           subType: type.subType,
           time: now(),
           size: getFetchSize(res, resTxt),
-          resTxt: resTxt,
+          resTxt,
           resHeaders: getFetchHeaders(res),
           status: res.status,
         };

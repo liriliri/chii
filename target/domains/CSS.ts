@@ -40,7 +40,7 @@ export function getInlineStylesForNode(params: any) {
   const { nodeId } = params;
   const node = getNode(nodeId);
   const { style } = node;
-  let inlineStyle: any = {
+  const inlineStyle: any = {
     shorthandEntries: [],
     cssProperties: [],
   };

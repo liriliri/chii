@@ -52,8 +52,9 @@ export function getMatchedCssRules(node: any) {
       // Mobile safari will throw DOM Exception 12 error, need to try catch it.
       try {
         matchesEl = matchesSelector(node, cssRule.selectorText);
-        /* eslint-disable no-empty */
-      } catch (e) {}
+      } catch (e) {
+        /* tslint:disable-next-line */
+      }
 
       if (!matchesEl) return;
 

@@ -10,12 +10,8 @@ const transparent: any = { r: 0, g: 0, b: 0, a: 0 };
 
 export function highlightNode(params: any) {
   const { nodeId, highlightConfig, objectId } = params;
-  let {
-    marginColor = transparent,
-    paddingColor = transparent,
-    contentColor = transparent,
-    borderColor = transparent,
-  } = highlightConfig;
+  let { marginColor = transparent, paddingColor = transparent, borderColor = transparent } = highlightConfig;
+  const { contentColor = transparent } = highlightConfig;
 
   let node: any;
   if (nodeId) {

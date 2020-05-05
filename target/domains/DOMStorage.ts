@@ -17,7 +17,7 @@ export function clear(params: any) {
 export function getDOMStorageItems(params: any) {
   const store = getStore(params.storageId);
 
-  const entries: Array<string[]> = [];
+  const entries: string[][] = [];
 
   each(jsonClone(store), (val, key) => {
     if (!isStr(val)) return;

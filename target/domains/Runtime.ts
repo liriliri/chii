@@ -74,7 +74,7 @@ const methods: any = {
 };
 
 each(methods, (type, name) => {
-  let origin = console[name].bind(console);
+  const origin = console[name].bind(console);
   console[name] = (...args: any[]) => {
     origin(...args);
 
@@ -95,6 +95,7 @@ each(methods, (type, name) => {
 });
 
 const Function = window.Function;
+/* tslint:disable-next-line */
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 
 function parseFn(fnStr: string) {

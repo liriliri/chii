@@ -85,7 +85,6 @@ export function wrap(value: any, { generatePreview = false, self = value } = {})
   }
 
   ret.objectId = getOrCreateObjId(value, self);
-  selfs;
 
   return ret;
 }
@@ -120,7 +119,9 @@ export function getProperties(params: any) {
     let propVal;
     try {
       propVal = self[name];
-    } catch (e) {}
+    } catch (e) {
+      /* tslint:disable-next-line */
+    }
 
     const property: any = {
       name: toStr(name),
@@ -193,7 +194,7 @@ const MAX_PREVIEW_LEN = 5;
 
 function preview(obj: any, self: any) {
   let overflow = false;
-  let properties = [];
+  const properties = [];
 
   const keys = getKeys(obj);
   let len = keys.length;
@@ -253,7 +254,9 @@ function basic(value: any) {
     if (isEl(value)) {
       ret.subtype = 'node';
     }
-  } catch (e) {}
+  } catch (e) {
+    /* tslint:disable-next-line */
+  }
 
   return ret;
 }

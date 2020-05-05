@@ -1,3 +1,4 @@
+import noop from 'licia/noop';
 import * as Runtime from './domains/Runtime';
 import * as Page from './domains/Page';
 import * as DOM from './domains/DOM';
@@ -112,7 +113,5 @@ const methods: any = {
   'Storage.trackCacheStorageForOrigin': noop,
   'Storage.trackIndexedDBForOrigin': noop,
 };
-
-async function noop() {}
 
 export default methods;
