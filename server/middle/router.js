@@ -7,7 +7,7 @@ const pairs = require('licia/pairs');
 const reverse = require('licia/reverse');
 const map = require('licia/map');
 
-module.exports = function (channelManager, port) {
+module.exports = function (channelManager, domain) {
   const router = new Router();
 
   router.get('/', async ctx => {
@@ -21,7 +21,8 @@ module.exports = function (channelManager, port) {
     const tpl = await readTpl('index');
     ctx.body = tpl({
       targets,
-      port,
+      protocol: ctx.protocol,
+      domain,
     });
   });
 
