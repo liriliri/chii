@@ -12,7 +12,8 @@
     "build:target": "webpack --mode=production",
     "build:front_end": "node scripts/build_front_end && gulp uglify",
     "dev:target": "webpack --mode=development -w",
-    "dev:front_end": "node scripts/build_front_end"
+    "dev:front_end": "node scripts/build_front_end",
+    "lint:server": "eslint server/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,8 @@
   },
   "homepage": "https://github.com/liriliri/chi#readme",
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-uglify-es": "^2.0.0",

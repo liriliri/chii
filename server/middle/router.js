@@ -45,7 +45,7 @@ module.exports = function (channelManager, domain) {
 
   router.get('/target.js', async ctx => {
     await send(ctx, 'target.js', {
-      root: path.resolve(__dirname, `../../public`),
+      root: path.resolve(__dirname, '../../public'),
     });
   });
 
