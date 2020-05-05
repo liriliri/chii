@@ -1,0 +1,95 @@
+body,
+html {
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+}
+html {
+  background: #f8f9fa;
+}
+body {
+  max-width: 800px;
+  background: #fff;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+.header {
+  background: #4d8cf5;
+  position: relative;
+  margin: 0;
+  padding: 30px 0 40px 0;
+  color: #fff;
+}
+#c {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+#triangle {
+  width: 100%;
+  position: relative;
+  top: -50px;
+  margin-bottom: -25px;
+}
+.github-link {
+  font-size: 14px;
+  color: #555;
+  margin-top: 0;
+}
+.title,
+.subtitle,
+.github-link,
+.hint,
+.plugin-title,
+.plugins {
+  font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, 'Franklin Gothic Medium', 'Franklin Gothic',
+    'ITC Franklin Gothic', Arial, sans-serif;
+  text-align: center;
+}
+.title {
+  font-size: 36px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 10;
+}
+.subtitle {
+  font-size: 12px;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 50px;
+  text-decoration: underline;
+}
+.github-link a {
+  color: #4d8cf5;
+  font-size: 18px;
+}
+.hint {
+  color: #555;
+  margin-bottom: 50px;
+}
+.buttons {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.buttons li {
+  color: #fff;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+}
+.buttons li.yellow {
+  background: #fec107;
+}
+.buttons li.red {
+  background: #f44236;
+}
+#output {
+  text-align: center;
+  padding: 20px 20px 0;
+}

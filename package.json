@@ -8,7 +8,7 @@
   },
   "scripts": {
     "ci": "npm run lint && npm run build",
-    "format": "npm run format:front_end && npm run format:target && npm run format:server && prettier *.{js,json} scripts/*.js bin/*.js tests/*.{html,json} --write",
+    "format": "npm run format:front_end && npm run format:target && npm run format:server && prettier *.{js,json} scripts/*.js bin/*.js tests/*.{html,json,js,css} --write",
     "format:front_end": "prettier front_end/**/*.{html,js,json} --write",
     "format:target": "prettier target/**/*.ts --write",
     "format:server": "prettier server/**/*.js --write",
