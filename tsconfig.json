@@ -10,7 +10,5 @@
     "esModuleInterop": true,
     "lib": ["DOM", "ES2015"]
   },
-  "include": [
-    "target/**/*"
-  ]
+  "include": ["target/**/*"]
 }
