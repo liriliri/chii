@@ -12,6 +12,8 @@
 
 Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/docs/latest/Home.html), replacing  web inspector with the latest [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
 
+![Chii](./docs/screenshot.jpg)
+
 ## Install
 
 You can get it on npm.
@@ -26,6 +28,12 @@ Start the server with the following command.
 
 ```bash
 chii start -p 8080
+```
+
+Use this script to inject the target code into your webpage.
+
+```html
+<script src="http://localhost:8080/target.js"></script>
 ```
 
 Then browse to localhost:8080 to start debugging your page.
