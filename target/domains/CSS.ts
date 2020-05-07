@@ -72,7 +72,7 @@ export function getInlineStylesForNode(params: any) {
       } else {
         ret.disabled = false;
         ret.implicit = false;
-        ret.parsedOk = style[name] === value;
+        ret.parsedOk = style[name] !== '';
       }
 
       return ret;
@@ -109,6 +109,19 @@ export function getBackgroundColors(params: any) {
     backgroundColors: [computedStyle['background-color']],
     computedFontSize: computedStyle['font-size'],
     computedFontWeight: computedStyle['font-weight'],
+  };
+}
+
+export function getStyleSheetText(params: any) {
+  const nodeId = stylesheet.getInlineStyleNodeId(params.styleSheetId);
+  let text = '';
+  if (nodeId) {
+    const node = getNode(nodeId);
+    text = node.getAttribute('style') || '';
+  }
+
+  return {
+    text,
   };
 }
 

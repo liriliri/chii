@@ -83,6 +83,7 @@ const methods: any = {
   'CSS.getInlineStylesForNode': CSS.getInlineStylesForNode,
   'CSS.getMatchedStylesForNode': CSS.getMatchedStylesForNode,
   'CSS.getPlatformFontsForNode': noop,
+  'CSS.getStyleSheetText': CSS.getStyleSheetText,
   'CSS.getBackgroundColors': CSS.getBackgroundColors,
   'CSS.setStyleTexts': CSS.setStyleTexts,
 
