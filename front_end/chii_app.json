@@ -27,7 +27,7 @@
     { "name": "search" },
     { "name": "snippets" },
     { "name": "source_frame" },
-    { "name": "sources" },
+    { "name": "chii_sources" },
     { "name": "text_editor" },
     { "name": "workspace_diff" }
   ],
