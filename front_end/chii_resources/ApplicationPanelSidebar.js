@@ -81,8 +81,10 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox {
     this._applicationTreeElement = this._addSidebarSection(Common.UIString.UIString('Application'));
     const manifestTreeElement = new AppManifestTreeElement(panel);
     this._applicationTreeElement.appendChild(manifestTreeElement);
-    this.serviceWorkersTreeElement = new ServiceWorkersTreeElement(panel);
-    this._applicationTreeElement.appendChild(this.serviceWorkersTreeElement);
+    if (!window.ChiiMain) {
+      this.serviceWorkersTreeElement = new ServiceWorkersTreeElement(panel);
+      this._applicationTreeElement.appendChild(this.serviceWorkersTreeElement);
+    }
     const clearStorageTreeElement = new ClearStorageTreeElement(panel);
     this._applicationTreeElement.appendChild(clearStorageTreeElement);
 
@@ -136,61 +138,63 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox {
     this.cookieListTreeElement.setLeadingIcons([cookieIcon]);
     storageTreeElement.appendChild(this.cookieListTreeElement);
 
-    const cacheTreeElement = this._addSidebarSection(Common.UIString.UIString('Cache'));
-    this.cacheStorageListTreeElement = new ServiceWorkerCacheTreeElement(panel);
-    cacheTreeElement.appendChild(this.cacheStorageListTreeElement);
-    this.applicationCacheListTreeElement = new StorageCategoryTreeElement(
-      panel,
-      Common.UIString.UIString('Application Cache'),
-      'ApplicationCache'
-    );
-    this.applicationCacheListTreeElement.setLink(
-      'https://developers.google.com/web/tools/chrome-devtools/storage/applicationcache?utm_source=devtools'
-    );
-    const applicationCacheIcon = UI.Icon.Icon.create('mediumicon-table', 'resource-tree-item');
-    this.applicationCacheListTreeElement.setLeadingIcons([applicationCacheIcon]);
-
-    cacheTreeElement.appendChild(this.applicationCacheListTreeElement);
-
-    if (Root.Runtime.experiments.isEnabled('backgroundServices')) {
-      const backgroundServiceTreeElement = this._addSidebarSection(ls`Background Services`);
-
-      this.backgroundFetchTreeElement = new BackgroundServiceTreeElement(
+    if (!window.ChiiMain) {
+      const cacheTreeElement = this._addSidebarSection(Common.UIString.UIString('Cache'));
+      this.cacheStorageListTreeElement = new ServiceWorkerCacheTreeElement(panel);
+      cacheTreeElement.appendChild(this.cacheStorageListTreeElement);
+      this.applicationCacheListTreeElement = new StorageCategoryTreeElement(
         panel,
-        Protocol.BackgroundService.ServiceName.BackgroundFetch
+        Common.UIString.UIString('Application Cache'),
+        'ApplicationCache'
       );
-      backgroundServiceTreeElement.appendChild(this.backgroundFetchTreeElement);
-      this.backgroundSyncTreeElement = new BackgroundServiceTreeElement(
-        panel,
-        Protocol.BackgroundService.ServiceName.BackgroundSync
+      this.applicationCacheListTreeElement.setLink(
+        'https://developers.google.com/web/tools/chrome-devtools/storage/applicationcache?utm_source=devtools'
       );
-      backgroundServiceTreeElement.appendChild(this.backgroundSyncTreeElement);
+      const applicationCacheIcon = UI.Icon.Icon.create('mediumicon-table', 'resource-tree-item');
+      this.applicationCacheListTreeElement.setLeadingIcons([applicationCacheIcon]);
 
-      if (Root.Runtime.experiments.isEnabled('backgroundServicesNotifications')) {
-        this.notificationsTreeElement = new BackgroundServiceTreeElement(
+      cacheTreeElement.appendChild(this.applicationCacheListTreeElement);
+
+      if (Root.Runtime.experiments.isEnabled('backgroundServices')) {
+        const backgroundServiceTreeElement = this._addSidebarSection(ls`Background Services`);
+
+        this.backgroundFetchTreeElement = new BackgroundServiceTreeElement(
           panel,
-          Protocol.BackgroundService.ServiceName.Notifications
+          Protocol.BackgroundService.ServiceName.BackgroundFetch
         );
-        backgroundServiceTreeElement.appendChild(this.notificationsTreeElement);
-      }
-      if (Root.Runtime.experiments.isEnabled('backgroundServicesPaymentHandler')) {
-        this.paymentHandlerTreeElement = new BackgroundServiceTreeElement(
+        backgroundServiceTreeElement.appendChild(this.backgroundFetchTreeElement);
+        this.backgroundSyncTreeElement = new BackgroundServiceTreeElement(
           panel,
-          Protocol.BackgroundService.ServiceName.PaymentHandler
+          Protocol.BackgroundService.ServiceName.BackgroundSync
         );
-        backgroundServiceTreeElement.appendChild(this.paymentHandlerTreeElement);
-      }
-      this.periodicBackgroundSyncTreeElement = new BackgroundServiceTreeElement(
-        panel,
-        Protocol.BackgroundService.ServiceName.PeriodicBackgroundSync
-      );
-      backgroundServiceTreeElement.appendChild(this.periodicBackgroundSyncTreeElement);
-      if (Root.Runtime.experiments.isEnabled('backgroundServicesPushMessaging')) {
-        this.pushMessagingTreeElement = new BackgroundServiceTreeElement(
+        backgroundServiceTreeElement.appendChild(this.backgroundSyncTreeElement);
+
+        if (Root.Runtime.experiments.isEnabled('backgroundServicesNotifications')) {
+          this.notificationsTreeElement = new BackgroundServiceTreeElement(
+            panel,
+            Protocol.BackgroundService.ServiceName.Notifications
+          );
+          backgroundServiceTreeElement.appendChild(this.notificationsTreeElement);
+        }
+        if (Root.Runtime.experiments.isEnabled('backgroundServicesPaymentHandler')) {
+          this.paymentHandlerTreeElement = new BackgroundServiceTreeElement(
+            panel,
+            Protocol.BackgroundService.ServiceName.PaymentHandler
+          );
+          backgroundServiceTreeElement.appendChild(this.paymentHandlerTreeElement);
+        }
+        this.periodicBackgroundSyncTreeElement = new BackgroundServiceTreeElement(
           panel,
-          Protocol.BackgroundService.ServiceName.PushMessaging
+          Protocol.BackgroundService.ServiceName.PeriodicBackgroundSync
         );
-        backgroundServiceTreeElement.appendChild(this.pushMessagingTreeElement);
+        backgroundServiceTreeElement.appendChild(this.periodicBackgroundSyncTreeElement);
+        if (Root.Runtime.experiments.isEnabled('backgroundServicesPushMessaging')) {
+          this.pushMessagingTreeElement = new BackgroundServiceTreeElement(
+            panel,
+            Protocol.BackgroundService.ServiceName.PushMessaging
+          );
+          backgroundServiceTreeElement.appendChild(this.pushMessagingTreeElement);
+        }
       }
     }
 
@@ -335,21 +339,24 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox {
         modelRemoved: model => this.indexedDBListTreeElement.removeIndexedDBForModel(model),
       })
     );
-    const serviceWorkerCacheModel = this._target.model(SDK.ServiceWorkerCacheModel.ServiceWorkerCacheModel);
-    this.cacheStorageListTreeElement._initialize(serviceWorkerCacheModel);
-    const backgroundServiceModel = this._target.model(BackgroundServiceModel);
-    if (Root.Runtime.experiments.isEnabled('backgroundServices')) {
-      this.backgroundFetchTreeElement._initialize(backgroundServiceModel);
-      this.backgroundSyncTreeElement._initialize(backgroundServiceModel);
-      if (Root.Runtime.experiments.isEnabled('backgroundServicesNotifications')) {
-        this.notificationsTreeElement._initialize(backgroundServiceModel);
-      }
-      if (Root.Runtime.experiments.isEnabled('backgroundServicesPaymentHandler')) {
-        this.paymentHandlerTreeElement._initialize(backgroundServiceModel);
-      }
-      this.periodicBackgroundSyncTreeElement._initialize(backgroundServiceModel);
-      if (Root.Runtime.experiments.isEnabled('backgroundServicesPushMessaging')) {
-        this.pushMessagingTreeElement._initialize(backgroundServiceModel);
+
+    if (!window.ChiiMain) {
+      const serviceWorkerCacheModel = this._target.model(SDK.ServiceWorkerCacheModel.ServiceWorkerCacheModel);
+      this.cacheStorageListTreeElement._initialize(serviceWorkerCacheModel);
+      const backgroundServiceModel = this._target.model(BackgroundServiceModel);
+      if (Root.Runtime.experiments.isEnabled('backgroundServices')) {
+        this.backgroundFetchTreeElement._initialize(backgroundServiceModel);
+        this.backgroundSyncTreeElement._initialize(backgroundServiceModel);
+        if (Root.Runtime.experiments.isEnabled('backgroundServicesNotifications')) {
+          this.notificationsTreeElement._initialize(backgroundServiceModel);
+        }
+        if (Root.Runtime.experiments.isEnabled('backgroundServicesPaymentHandler')) {
+          this.paymentHandlerTreeElement._initialize(backgroundServiceModel);
+        }
+        this.periodicBackgroundSyncTreeElement._initialize(backgroundServiceModel);
+        if (Root.Runtime.experiments.isEnabled('backgroundServicesPushMessaging')) {
+          this.pushMessagingTreeElement._initialize(backgroundServiceModel);
+        }
       }
     }
   }

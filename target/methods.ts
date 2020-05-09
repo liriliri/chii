@@ -8,6 +8,7 @@ import * as Network from './domains/Network';
 import * as Overlay from './domains/Overlay';
 import * as DOMDebugger from './domains/DOMDebugger';
 import * as Debugger from './domains/Debugger';
+import * as Storage from './domains/Storage';
 
 const methods: any = {
   'Debugger.enable': Debugger.enable,
@@ -111,6 +112,8 @@ const methods: any = {
   'Overlay.setShowViewportSizeOnResize': Overlay.setShowViewportSizeOnResize,
 
   'ServiceWorker.enable': noop,
+
+  'Storage.getUsageAndQuota': Storage.getUsageAndQuota,
 
   'Storage.trackCacheStorageForOrigin': noop,
   'Storage.trackIndexedDBForOrigin': noop,
