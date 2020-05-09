@@ -282,15 +282,6 @@
     {
       "type": "view",
       "location": "navigator-view",
-      "id": "navigator-files",
-      "title": "Filesystem",
-      "order": 3,
-      "persistence": "permanent",
-      "className": "Sources.FilesNavigatorView"
-    },
-    {
-      "type": "view",
-      "location": "navigator-view",
       "id": "navigator-snippets",
       "title": "Snippets",
       "order": 6,

@@ -83,6 +83,7 @@ export class SourcesPanel extends UI.Panel.Panel {
     );
     this._splitWidget.enableShowModeSaving();
     this._splitWidget.show(this.element);
+    this._splitWidget.hideSidebar(true);
 
     // Create scripts navigator
     const initialNavigatorWidth = 225;
@@ -210,10 +211,12 @@ export class SourcesPanel extends UI.Panel.Panel {
     }
     if (!isInWrapper) {
       panel._sourcesView.leftToolbar().appendToolbarItem(panel._toggleNavigatorSidebarButton);
-      if (panel._splitWidget.isVertical()) {
-        panel._sourcesView.rightToolbar().appendToolbarItem(panel._toggleDebuggerSidebarButton);
-      } else {
-        panel._sourcesView.bottomToolbar().appendToolbarItem(panel._toggleDebuggerSidebarButton);
+      if (!window.ChiiMain) {
+        if (panel._splitWidget.isVertical()) {
+          panel._sourcesView.rightToolbar().appendToolbarItem(panel._toggleDebuggerSidebarButton);
+        } else {
+          panel._sourcesView.bottomToolbar().appendToolbarItem(panel._toggleDebuggerSidebarButton);
+        }
       }
     }
   }
