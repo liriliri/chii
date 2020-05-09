@@ -1,0 +1,15 @@
+{
+  "name": "Web Application Manifest Sample",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "48x48",
+      "type": "image/vnd.microsoft.icon"
+    }
+  ],
+  "theme_color": "#9E9E9E",
+  "background_color": "#9E9E9E",
+  "start_url": "demo.html",
+  "display": "standalone",
+  "orientation": "landscape"
+}

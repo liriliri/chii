@@ -46,7 +46,7 @@ export function setDOMStorageItem(params: any) {
   store.setItem(key, value);
 }
 
-export const enable = once(function enable() {
+export const enable = once(function () {
   each(['local', 'session'], type => {
     const store = type === 'local' ? localStore : sessionStore;
     const storageId = getStorageId(type);

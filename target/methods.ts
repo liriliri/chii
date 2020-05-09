@@ -64,11 +64,11 @@ const methods: any = {
 
   'ApplicationCache.enable': noop,
   'ApplicationCache.getFramesWithManifests': noop,
-  'Page.getManifestIcons': noop,
 
+  'Page.getManifestIcons': noop,
   'Page.bringToFront': noop,
   'Page.enable': noop,
-  'Page.getAppManifest': noop,
+  'Page.getAppManifest': Page.getAppManifest,
   'Page.getInstallabilityErrors': noop,
 
   'Profiler.enable': noop,
