@@ -271,10 +271,12 @@ export class WatchExpressionsSidebarPane extends UI.ThrottledWidget.ThrottledWid
    * @param {!Object} target
    */
   appendApplicableItems(event, contextMenu, target) {
-    if (target instanceof ObjectUI.ObjectPropertiesSection.ObjectPropertyTreeElement && !target.property.synthetic) {
-      contextMenu
-        .debugSection()
-        .appendItem(ls`Add property path to watch`, this._addPropertyPathToWatch.bind(this, target));
+    if (!window.ChiiMain) {
+      if (target instanceof ObjectUI.ObjectPropertiesSection.ObjectPropertyTreeElement && !target.property.synthetic) {
+        contextMenu
+          .debugSection()
+          .appendItem(ls`Add property path to watch`, this._addPropertyPathToWatch.bind(this, target));
+      }
     }
 
     const frame = self.UI.context.flavor(UISourceCodeFrame);

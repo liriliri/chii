@@ -55,6 +55,7 @@ const methods: any = {
   'Runtime.discardConsoleEntries': noop,
   'Runtime.enable': Runtime.enable,
   'Runtime.evaluate': Runtime.evaluate,
+  'Runtime.getHeapUsage': noop,
   'Runtime.getIsolateId': noop,
   'Runtime.getProperties': Runtime.getProperties,
   'Runtime.releaseObject': noop,
