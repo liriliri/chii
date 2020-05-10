@@ -89,6 +89,9 @@ body {
 .buttons li.red {
   background: #f44236;
 }
+.buttons li.green {
+  background: #2ea54e;
+}
 #output {
   text-align: center;
   padding: 20px 20px 0;

@@ -3,6 +3,7 @@ import each from 'licia/each';
 import map from 'licia/map';
 import now from 'licia/now';
 import fnParams from 'licia/fnParams';
+import uncaught from 'licia/uncaught';
 import startWith from 'licia/startWith';
 import * as stringifyObj from '../lib/stringifyObj';
 import evaluateJs, { setGlobal } from '../lib/evaluate';
@@ -38,6 +39,7 @@ export async function callFunctionOn(params: any) {
 }
 
 export function enable() {
+  uncaught.start();
   connector.trigger('Runtime.executionContextCreated', {
     context: executionContext,
   });
@@ -48,12 +50,24 @@ export function getProperties(params: any) {
 }
 
 export function evaluate(params: any) {
-  const result = evaluateJs(params.expression);
-  setGlobal('$_', result);
+  const ret: any = {};
 
-  return {
-    result: stringifyObj.wrap(result),
-  };
+  let result: any;
+  try {
+    result = evaluateJs(params.expression);
+    setGlobal('$_', result);
+    ret.result = stringifyObj.wrap(result);
+  } catch (e) {
+    ret.exceptionDetails = {
+      exception: stringifyObj.wrap(e),
+      text: 'Uncaught',
+    };
+    ret.result = stringifyObj.wrap(e, {
+      generatePreview: true,
+    });
+  }
+
+  return ret;
 }
 
 export function releaseObject(params: any) {
@@ -122,3 +136,13 @@ async function callFn(functionDeclaration: string, args: any[], ctx: any = null)
   fn = Function.apply(null, fnParams);
   return fn.apply(ctx, args);
 }
+
+uncaught.addListener(err => {
+  connector.trigger('Runtime.exceptionThrown', {
+    exceptionDetails: {
+      exception: stringifyObj.wrap(err),
+      text: 'Uncaught',
+    },
+    timestamp: now,
+  });
+});

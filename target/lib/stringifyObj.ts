@@ -3,6 +3,7 @@ import isNull from 'licia/isNull';
 import isArr from 'licia/isArr';
 import isFn from 'licia/isFn';
 import isEl from 'licia/isEl';
+import isErr from 'licia/isErr';
 import isRegExp from 'licia/isRegExp';
 import getType from 'licia/type';
 import getKeys from 'licia/keys';
@@ -71,7 +72,11 @@ export function wrap(value: any, { generatePreview = false, self = value } = {})
     ret.className = 'Array';
     ret.description = `Array(${value.length})`;
   } else if (subtype === 'regexp') {
-    (ret.className = 'RegExp'), (ret.description = toStr(value));
+    ret.className = 'RegExp';
+    ret.description = toStr(value);
+  } else if (subtype === 'error') {
+    ret.className = value.name;
+    ret.description = value.stack;
   } else {
     ret.className = getType(value, false);
     ret.description = ret.className;
@@ -239,23 +244,21 @@ function basic(value: any) {
 
   if (isNull(value)) {
     ret.subtype = 'null';
-  }
-
-  if (isArr(value)) {
+  } else if (isArr(value)) {
     ret.subtype = 'array';
-  }
-
-  if (isRegExp(value)) {
+  } else if (isRegExp(value)) {
     ret.subtype = 'regexp';
-  }
-
-  try {
-    // Accessing nodeType may throw exception
-    if (isEl(value)) {
-      ret.subtype = 'node';
+  } else if (isErr(value)) {
+    ret.subtype = 'error';
+  } else {
+    try {
+      // Accessing nodeType may throw exception
+      if (isEl(value)) {
+        ret.subtype = 'node';
+      }
+    } catch (e) {
+      /* tslint:disable-next-line */
     }
-  } catch (e) {
-    /* tslint:disable-next-line */
   }
 
   return ret;
