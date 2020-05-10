@@ -169,17 +169,35 @@ export class NetworkLogView extends UI.Widget.VBox {
       this
     );
     this._dataURLFilterUI.element().title = ls`Hides data: and blob: URLs`;
-    filterBar.addFilter(this._dataURLFilterUI);
+    if (!window.ChiiMain) {
+      filterBar.addFilter(this._dataURLFilterUI);
+    }
 
-    const filterItems = Object.values(Common.ResourceType.resourceCategories).map(category => ({
-      name: category.title,
-      label: category.shortTitle,
-      title: category.title,
-    }));
-    this._resourceCategoryFilterUI = new UI.FilterBar.NamedBitSetFilterUI(
-      filterItems,
-      this._networkResourceTypeFiltersSetting
-    );
+    if (window.ChiiMain) {
+      const category = Common.ResourceType.resourceCategories.XHR;
+      const filterItems = [
+        {
+          name: category.title,
+          label: category.shortTitle,
+          title: category.title,
+        },
+      ];
+      this._resourceCategoryFilterUI = new UI.FilterBar.NamedBitSetFilterUI(
+        filterItems,
+        this._networkResourceTypeFiltersSetting
+      );
+    } else {
+      const filterItems = Object.values(Common.ResourceType.resourceCategories).map(category => ({
+        name: category.title,
+        label: category.shortTitle,
+        title: category.title,
+      }));
+      this._resourceCategoryFilterUI = new UI.FilterBar.NamedBitSetFilterUI(
+        filterItems,
+        this._networkResourceTypeFiltersSetting
+      );
+    }
+
     UI.ARIAUtils.setAccessibleName(this._resourceCategoryFilterUI.element(), ls`Resource types to include`);
     this._resourceCategoryFilterUI.addEventListener(
       UI.FilterBar.FilterUI.Events.FilterChanged,
@@ -200,7 +218,9 @@ export class NetworkLogView extends UI.Widget.VBox {
       this
     );
     this._onlyIssuesFilterUI.element().title = ls`Only show requests with blocked response cookies`;
-    filterBar.addFilter(this._onlyIssuesFilterUI);
+    if (!window.ChiiMain) {
+      filterBar.addFilter(this._onlyIssuesFilterUI);
+    }
 
     this._onlyBlockedRequestsUI = new UI.FilterBar.CheckboxFilterUI(
       'only-show-blocked-requests',
@@ -214,7 +234,9 @@ export class NetworkLogView extends UI.Widget.VBox {
       this
     );
     this._onlyBlockedRequestsUI.element().title = ls`Only show blocked requests`;
-    filterBar.addFilter(this._onlyBlockedRequestsUI);
+    if (!window.ChiiMain) {
+      filterBar.addFilter(this._onlyBlockedRequestsUI);
+    }
 
     this._filterParser = new TextUtils.TextUtils.FilterParser(_searchKeys);
     this._suggestionBuilder = new UI.FilterSuggestionBuilder.FilterSuggestionBuilder(

@@ -288,22 +288,25 @@ export class NetworkPanel extends UI.Panel.Panel {
     this._panelToolbar.appendToolbarItem(searchToggle);
     this._panelToolbar.appendSeparator();
 
-    this._panelToolbar.appendToolbarItem(
-      new UI.Toolbar.ToolbarSettingCheckbox(
-        this._preserveLogSetting,
-        Common.UIString.UIString('Do not clear log on page reload / navigation'),
-        Common.UIString.UIString('Preserve log')
-      )
-    );
+    if (!window.ChiiMain) {
+      this._panelToolbar.appendToolbarItem(
+        new UI.Toolbar.ToolbarSettingCheckbox(
+          this._preserveLogSetting,
+          Common.UIString.UIString('Do not clear log on page reload / navigation'),
+          Common.UIString.UIString('Preserve log')
+        )
+      );
 
-    const disableCacheCheckbox = new UI.Toolbar.ToolbarSettingCheckbox(
-      Common.Settings.Settings.instance().moduleSetting('cacheDisabled'),
-      Common.UIString.UIString('Disable cache (while DevTools is open)'),
-      Common.UIString.UIString('Disable cache')
-    );
-    this._panelToolbar.appendToolbarItem(disableCacheCheckbox);
+      const disableCacheCheckbox = new UI.Toolbar.ToolbarSettingCheckbox(
+        Common.Settings.Settings.instance().moduleSetting('cacheDisabled'),
+        Common.UIString.UIString('Disable cache (while DevTools is open)'),
+        Common.UIString.UIString('Disable cache')
+      );
+      this._panelToolbar.appendToolbarItem(disableCacheCheckbox);
 
-    this._panelToolbar.appendSeparator();
+      this._panelToolbar.appendSeparator();
+    }
+
     this._panelToolbar.appendToolbarItem(this._throttlingSelect);
 
     this._rightToolbar.appendToolbarItem(new UI.Toolbar.ToolbarItem(this._progressBarContainer));
