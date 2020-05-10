@@ -19,7 +19,7 @@ export async function getAppManifest() {
   ret.url = url;
 
   if (url) {
-    let res = await fetch(url);
+    const res = await fetch(url);
     ret.data = await res.text();
   }
 

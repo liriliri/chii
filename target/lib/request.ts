@@ -1,6 +1,4 @@
 import Emitter from 'licia/Emitter';
-import random from 'licia/random';
-import uniqId from 'licia/uniqId';
 import isStr from 'licia/isStr';
 import last from 'licia/last';
 import Url from 'licia/Url';
@@ -10,9 +8,7 @@ import now from 'licia/now';
 import each from 'licia/each';
 import startWith from 'licia/startWith';
 import toNum from 'licia/toNum';
-
-const prefix = random(1000, 9999) + '.';
-const createId = () => uniqId(prefix);
+import { createId } from './util';
 
 export class XhrRequest extends Emitter {
   private xhr: XMLHttpRequest;

@@ -1,10 +1,6 @@
 import each from 'licia/each';
 import Emitter from 'licia/Emitter';
-import uniqId from 'licia/uniqId';
-import random from 'licia/random';
-
-const prefix = random(1000, 9999) + '.';
-const createId = () => uniqId(prefix);
+import { createId } from './util';
 
 const elProto: any = Element.prototype;
 

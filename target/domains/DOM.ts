@@ -8,8 +8,12 @@ import isNull from 'licia/isNull';
 import isEmpty from 'licia/isEmpty';
 import each from 'licia/each';
 import html from 'licia/html';
+import map from 'licia/map';
 import unique from 'licia/unique';
 import { setGlobal } from '../lib/evaluate';
+import contain from 'licia/contain';
+import { createId } from '../lib/util';
+import lowerCase from 'licia/lowerCase';
 
 export function collectClassNamesFromSubtree(params: any) {
   const node = getNode(params.nodeId);
@@ -17,6 +21,7 @@ export function collectClassNamesFromSubtree(params: any) {
   const classNames: string[] = [];
 
   traverseNode(node, (node: any) => {
+    if (node.nodeType !== 1) return;
     const className = node.getAttribute('class');
     if (className) {
       const names = className.split(/\s+/);
@@ -67,6 +72,79 @@ export function moveTo(params: any) {
   const targetNode = getNode(targetNodeId);
 
   targetNode.appendChild(node);
+}
+
+const searchResults = new Map();
+
+export function performSearch(params: any) {
+  const query = lowerCase(params.query);
+  const result: any[] = [];
+
+  traverseNode(document, (node: any) => {
+    const { nodeType } = node;
+    let value = '';
+    if (nodeType === 1) {
+      const html = node.outerHTML.replace(node.innerHTML, '');
+      value = lowerCase(html);
+    } else if (nodeType === 3) {
+      value = lowerCase(node.nodeValue);
+    }
+    if (contain(value, query)) {
+      result.push(node);
+    }
+  });
+
+  const searchId = createId();
+  searchResults.set(searchId, result);
+
+  return {
+    searchId,
+    resultCount: result.length,
+  };
+}
+
+export function getSearchResults(params: any) {
+  const { searchId, fromIndex, toIndex } = params;
+
+  const searchResult = searchResults.get(searchId);
+  const result = searchResult.slice(fromIndex, toIndex);
+  const nodeIds = map(result, (node: any) => {
+    const nodeId = getNodeId(node);
+
+    if (!nodeId) {
+      const nodes = [node];
+      let parentNode = node.parentNode;
+      while (parentNode) {
+        nodes.push(parentNode);
+        const nodeId = getNodeId(parentNode);
+        if (nodeId) {
+          break;
+        } else {
+          parentNode = parentNode.parentNode;
+        }
+      }
+      while (nodes.length) {
+        const node = nodes.pop();
+        const nodeId = getNodeId(node);
+        connector.trigger('DOM.setChildNodes', {
+          parentId: nodeId,
+          nodes: stringifyNode.getChildNodes(node, 1),
+        });
+      }
+
+      return getNodeId(node);
+    }
+
+    return nodeId;
+  });
+
+  return {
+    nodeIds,
+  };
+}
+
+export function discardSearchResults(params: any) {
+  searchResults.delete(params.searchId);
 }
 
 export function pushNodesByBackendIdsToFrontend(params: any) {
@@ -154,9 +232,9 @@ function parseAttributes(str: string) {
 }
 
 function traverseNode(node: any, cb: Function) {
-  const children = node.children;
-  for (let i = 0, len = children.length; i < len; i++) {
-    const child = children[i];
+  const childNodes = stringifyNode.filterNodes(node.childNodes);
+  for (let i = 0, len = childNodes.length; i < len; i++) {
+    const child = childNodes[i];
     cb(child);
     traverseNode(child, cb);
   }
