@@ -45,14 +45,17 @@ export const enable = once(function () {
     const req = ((xhr as any).chiiRequest = new XhrRequest(xhr, method, url));
 
     req.on('send', (id: string, data: any) => {
+      const request: any = {
+        method: data.method,
+        url: data.url,
+        headers: data.reqHeaders,
+      };
+      if (data.data) request.postData = data.data;
+
       connector.trigger('Network.requestWillBeSent', {
         requestId: id,
         type: 'XHR',
-        request: {
-          method: data.method,
-          url: data.url,
-          headers: data.reqHeaders,
-        },
+        request,
         timestamp: data.time / 1000,
       });
     });
@@ -117,14 +120,18 @@ export const enable = once(function () {
   window.fetch = function (...args) {
     const req = new FetchRequest(...args);
     req.on('send', (id, data) => {
+      const request: any = {
+        method: data.method,
+        url: data.url,
+        headers: data.reqHeaders,
+      };
+
+      if (data.data) request.postData = data.data;
+
       connector.trigger('Network.requestWillBeSent', {
         requestId: id,
         type: 'Fetch',
-        request: {
-          method: data.method,
-          url: data.url,
-          headers: data.reqHeaders,
-        },
+        request,
         timestamp: data.time / 1000,
       });
     });
