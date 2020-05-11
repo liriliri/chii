@@ -49,7 +49,6 @@ var interval;
 
 function startStuff() {
   if (window.localStorage) window.localStorage.clear();
-  if (window.sessionStorage) window.sessionStorage.clear();
 
   storageIndex = 0;
 

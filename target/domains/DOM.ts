@@ -6,7 +6,6 @@ import mutationObserver from '../lib/mutationObserver';
 import $ from 'licia/$';
 import isNull from 'licia/isNull';
 import isEmpty from 'licia/isEmpty';
-import each from 'licia/each';
 import html from 'licia/html';
 import map from 'licia/map';
 import unique from 'licia/unique';
@@ -274,7 +273,9 @@ mutationObserver.on('childList', (target: Node, addedNodes: NodeList, removedNod
   }
 
   if (!isEmpty(addedNodes)) {
-    each(addedNodes, node => {
+    childNodeCountUpdated();
+    for (let i = 0, len = addedNodes.length; i < len; i++) {
+      const node = addedNodes[i];
       const previousNode = stringifyNode.getPreviousNode(node);
       const previousNodeId = previousNode ? getNodeId(previousNode) : 0;
       const params: any = {
@@ -285,22 +286,23 @@ mutationObserver.on('childList', (target: Node, addedNodes: NodeList, removedNod
         previousNodeId,
       };
 
-      childNodeCountUpdated();
       connector.trigger('DOM.childNodeInserted', params);
-    });
+    }
   }
 
   if (!isEmpty(removedNodes)) {
-    each(removedNodes, node => {
+    for (let i = 0, len = removedNodes.length; i < len; i++) {
+      const node = removedNodes[i];
       const nodeId = getNodeId(node);
       if (!nodeId) {
-        return childNodeCountUpdated();
+        childNodeCountUpdated();
+        break;
       }
       connector.trigger('DOM.childNodeRemoved', {
         nodeId: getNodeId(node),
         parentNodeId,
       });
-    });
+    }
   }
 });
 
