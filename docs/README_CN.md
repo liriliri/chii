@@ -13,7 +13,7 @@
 与 [weinre](https://people.apache.org/~pmuellr/weinre/docs/latest/Home.html) 一样的远程调试工具，主要是将 web inspector 替换为最新的 [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
 
 
-![Chii](./docs/screenshot.jpg)
+![Chii](screenshot.jpg)
 
 ## 安装
 
