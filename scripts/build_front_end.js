@@ -91,7 +91,9 @@ async function copyApp(appName) {
   for (let file of files) {
     const srcPath = lookupFile(file);
     const destPath = path.join(outFolder, file);
-    await copyFile(srcPath, destPath);
+    if (fs.existsSync(srcPath)) {
+      await copyFile(srcPath, destPath);
+    }
   }
 }
 
@@ -152,5 +154,5 @@ async function buildApps(appNames) {
 
 rmdir(outFolder, async err => {
   await sleep(500);
-  await buildApps(['chii_app', 'devtools_app']);
+  await buildApps(['chii_app', 'devtools_app', 'formatter_worker_entrypoint']);
 });
