@@ -6,6 +6,9 @@ const now = require('licia/now');
 const pairs = require('licia/pairs');
 const reverse = require('licia/reverse');
 const map = require('licia/map');
+const ms = require('licia/ms');
+
+const maxAge = ms('2h');
 
 module.exports = function (channelManager, domain) {
   const router = new Router();
@@ -36,6 +39,7 @@ module.exports = function (channelManager, domain) {
     router.get(`${prefix}/*`, async ctx => {
       await send(ctx, ctx.path.slice(prefix.length), {
         root: path.resolve(__dirname, `../..${folder}`),
+        maxAge,
       });
     });
   }
@@ -46,6 +50,7 @@ module.exports = function (channelManager, domain) {
   router.get('/target.js', async ctx => {
     await send(ctx, 'target.js', {
       root: path.resolve(__dirname, '../../public'),
+      maxAge,
     });
   });
 
