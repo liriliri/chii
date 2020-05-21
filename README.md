@@ -16,6 +16,14 @@ Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/do
 
 ![Chii](./docs/screenshot.jpg)
 
+## Demo
+
+![Demo](./docs/qrcode.png)
+
+Browse it on your phone: [http://chii.liriliri.io/tests/demo.html](http://chii.liriliri.io/tests/demo.html)
+
+Open [http://chii.liriliri.io/](http://chii.liriliri.io/) and click inspect to start debugging the demo page.
+
 ## Install
 
 You can get it on npm.

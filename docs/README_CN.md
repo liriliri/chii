@@ -15,6 +15,14 @@
 
 ![Chii](screenshot.jpg)
 
+## Demo
+
+![Demo](./qrcode.png)
+
+请扫描二维码或在手机上直接访问：[http://chii.liriliri.io/tests/demo.html](http://chii.liriliri.io/tests/demo.html)
+
+打开 [http://chii.liriliri.io/](http://chii.liriliri.io/) 并点击 inspect 按钮开始调试示例页面。
+
 ## 安装
 
 可以通过 npm 安装。
