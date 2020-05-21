@@ -84,9 +84,12 @@ const methods: any = {
   warn: 'warning',
   error: 'error',
   info: 'info',
+  dir: 'dir',
   table: 'table',
   group: 'startGroup',
+  groupCollapsed: 'startGroupCollapsed',
   groupEnd: 'endGroup',
+  debug: 'debug',
   clear: 'clear',
 };
 
