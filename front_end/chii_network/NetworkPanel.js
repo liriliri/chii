@@ -307,7 +307,9 @@ export class NetworkPanel extends UI.Panel.Panel {
       this._panelToolbar.appendSeparator();
     }
 
-    this._panelToolbar.appendToolbarItem(this._throttlingSelect);
+    if (!window.ChiiMain) {
+      this._panelToolbar.appendToolbarItem(this._throttlingSelect);
+    }
 
     this._rightToolbar.appendToolbarItem(new UI.Toolbar.ToolbarItem(this._progressBarContainer));
     this._rightToolbar.appendSeparator();

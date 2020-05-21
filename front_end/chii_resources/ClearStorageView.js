@@ -66,21 +66,27 @@ export class ClearStorageView extends UI.ThrottledWidget.ThrottledWidget {
     this._clearButton = UI.UIUtils.createTextButton(ls`Clear site data`, this._clear.bind(this));
     clearButtonSection.appendChild(this._clearButton);
 
-    const application = this._reportView.appendSection(Common.UIString.UIString('Application'));
-    this._appendItem(application, Common.UIString.UIString('Unregister service workers'), 'service_workers');
-    application.markFieldListAsGroup();
+    if (!window.ChiiMain) {
+      const application = this._reportView.appendSection(Common.UIString.UIString('Application'));
+      this._appendItem(application, Common.UIString.UIString('Unregister service workers'), 'service_workers');
+      application.markFieldListAsGroup();
+    }
 
     const storage = this._reportView.appendSection(Common.UIString.UIString('Storage'));
     this._appendItem(storage, Common.UIString.UIString('Local and session storage'), 'local_storage');
-    this._appendItem(storage, Common.UIString.UIString('IndexedDB'), 'indexeddb');
-    this._appendItem(storage, Common.UIString.UIString('Web SQL'), 'websql');
+    if (!window.ChiiMain) {
+      this._appendItem(storage, Common.UIString.UIString('IndexedDB'), 'indexeddb');
+      this._appendItem(storage, Common.UIString.UIString('Web SQL'), 'websql');
+    }
     this._appendItem(storage, Common.UIString.UIString('Cookies'), 'cookies');
     storage.markFieldListAsGroup();
 
-    const caches = this._reportView.appendSection(Common.UIString.UIString('Cache'));
-    this._appendItem(caches, Common.UIString.UIString('Cache storage'), 'cache_storage');
-    this._appendItem(caches, Common.UIString.UIString('Application cache'), 'appcache');
-    caches.markFieldListAsGroup();
+    if (!window.ChiiMain) {
+      const caches = this._reportView.appendSection(Common.UIString.UIString('Cache'));
+      this._appendItem(caches, Common.UIString.UIString('Cache storage'), 'cache_storage');
+      this._appendItem(caches, Common.UIString.UIString('Application cache'), 'appcache');
+      caches.markFieldListAsGroup();
+    }
 
     SDK.SDKModel.TargetManager.instance().observeTargets(this);
   }
@@ -322,15 +328,7 @@ export class ClearStorageView extends UI.ThrottledWidget.ThrottledWidget {
   _usageUpdatedForTest(usage, quota, usageBreakdown) {}
 }
 
-export const AllStorageTypes = [
-  Protocol.Storage.StorageType.Appcache,
-  Protocol.Storage.StorageType.Cache_storage,
-  Protocol.Storage.StorageType.Cookies,
-  Protocol.Storage.StorageType.Indexeddb,
-  Protocol.Storage.StorageType.Local_storage,
-  Protocol.Storage.StorageType.Service_workers,
-  Protocol.Storage.StorageType.Websql,
-];
+export const AllStorageTypes = [Protocol.Storage.StorageType.Cookies, Protocol.Storage.StorageType.Local_storage];
 
 /**
  * @implements {UI.ActionDelegate.ActionDelegate}

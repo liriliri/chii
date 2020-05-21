@@ -120,6 +120,7 @@ const methods: any = {
 
   'Storage.trackCacheStorageForOrigin': noop,
   'Storage.trackIndexedDBForOrigin': noop,
+  'Storage.clearDataForOrigin': Storage.clearDataForOrigin,
 };
 
 export default methods;

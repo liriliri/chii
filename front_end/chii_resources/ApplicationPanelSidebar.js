@@ -113,23 +113,25 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox {
     this.sessionStorageListTreeElement.setLeadingIcons([sessionStorageIcon]);
 
     storageTreeElement.appendChild(this.sessionStorageListTreeElement);
-    this.indexedDBListTreeElement = new IndexedDBTreeElement(panel);
-    this.indexedDBListTreeElement.setLink(
-      'https://developers.google.com/web/tools/chrome-devtools/storage/indexeddb?utm_source=devtools'
-    );
-    storageTreeElement.appendChild(this.indexedDBListTreeElement);
-    this.databasesListTreeElement = new StorageCategoryTreeElement(
-      panel,
-      Common.UIString.UIString('Web SQL'),
-      'Databases'
-    );
-    this.databasesListTreeElement.setLink(
-      'https://developers.google.com/web/tools/chrome-devtools/storage/websql?utm_source=devtools'
-    );
-    const databaseIcon = UI.Icon.Icon.create('mediumicon-database', 'resource-tree-item');
-    this.databasesListTreeElement.setLeadingIcons([databaseIcon]);
+    if (!window.ChiiMain) {
+      this.indexedDBListTreeElement = new IndexedDBTreeElement(panel);
+      this.indexedDBListTreeElement.setLink(
+        'https://developers.google.com/web/tools/chrome-devtools/storage/indexeddb?utm_source=devtools'
+      );
+      storageTreeElement.appendChild(this.indexedDBListTreeElement);
+      this.databasesListTreeElement = new StorageCategoryTreeElement(
+        panel,
+        Common.UIString.UIString('Web SQL'),
+        'Databases'
+      );
+      this.databasesListTreeElement.setLink(
+        'https://developers.google.com/web/tools/chrome-devtools/storage/websql?utm_source=devtools'
+      );
+      const databaseIcon = UI.Icon.Icon.create('mediumicon-database', 'resource-tree-item');
+      this.databasesListTreeElement.setLeadingIcons([databaseIcon]);
 
-    storageTreeElement.appendChild(this.databasesListTreeElement);
+      storageTreeElement.appendChild(this.databasesListTreeElement);
+    }
     this.cookieListTreeElement = new StorageCategoryTreeElement(panel, Common.UIString.UIString('Cookies'), 'Cookies');
     this.cookieListTreeElement.setLink(
       'https://developers.google.com/web/tools/chrome-devtools/storage/cookies?utm_source=devtools'
@@ -331,14 +333,16 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox {
         modelRemoved: model => this._domStorageModelRemoved(model),
       })
     );
-    this.indexedDBListTreeElement._initialize();
-    SDK.SDKModel.TargetManager.instance().observeModels(
-      IndexedDBModel,
-      /** @type {!SDK.SDKModel.SDKModelObserver} */ ({
-        modelAdded: model => model.enable(),
-        modelRemoved: model => this.indexedDBListTreeElement.removeIndexedDBForModel(model),
-      })
-    );
+    if (!window.ChiiMain) {
+      this.indexedDBListTreeElement._initialize();
+      SDK.SDKModel.TargetManager.instance().observeModels(
+        IndexedDBModel,
+        /** @type {!SDK.SDKModel.SDKModelObserver} */ ({
+          modelAdded: model => model.enable(),
+          modelRemoved: model => this.indexedDBListTreeElement.removeIndexedDBForModel(model),
+        })
+      );
+    }
 
     if (!window.ChiiMain) {
       const serviceWorkerCacheModel = this._target.model(SDK.ServiceWorkerCacheModel.ServiceWorkerCacheModel);
