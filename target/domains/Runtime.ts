@@ -2,9 +2,12 @@ import connector from '../lib/connector';
 import each from 'licia/each';
 import map from 'licia/map';
 import now from 'licia/now';
+import isStr from 'licia/isStr';
 import fnParams from 'licia/fnParams';
 import uncaught from 'licia/uncaught';
 import startWith from 'licia/startWith';
+import stackTrace from 'licia/stackTrace';
+import trim from 'licia/trim';
 import * as stringifyObj from '../lib/stringifyObj';
 import evaluateJs, { setGlobal } from '../lib/evaluate';
 
@@ -101,7 +104,7 @@ each(methods, (type, name) => {
     connector.trigger('Runtime.consoleAPICalled', {
       type,
       args,
-      stackTrace: { callFrames: [] },
+      stackTrace: { callFrames: type === 'error' || type === 'warning' ? getCallFrames() : [] },
       executionContextId: executionContext.id,
       timestamp: now(),
     });
@@ -141,8 +144,33 @@ uncaught.addListener(err => {
   connector.trigger('Runtime.exceptionThrown', {
     exceptionDetails: {
       exception: stringifyObj.wrap(err),
+      stackTrace: { callFrames: getCallFrames(err) },
       text: 'Uncaught',
     },
     timestamp: now,
   });
 });
+
+function getCallFrames(error?: Error) {
+  let callFrames: any[] = [];
+  const callSites: any = error ? error.stack : stackTrace();
+  if (isStr(callSites)) {
+    callFrames = callSites.split('\n');
+    if (!error) {
+      callFrames.shift();
+    }
+    callFrames.shift();
+    callFrames = map(callFrames, val => ({ functionName: trim(val) }));
+  } else {
+    callSites.shift();
+    callFrames = map(callSites, (callSite: any) => {
+      return {
+        functionName: callSite.getFunctionName(),
+        lineNumber: callSite.getLineNumber(),
+        columnNumber: callSite.getColumnNumber(),
+        url: callSite.getFileName(),
+      };
+    });
+  }
+  return callFrames;
+}
