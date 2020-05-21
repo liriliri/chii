@@ -3,6 +3,9 @@ import $ from 'licia/$';
 import h from 'licia/h';
 import isMobile from 'licia/isMobile';
 import toNum from 'licia/toNum';
+import isStr from 'licia/isStr';
+import each from 'licia/each';
+import trim from 'licia/trim';
 import connector from '../lib/connector';
 import * as stringifyObj from '../lib/stringifyObj';
 
@@ -11,7 +14,7 @@ const transparent: any = { r: 0, g: 0, b: 0, a: 0 };
 export function highlightNode(params: any) {
   const { nodeId, highlightConfig, objectId } = params;
   let { marginColor = transparent, paddingColor = transparent, borderColor = transparent } = highlightConfig;
-  const { contentColor = transparent } = highlightConfig;
+  const { contentColor = transparent, showInfo } = highlightConfig;
 
   let node: any;
   if (nodeId) {
@@ -37,6 +40,17 @@ export function highlightNode(params: any) {
       height,
       background: toColor(contentColor),
     });
+    if (showInfo) {
+      $info
+        .css({
+          top: top < 25 ? 0 : -25,
+          left: 0,
+        })
+        .html(`<span style="color:#881280;">#text</span> | ${Math.round(width)} × ${Math.round(height)}`)
+        .show();
+    } else {
+      $info.hide();
+    }
     return;
   }
 
@@ -109,8 +123,19 @@ export function highlightNode(params: any) {
     height: ph - pt - pb,
     background: toColor(contentColor),
   });
-}
 
+  if (showInfo) {
+    $info
+      .css({
+        top: -mt - (top - mt < 25 ? 0 : 25),
+        left: -ml,
+      })
+      .html(`${formatElName(node)} | ${Math.round(width)} × ${Math.round(height)}`)
+      .show();
+  } else {
+    $info.hide();
+  }
+}
 export function hideHighlight() {
   $container.hide();
 }
@@ -225,24 +250,38 @@ const container = h('div', {
 const $container = $(container);
 document.documentElement.appendChild(container);
 
-const margin = createEl(100);
+const margin = createEl();
 const $margin = $(margin);
 
-const border = createEl(200);
+const border = createEl();
 const $border = $(border);
 
-const padding = createEl(300);
+const padding = createEl();
 const $padding = $(padding);
 
-const content = createEl(400);
+const content = createEl();
 const $content = $(content);
 
-function createEl(zIndex: number) {
+const info = createEl({
+  height: 25,
+  lineHeight: 25,
+  background: '#fff',
+  color: '#222',
+  fontSize: 12,
+  padding: '0 5px',
+  whiteSpace: 'nowrap',
+  overflowX: 'hidden',
+  boxShadow: '0 2px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 4px 0 rgba(0, 0, 0, 0.08), 0 3px 1px -2px rgba(0, 0, 0, 0.2)',
+});
+const $info = $(info);
+
+function createEl(style: any = {}) {
   const el = h('div', {
     style: {
       position: 'absolute',
       boxSizing: 'border-box',
-      zIndex,
+      zIndex: 100000,
+      ...style,
     },
   });
   container.appendChild(el);
@@ -257,4 +296,25 @@ function toColor(obj: any) {
   obj.a = obj.a || 0;
   const { r, g, b, a } = obj;
   return `rgba(${r},${g},${b},${a})`;
+}
+
+function formatElName(el: HTMLElement) {
+  const { id, className } = el;
+
+  let ret = `<span style="color:#881280;">${el.tagName.toLowerCase()}</span>`;
+
+  if (id !== '') ret += `<span style="color:1a1aa8;">#${id}</span>`;
+
+  let classes = '';
+  if (isStr(className)) {
+    each(className.split(/\s+/g), val => {
+      if (trim(val) === '') return;
+
+      classes += `.${val}`;
+    });
+  }
+
+  ret += `<span style="color:1a1aa8;">${classes}</span>`;
+
+  return ret;
 }
