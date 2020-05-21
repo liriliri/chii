@@ -136,6 +136,7 @@ export function highlightNode(params: any) {
     $info.hide();
   }
 }
+
 export function hideHighlight() {
   $container.hide();
 }
@@ -243,6 +244,7 @@ window.addEventListener('resize', () => {
 const container = h('div', {
   class: '__chii-hide__',
   style: {
+    display: 'none',
     position: 'absolute',
     pointerEvents: 'none',
   },
