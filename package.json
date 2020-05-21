@@ -1,6 +1,6 @@
 {
   "name": "chii",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Chrome devtools framework",
   "main": "index.js",
   "bin": {
@@ -54,6 +54,7 @@
     "commander": "^5.0.0",
     "handlebars": "^4.7.6",
     "koa": "^2.11.0",
+    "koa-compress": "^4.0.1",
     "koa-router": "^8.0.8",
     "koa-send": "^5.0.0",
     "licia": "^1.21.2",
