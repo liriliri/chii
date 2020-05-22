@@ -390,6 +390,8 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox {
   }
 
   _resetWebSQL() {
+    if (window.ChiiMain) return;
+
     for (const queryView of this._databaseQueryViews.values()) {
       queryView.removeEventListener(
         DatabaseQueryViewEvents.SchemaUpdated,
@@ -407,6 +409,8 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox {
   }
 
   _resetAppCache() {
+    if (window.ChiiMain) return;
+
     for (const frameId of Object.keys(this._applicationCacheFrameElements)) {
       this._applicationCacheFrameManifestRemoved({ data: frameId });
     }
