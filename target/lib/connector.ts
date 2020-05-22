@@ -20,8 +20,10 @@ class Connector extends Emitter {
       sessionStore.setItem('chii-id', id);
     }
 
+    const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+
     this.ws = new WebSocket(
-      `ws://${ChiiServerUrl}/target/${id}?${query.stringify({
+      `${protocol}//${ChiiServerUrl}/target/${id}?${query.stringify({
         url: location.href,
         title: document.title,
         favicon: getFavicon(),

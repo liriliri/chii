@@ -24,7 +24,6 @@ module.exports = function (channelManager, domain) {
     const tpl = await readTpl('index');
     ctx.body = tpl({
       targets,
-      protocol: ctx.protocol,
       domain,
     });
   });
