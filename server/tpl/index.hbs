@@ -95,7 +95,8 @@
   </script>
   <script>
     function inspect(id) {
-      const url = `/front_end/chii_app.html?ws=${location.host}/client/${_.randomId(6)}?target=${id}`;
+      const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+      const url = `/front_end/chii_app.html?${protocol}=${location.host}/client/${_.randomId(6)}?target=${id}`;
       window.open(url, '_blank');
     }
 
