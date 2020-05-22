@@ -167,6 +167,7 @@ function moveListener(e: any) {
   if (inspectMode === 'none') return;
 
   const node = getElementFromPoint(e);
+  if (!node) return;
   let nodeId = getNodeId(node);
 
   if (!nodeId) {
