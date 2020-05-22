@@ -5,7 +5,7 @@ module.exports = function () {
   return compress({
     threshold: 2048,
     filter(content_type) {
-      return contain(['application/javascript'], content_type);
+      return contain(['application/javascript', 'application/json', 'text/css'], content_type);
     },
     gzip: {
       flush: require('zlib').Z_SYNC_FLUSH,
