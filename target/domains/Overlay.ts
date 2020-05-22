@@ -1,4 +1,5 @@
-import { getNode, getOrCreateNodeId } from '../lib/stringifyNode';
+import { getNode, getNodeId } from '../lib/stringifyNode';
+import { safeCreateNodeId } from './DOM';
 import $ from 'licia/$';
 import h from 'licia/h';
 import isMobile from 'licia/isMobile';
@@ -166,7 +167,11 @@ function moveListener(e: any) {
   if (inspectMode === 'none') return;
 
   const node = getElementFromPoint(e);
-  const nodeId = getOrCreateNodeId(node);
+  let nodeId = getNodeId(node);
+
+  if (!nodeId) {
+    nodeId = safeCreateNodeId(node);
+  }
 
   highlightNode({
     nodeId,
@@ -192,7 +197,7 @@ function clickListener(e: any) {
 
   const node = getElementFromPoint(e);
   connector.trigger('Overlay.inspectNodeRequested', {
-    backendNodeId: getOrCreateNodeId(node),
+    backendNodeId: getNodeId(node),
   });
 
   hideHighlight();

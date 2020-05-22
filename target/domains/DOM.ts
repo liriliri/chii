@@ -111,27 +111,7 @@ export function getSearchResults(params: any) {
     const nodeId = getNodeId(node);
 
     if (!nodeId) {
-      const nodes = [node];
-      let parentNode = node.parentNode;
-      while (parentNode) {
-        nodes.push(parentNode);
-        const nodeId = getNodeId(parentNode);
-        if (nodeId) {
-          break;
-        } else {
-          parentNode = parentNode.parentNode;
-        }
-      }
-      while (nodes.length) {
-        const node = nodes.pop();
-        const nodeId = getNodeId(node);
-        connector.trigger('DOM.setChildNodes', {
-          parentId: nodeId,
-          nodes: stringifyNode.getChildNodes(node, 1),
-        });
-      }
-
-      return getNodeId(node);
+      return safeCreateNodeId(node);
     }
 
     return nodeId;
@@ -140,6 +120,31 @@ export function getSearchResults(params: any) {
   return {
     nodeIds,
   };
+}
+
+// Make sure all parent nodes has been retrieved.
+export function safeCreateNodeId(node: any) {
+  const nodes = [node];
+  let parentNode = node.parentNode;
+  while (parentNode) {
+    nodes.push(parentNode);
+    const nodeId = getNodeId(parentNode);
+    if (nodeId) {
+      break;
+    } else {
+      parentNode = parentNode.parentNode;
+    }
+  }
+  while (nodes.length) {
+    const node = nodes.pop();
+    const nodeId = getNodeId(node);
+    connector.trigger('DOM.setChildNodes', {
+      parentId: nodeId,
+      nodes: stringifyNode.getChildNodes(node, 1),
+    });
+  }
+
+  return getNodeId(node);
 }
 
 export function discardSearchResults(params: any) {
