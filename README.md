@@ -20,9 +20,15 @@ Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/do
 
 ![Demo](./docs/qrcode.png)
 
-Browse it on your phone: [http://chii.liriliri.io/tests/demo.html](http://chii.liriliri.io/tests/demo.html)
+Browse it on your phone: [https://chii.liriliri.io/tests/demo.html](https://chii.liriliri.io/tests/demo.html)
 
-Open [http://chii.liriliri.io/](http://chii.liriliri.io/) and click inspect to start debugging the demo page.
+Open [https://chii.liriliri.io/](https://chii.liriliri.io/) and click inspect to start debugging the demo page.
+
+In order to try it for different sites, execute the script below on browser address bar.
+
+```javascript
+javascript:(function () { var script = document.createElement('script'); script.src="//chii.liriliri.io/target.js"; document.body.appendChild(script); })();
+```
 
 ## Install
 

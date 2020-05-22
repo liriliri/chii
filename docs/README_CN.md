@@ -19,9 +19,15 @@
 
 ![Demo](./qrcode.png)
 
-请扫描二维码或在手机上直接访问：[http://chii.liriliri.io/tests/demo.html](http://chii.liriliri.io/tests/demo.html)
+请扫描二维码或在手机上直接访问：[https://chii.liriliri.io/tests/demo.html](https://chii.liriliri.io/tests/demo.html)
 
-打开 [http://chii.liriliri.io/](http://chii.liriliri.io/) 并点击 inspect 按钮开始调试示例页面。
+打开 [https://chii.liriliri.io/](https://chii.liriliri.io/) 并点击 inspect 按钮开始调试示例页面。
+
+如果想在其它页面尝试，请在浏览器地址栏上输入以下代码。
+
+```javascript
+javascript:(function () { var script = document.createElement('script'); script.src="//chii.liriliri.io/target.js"; document.body.appendChild(script); })();
+```
 
 ## 安装
 
