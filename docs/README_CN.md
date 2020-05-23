@@ -49,7 +49,7 @@ chii start -p 8080
 
 
 ```html
-<script src="http://localhost:8080/target.js"></script>
+<script src="//host-machine-ip:8080/target.js"></script>
 ```
 
 然后就可以访问 localhost:8080 开始调试页面。

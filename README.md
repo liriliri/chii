@@ -49,7 +49,7 @@ chii start -p 8080
 Use this script to inject the target code into your webpage.
 
 ```html
-<script src="http://localhost:8080/target.js"></script>
+<script src="//host-machine-ip:8080/target.js"></script>
 ```
 
 Then browse to localhost:8080 to start debugging your page.
