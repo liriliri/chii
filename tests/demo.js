@@ -10,11 +10,6 @@ var storageIndex = 0;
 var db;
 var otherDB;
 
-// set the id based on the hash
-var hash = location.href.split('#')[1];
-if (!hash) hash = 'anonymous';
-window.WeinreServerId = hash;
-
 //------------------------------------------------------------------------------
 function onLoad() {
   if (!buttonStartStuff) buttonStartStuff = document.getElementById('start-btn');
