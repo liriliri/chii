@@ -8,6 +8,8 @@ const reverse = require('licia/reverse');
 const map = require('licia/map');
 const ms = require('licia/ms');
 
+const pkg = require('../../package.json');
+
 const maxAge = ms('2h');
 
 module.exports = function (channelManager, domain) {
@@ -25,6 +27,7 @@ module.exports = function (channelManager, domain) {
     ctx.body = tpl({
       targets,
       domain,
+      version: pkg.version,
     });
   });
 
