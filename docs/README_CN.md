@@ -53,3 +53,7 @@ chii start -p 8080
 ```
 
 然后就可以访问 localhost:8080 开始调试页面。
+
+## 相关项目
+
+* [whistle.chii](https://github.com/liriliri/whistle.chii)：Whistle Chii 插件。
