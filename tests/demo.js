@@ -157,3 +157,16 @@ function output(string) {
 function logXhr(xhr) {
   console.log('xhr: readyState: ' + xhr.readyState);
 }
+
+function injectTarget() {
+  const href = location.href;
+  const host = href.replace('/tests/demo.html', '').replace(location.protocol + '//', '');
+  const src = '//' + host + '/target.js';
+  const script = document.createElement('script');
+  script.src = src;
+  document.head.appendChild(script);
+
+  window.ChiiServerUrl = host;
+}
+
+injectTarget();
