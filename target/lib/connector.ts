@@ -4,12 +4,12 @@ import randomId from 'licia/randomId';
 import safeStorage from 'licia/safeStorage';
 import $ from 'licia/$';
 import contain from 'licia/contain';
+import Socket from 'licia/Socket';
 import { fullUrl } from './request';
 
 const sessionStore = safeStorage('session');
-
 class Connector extends Emitter {
-  private ws: WebSocket;
+  private ws: Socket;
   private isInit: boolean = false;
   constructor() {
     super();
@@ -22,16 +22,16 @@ class Connector extends Emitter {
 
     const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
 
-    this.ws = new WebSocket(
+    this.ws = new Socket(
       `${protocol}//${ChiiServerUrl}/target/${id}?${query.stringify({
         url: location.href,
         title: (window as any).ChiiTitle || document.title,
         favicon: getFavicon(),
       })}`
     );
-    this.ws.addEventListener('open', () => {
+    this.ws.on('open', () => {
       this.isInit = true;
-      this.ws.addEventListener('message', event => {
+      this.ws.on('message', event => {
         this.emit('message', JSON.parse(event.data));
       });
     });
