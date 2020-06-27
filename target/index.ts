@@ -57,7 +57,7 @@ function fullUrl(href: string) {
   return link.protocol + '//' + link.host + link.pathname + link.search + link.hash;
 }
 
-let isInit = false
+let isInit = false;
 
 let id = sessionStore.getItem('chii-id');
 if (!id) {
@@ -85,4 +85,4 @@ ws.on('open', () => {
 chobitsu.setOnMessage((message: string) => {
   if (!isInit) return;
   ws.send(message);
-})
+});
