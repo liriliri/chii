@@ -30,7 +30,16 @@ module.exports = function (channelManager, domain) {
       version: pkg.version,
     });
   });
-
+  //for vscode-plugin
+  router.get('/vscode-plugin', async ctx => {
+    const targets = reverse(
+      map(pairs(channelManager.getTargets()), item => ({
+        id: item[0],
+        ...item[1],
+      }))
+    );
+    ctx.body = {targets};
+  });
   let timestamp = now();
   router.get('/timestamp', ctx => {
     ctx.body = timestamp;
