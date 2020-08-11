@@ -22,11 +22,21 @@ module.exports = function (channelManager, domain) {
         ...item[1],
       }))
     );
-
+    if(ctx.request.ip){
+      ip = ctx.request.ip;
+    }
+    if(ctx.request.headers["X-Orig-IP"]){
+      ip = ctx.request.headers["X-Orig-IP"];
+    }
+    if(ctx.request.ips && ctx.request.ips){
+      ip = ctx.request.ips[0];
+    }
+    
     const tpl = await readTpl('index');
     ctx.body = tpl({
       targets,
       domain,
+      ip,
       version: pkg.version,
     });
   });
