@@ -18,7 +18,7 @@ function start({ port = 8080, host, domain, server } = {}) {
     wss.start(server);
   } else {
     util.log(`starting server at ${domain}`);
-    const server = app.listen(port, host);
+    const server = host ? app.listen(port, host) : app.listen(port, host);
 
     wss.start(server);
   }

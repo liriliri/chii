@@ -54,6 +54,8 @@ Use this script to inject the target code into your webpage.
 
 Then browse to localhost:8080 to start debugging your page.
 
-## Related Projects
 
-* [whistle.chii](https://github.com/liriliri/whistle.chii): Whistle Chii plugin.
+## Second Modifier Version
+Responsity [https://github.com/xueduany/chii](https://github.com/xueduany/chii) 
+Npm @xueduany/chii
+

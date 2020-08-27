@@ -1,11 +1,12 @@
 {
-  "name": "chii",
-  "version": "0.6.6",
+  "name": "@xueduany/chii",
+  "version": "0.0.2",
   "description": "Chrome devtools framework",
   "main": "./server/index.js",
   "bin": {
     "chii": "./bin/chii.js"
   },
+  "author": "redhoodsu",
   "scripts": {
     "ci": "npm run lint && npm run build",
     "format": "npm run format:front_end && npm run format:target && npm run format:server && prettier *.{js,json} scripts/*.js bin/*.js tests/*.{html,json,js,css} --write",
@@ -23,17 +24,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liriliri/chi.git"
+    "url": "git+https://github.com/xueduany/chii.git"
   },
   "keywords": [
     "devtools"
   ],
-  "author": "redhoodsu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/liriliri/chi/issues"
+    "url": "https://github.com/xueduany/chii/issues"
   },
-  "homepage": "https://github.com/liriliri/chi#readme",
+  "homepage": "https://github.com/xueduany/chii#readme",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "chobitsu": "^0.1.0",
