@@ -69,7 +69,7 @@ export class NetworkLogView extends UI.Widget.VBox {
   constructor(filterBar, progressBarContainer, networkLogLargeRowsSetting) {
     super();
     this.setMinimumSize(50, 64);
-    this.registerRequiredCSS('chii_network/networkLogView.css');
+    this.registerRequiredCSS('network/networkLogView.css');
 
     this.element.id = 'network-container';
     this.element.classList.add('no-node-selected');
@@ -783,10 +783,10 @@ export class NetworkLogView extends UI.Widget.VBox {
     const hintText = this._recordingHint.createChild('div', 'recording-hint');
 
     let reloadShortcutNode = null;
-    const reloadShortcutDescriptor = self.UI.shortcutRegistry.shortcutDescriptorsForAction('inspector_main.reload')[0];
-    if (reloadShortcutDescriptor) {
+    const reloadShortcut = self.UI.shortcutRegistry.shortcutsForAction('inspector_main.reload')[0];
+    if (reloadShortcut) {
       reloadShortcutNode = this._recordingHint.createChild('b');
-      reloadShortcutNode.textContent = reloadShortcutDescriptor.name;
+      reloadShortcutNode.textContent = reloadShortcut.title();
     }
 
     if (this._recording) {

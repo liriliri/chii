@@ -53,7 +53,7 @@ import { NetworkTimeCalculator, NetworkTransferTimeCalculator } from './NetworkT
 export class NetworkPanel extends UI.Panel.Panel {
   constructor() {
     super('network');
-    this.registerRequiredCSS('chii_network/networkPanel.css');
+    this.registerRequiredCSS('network/networkPanel.css');
 
     this._networkLogShowOverviewSetting = Common.Settings.Settings.instance().createSetting(
       'networkLogShowOverview',
@@ -509,12 +509,12 @@ export class NetworkPanel extends UI.Panel.Panel {
   }
 
   _resetFilmStripView() {
-    const reloadShortcutDescriptor = self.UI.shortcutRegistry.shortcutDescriptorsForAction('inspector_main.reload')[0];
+    const reloadShortcut = self.UI.shortcutRegistry.shortcutsForAction('inspector_main.reload')[0];
 
     this._filmStripView.reset();
-    if (reloadShortcutDescriptor) {
+    if (reloadShortcut) {
       this._filmStripView.setStatusText(
-        Common.UIString.UIString('Hit %s to reload and capture filmstrip.', reloadShortcutDescriptor.name)
+        Common.UIString.UIString('Hit %s to reload and capture filmstrip.', reloadShortcut.title())
       );
     }
   }

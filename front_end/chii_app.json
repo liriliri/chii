@@ -3,10 +3,10 @@
     { "name": "chii_main", "type": "autostart" },
     { "name": "mobile_throttling", "type": "autostart" },
 
-    { "name": "chii_cookie_table" },
+    { "name": "cookie_table" },
     { "name": "chii_elements" },
     { "name": "har_importer" },
-    { "name": "chii_network" },
+    { "name": "network" },
     { "name": "chii_resources" },
 
     { "name": "cm" },

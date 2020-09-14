@@ -127,7 +127,6 @@
       "title": "Search",
       "className": "Network.NetworkPanel.ActionDelegate",
       "contextTypes": ["Network.NetworkPanel"],
-      "category": "Network",
       "bindings": [
         {
           "platform": "mac",
@@ -145,7 +144,7 @@
     "source_frame",
     "components",
     "perf_ui",
-    "chii_cookie_table",
+    "cookie_table",
     "data_grid",
     "browser_sdk",
     "mobile_throttling",
@@ -154,8 +153,8 @@
   ],
   "scripts": [],
   "modules": [
-    "chii_network.js",
-    "chii_network-legacy.js",
+    "network.js",
+    "network-legacy.js",
     "BinaryResourceView.js",
     "BlockedURLsPane.js",
     "EventSourceMessagesView.js",
