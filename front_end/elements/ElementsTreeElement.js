@@ -39,6 +39,7 @@ import * as UI from '../ui/ui.js';
 
 import { canGetJSPath, cssPath, jsPath, xPath } from './DOMPath.js';
 import { MappedCharToEntity, UpdateRecord } from './ElementsTreeOutline.js'; // eslint-disable-line no-unused-vars
+import { ImagePreviewPopover } from './ImagePreviewPopover.js';
 import { MarkerDecorator } from './MarkerDecorator.js';
 
 /**
@@ -47,9 +48,9 @@ import { MarkerDecorator } from './MarkerDecorator.js';
 export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
   /**
    * @param {!SDK.DOMModel.DOMNode} node
-   * @param {boolean=} elementCloseTag
+   * @param {boolean=} isClosingTag
    */
-  constructor(node, elementCloseTag) {
+  constructor(node, isClosingTag) {
     // The title will be updated in onattach.
     super();
     this._node = node;
@@ -60,9 +61,9 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
     this._gutterContainer.appendChild(gutterMenuIcon);
     this._decorationsElement = this._gutterContainer.createChild('div', 'hidden');
 
-    this._elementCloseTag = elementCloseTag;
+    this._isClosingTag = isClosingTag;
 
-    if (this._node.nodeType() === Node.ELEMENT_NODE && !elementCloseTag) {
+    if (this._node.nodeType() === Node.ELEMENT_NODE && !isClosingTag) {
       this._canAddAttributes = true;
     }
     this._searchQuery = null;
@@ -168,7 +169,7 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
    * @return {boolean}
    */
   isClosingTag() {
-    return !!this._elementCloseTag;
+    return !!this._isClosingTag;
   }
 
   /**
@@ -299,7 +300,7 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
    * @override
    */
   onbind() {
-    if (!this._elementCloseTag) {
+    if (!this._isClosingTag) {
       this._node[this.treeOutline.treeElementSymbol()] = this;
     }
   }
@@ -346,7 +347,7 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
    * @override
    */
   onexpand() {
-    if (this._elementCloseTag) {
+    if (this._isClosingTag) {
       return;
     }
 
@@ -357,7 +358,7 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
    * @override
    */
   oncollapse() {
-    if (this._elementCloseTag) {
+    if (this._isClosingTag) {
       return;
     }
 
@@ -443,7 +444,7 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
    * @return {boolean}
    */
   ondblclick(event) {
-    if (this._editing || this._elementCloseTag) {
+    if (this._editing || this._isClosingTag) {
       return false;
     }
 
@@ -525,7 +526,7 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
    */
   populateTagContextMenu(contextMenu, event) {
     // Add attribute-related actions.
-    const treeElement = this._elementCloseTag ? this.treeOutline.findTreeElement(this._node) : this;
+    const treeElement = this._isClosingTag ? this.treeOutline.findTreeElement(this._node) : this;
     contextMenu
       .editSection()
       .appendItem(Common.UIString.UIString('Add attribute'), treeElement._addNewAttribute.bind(treeElement));
@@ -1474,8 +1475,7 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
         node.nodeName().toLowerCase() === 'a'
           ? UI.XLink.XLink.create(rewrittenHref, value, '', true /* preventClick */)
           : Components.Linkifier.Linkifier.linkifyURL(rewrittenHref, { text: value, preventClick: true });
-      link[HrefSymbol] = rewrittenHref;
-      return link;
+      return ImagePreviewPopover.setImageUrl(link, rewrittenHref);
     }
 
     const nodeName = node ? node.nodeName().toLowerCase() : '';
@@ -1653,7 +1653,7 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
         }
 
         const tagName = node.nodeNameInCorrectCase();
-        if (this._elementCloseTag) {
+        if (this._isClosingTag) {
           this._buildTagDOM(titleDOM, tagName, true, true, updateRecord);
           break;
         }
@@ -1909,7 +1909,6 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
   }
 }
 
-export const HrefSymbol = Symbol('ElementsTreeElement.Href');
 export const InitialChildrenLimit = 500;
 
 // A union of HTML4 and HTML5-Draft elements that explicitly

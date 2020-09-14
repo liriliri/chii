@@ -236,15 +236,6 @@
     },
     {
       "type": "view",
-      "location": "elements-sidebar",
-      "id": "elements.domProperties",
-      "title": "Properties",
-      "order": 7,
-      "persistence": "permanent",
-      "className": "Elements.PropertiesWidget"
-    },
-    {
-      "type": "view",
       "experiment": "captureNodeCreationStacks",
       "location": "elements-sidebar",
       "id": "elements.domCreation",
@@ -254,11 +245,11 @@
       "className": "Elements.NodeStackTraceWidget"
     }
   ],
-  "dependencies": ["components", "extensions", "inline_editor", "color_picker", "chii_event_listeners"],
+  "dependencies": ["components", "extensions", "inline_editor", "color_picker", "event_listeners"],
   "scripts": [],
   "modules": [
-    "chii_elements.js",
-    "chii_elements-legacy.js",
+    "elements.js",
+    "elements-legacy.js",
     "InspectElementModeController.js",
     "ColorSwatchPopoverIcon.js",
     "ComputedStyleModel.js",
@@ -281,7 +272,8 @@
     "ElementsPanel.js",
     "ClassesPaneWidget.js",
     "ElementStatePaneWidget.js",
-    "ElementsTreeElementHighlighter.js"
+    "ElementsTreeElementHighlighter.js",
+    "ImagePreviewPopover.js"
   ],
   "resources": [
     "breadcrumbs.css",
@@ -294,7 +286,6 @@
     "elementsTreeOutline.css",
     "metricsSidebarPane.css",
     "platformFontsWidget.css",
-    "propertiesWidget.css",
     "nodeStackTraceWidget.css",
     "stylesSectionTree.css",
     "stylesSidebarPane.css"
