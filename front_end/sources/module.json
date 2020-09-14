@@ -903,15 +903,15 @@
     "quick_open",
     "inline_editor",
     "color_picker",
-    "chii_event_listeners",
+    "event_listeners",
     "object_ui",
     "formatter",
     "coverage"
   ],
   "scripts": [],
   "modules": [
-    "chii_sources.js",
-    "chii_sources-legacy.js",
+    "sources.js",
+    "sources-legacy.js",
     "AddSourceMapURLDialog.js",
     "BreakpointEditDialog.js",
     "CallStackSidebarPane.js",

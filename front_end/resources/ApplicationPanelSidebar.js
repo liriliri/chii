@@ -72,7 +72,7 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox {
 
     this._sidebarTree = new UI.TreeOutline.TreeOutlineInShadow();
     this._sidebarTree.element.classList.add('resources-sidebar');
-    this._sidebarTree.registerRequiredCSS('chii_resources/resourcesSidebar.css');
+    this._sidebarTree.registerRequiredCSS('resources/resourcesSidebar.css');
     this._sidebarTree.element.classList.add('filter-all');
     // Listener needs to have been set up before the elements are added
     this._sidebarTree.addEventListener(UI.TreeOutline.Events.ElementAttached, this._treeElementAdded, this);
@@ -476,7 +476,11 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox {
    * @param {!SDK.ResourceTreeModel.ResourceTreeFrame} frame
    */
   _addCookieDocument(frame) {
-    const parsedURL = Common.ParsedURL.ParsedURL.fromString(frame.url);
+    // In case the current frame was unreachable, show it's cookies
+    // instead of the error interstitials because they might help to
+    // debug why the frame was unreachable.
+    const urlToParse = frame.unreachableUrl() || frame.url;
+    const parsedURL = Common.ParsedURL.ParsedURL.fromString(urlToParse);
     if (!parsedURL || (parsedURL.scheme !== 'http' && parsedURL.scheme !== 'https' && parsedURL.scheme !== 'file')) {
       return;
     }

@@ -7,7 +7,7 @@
     { "name": "chii_elements" },
     { "name": "har_importer" },
     { "name": "network" },
-    { "name": "chii_resources" },
+    { "name": "resources" },
 
     { "name": "cm" },
     { "name": "cm_web_modes" },
@@ -16,7 +16,7 @@
     { "name": "coverage" },
     { "name": "data_grid" },
     { "name": "diff" },
-    { "name": "chii_event_listeners" },
+    { "name": "event_listeners" },
     { "name": "formatter" },
     { "name": "heap_snapshot_model" },
     { "name": "inline_editor" },
@@ -27,7 +27,7 @@
     { "name": "search" },
     { "name": "snippets" },
     { "name": "source_frame" },
-    { "name": "chii_sources" },
+    { "name": "sources" },
     { "name": "text_editor" },
     { "name": "workspace_diff" }
   ],

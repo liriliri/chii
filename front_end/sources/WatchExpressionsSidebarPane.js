@@ -48,7 +48,7 @@ export class WatchExpressionsSidebarPane extends UI.ThrottledWidget.ThrottledWid
   constructor() {
     super(true);
     this.registerRequiredCSS('object_ui/objectValue.css');
-    this.registerRequiredCSS('chii_sources/watchExpressionsSidebarPane.css');
+    this.registerRequiredCSS('sources/watchExpressionsSidebarPane.css');
 
     // TODO(szuend): Replace with a Set once the web test
     //               sources/debugger-ui/watch-expressions-preserve-expansion.js is either converted
@@ -67,7 +67,7 @@ export class WatchExpressionsSidebarPane extends UI.ThrottledWidget.ThrottledWid
     this.contentElement.classList.add('watch-expressions');
     this.contentElement.addEventListener('contextmenu', this._contextMenu.bind(this), false);
     this._treeOutline = new ObjectUI.ObjectPropertiesSection.ObjectPropertiesSectionsTreeOutline();
-    this._treeOutline.registerRequiredCSS('chii_sources/watchExpressionsSidebarPane.css');
+    this._treeOutline.registerRequiredCSS('sources/watchExpressionsSidebarPane.css');
     this._treeOutline.setShowSelectionOnKeyboardFocus(/* show */ true);
     this._expandController = new ObjectUI.ObjectPropertiesSection.ObjectPropertiesSectionsTreeExpandController(
       this._treeOutline

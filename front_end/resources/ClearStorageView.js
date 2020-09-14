@@ -30,7 +30,7 @@ export class ClearStorageView extends UI.ThrottledWidget.ThrottledWidget {
     ]);
 
     this._reportView = new UI.ReportView.ReportView(Common.UIString.UIString('Clear storage'));
-    this._reportView.registerRequiredCSS('chii_resources/clearStorageView.css');
+    this._reportView.registerRequiredCSS('resources/clearStorageView.css');
     this._reportView.element.classList.add('clear-storage-header');
     this._reportView.show(this.contentElement);
     /** @type {?SDK.SDKModel.Target} */

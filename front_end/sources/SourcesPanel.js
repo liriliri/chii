@@ -51,7 +51,7 @@ export class SourcesPanel extends UI.Panel.Panel {
   constructor() {
     super('sources');
     SourcesPanel._instance = this;
-    this.registerRequiredCSS('chii_sources/sourcesPanel.css');
+    this.registerRequiredCSS('sources/sourcesPanel.css');
     new UI.DropTarget.DropTarget(
       this.element,
       [UI.DropTarget.Type.Folder],
@@ -83,7 +83,9 @@ export class SourcesPanel extends UI.Panel.Panel {
     );
     this._splitWidget.enableShowModeSaving();
     this._splitWidget.show(this.element);
-    this._splitWidget.hideSidebar(true);
+    if (window.ChiiMain) {
+      this._splitWidget.hideSidebar(true);
+    }
 
     // Create scripts navigator
     const initialNavigatorWidth = 225;
