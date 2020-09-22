@@ -63,3 +63,6 @@ Npm @xueduany/chii
 ## add mutiply user support
 1. Display remote client IP
 2. Display socket connect ip from each client, easy distinguish
+
+## npm homepage
+https://www.npmjs.com/package/@xueduany/chii
