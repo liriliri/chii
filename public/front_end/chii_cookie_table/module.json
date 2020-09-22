@@ -1,0 +1,6 @@
+{
+  "dependencies": ["ui", "sdk", "data_grid"],
+  "scripts": [],
+  "modules": ["chii_cookie_table.js", "chii_cookie_table-legacy.js", "CookiesTable.js"],
+  "resources": ["cookiesTable.css"]
+}

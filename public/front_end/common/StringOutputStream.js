@@ -1,0 +1,1 @@
+export class OutputStream{async write(t){}async close(){}}export class StringOutputStream{constructor(){this._data=""}async write(t){this._data+=t}async close(){}data(){return this._data}}

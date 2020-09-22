@@ -1,0 +1,1 @@
+export const removeElement=(e,t,r)=>{let n=e.indexOf(t);if(-1===n)return!1;if(r)return e.splice(n,1),!0;for(let r=n+1,l=e.length;r<l;++r)e[r]!==t&&(e[n++]=e[r]);return e.length=n,!0};

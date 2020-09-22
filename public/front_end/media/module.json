@@ -1,0 +1,41 @@
+{
+  "extensions": [
+    {
+      "type": "view",
+      "location": "panel",
+      "id": "media",
+      "title": "Media",
+      "persistence": "closeable",
+      "order": 100,
+      "className": "Media.MainView",
+      "tags": "media, video",
+      "experiment": "mediaInspector"
+    }
+  ],
+  "dependencies": [
+    "components",
+    "sdk",
+    "ui",
+    "data_grid",
+    "source_frame"
+  ],
+  "modules": [
+    "media.js",
+    "media-legacy.js",
+    "EventDisplayTable.js",
+    "MainView.js",
+    "PlayerDetailView.js",
+    "PlayerListView.js",
+    "PlayerPropertiesView.js",
+    "MediaModel.js",
+    "ChevronTabbedPanel.js"
+  ],
+  "scripts": [],
+  "resources": [
+    "eventDisplayTable.css",
+    "mediaView.css",
+    "playerListView.css",
+    "playerPropertiesView.css",
+    "chevronTabbedPanel.css"
+  ]
+}

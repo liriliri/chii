@@ -1,0 +1,1 @@
+export function appendStyle(e,t){const n=self.Runtime.cachedResources[t]||"";n||console.error(t+" not preloaded. Check module.json");let o=createElement("style");o.textContent=n,e.appendChild(o);const l=self.UI.themeSupport.themeStyleSheet(t,n);l&&(o=createElement("style"),o.textContent=l+"\n"+Root.Runtime.resolveSourceURL(t+".theme"),e.appendChild(o))}

@@ -1,0 +1,5 @@
+# Changelog
+Follows semantic versioning.
+
+## 1.0.0 (2018-01-18)
+- Version changed to '1.0.0'.

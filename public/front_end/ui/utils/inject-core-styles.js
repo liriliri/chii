@@ -1,0 +1,1 @@
+import{appendStyle}from"./append-style.js";export function injectCoreStyles(e){appendStyle(e,"ui/inspectorCommon.css"),appendStyle(e,"ui/textButton.css"),self.UI.themeSupport.injectHighlightStyleSheets(e),self.UI.themeSupport.injectCustomStyleSheets(e)}

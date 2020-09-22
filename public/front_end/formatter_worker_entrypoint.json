@@ -1,0 +1,11 @@
+{
+  "worker": true,
+  "modules": [
+    { "name": "common", "type": "autostart" },
+    { "name": "platform", "type": "autostart" },
+    { "name": "text_utils", "type": "autostart" },
+    { "name": "cm_headless", "type": "autostart" },
+    { "name": "cm_web_modes", "type": "autostart" },
+    { "name": "formatter_worker", "type": "autostart" }
+  ]
+}

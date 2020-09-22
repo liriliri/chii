@@ -1,0 +1,1 @@
+import*as MediaModule from"./media.js";self.Media=self.Media||{},Media=Media||{},Media.MainView=MediaModule.MainView.MainView,Media.MediaModel=MediaModule.MediaModel.MediaModel;

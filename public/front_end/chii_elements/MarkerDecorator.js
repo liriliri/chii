@@ -1,0 +1,1 @@
+import*as Common from"../common/common.js";import*as SDK from"../sdk/sdk.js";export class MarkerDecorator{decorate(o){}}export class GenericDecorator{constructor(o){this._title=Common.UIString.UIString(o.title()),this._color=o.descriptor().color}decorate(o){return{title:this._title,color:this._color}}}
