@@ -1,6 +1,6 @@
 {
   "name": "@xueduany/chii",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Chrome devtools framework",
   "main": "./server/index.js",
   "bin": {
