@@ -12,10 +12,10 @@ module.exports = class WebSocketServer {
     wss.on('connection', ws => {
       const type = ws.type;
       if (type === 'target') {
-        const { id, url, title, favicon } = ws;
+        const { id, url, title, favicon, ip} = ws;
         this.channelManager.createTarget(id, ws, url, title, favicon);
       } else {
-        const { id, target } = ws;
+        const { id, target, ip} = ws;
         this.channelManager.createClient(id, ws, target);
       }
     });
@@ -32,8 +32,10 @@ module.exports = class WebSocketServer {
 
       if (type === 'target' || type === 'client') {
         wss.handleUpgrade(request, socket, head, ws => {
+          console.log(ws._socket.remoteAddress);
           ws.type = type;
           ws.id = id;
+          ws.ip = ws._socket.remoteAddress;
           const q = query.parse(urlObj.query);
           if (type === 'target') {
             ws.url = q.url;

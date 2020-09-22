@@ -13,7 +13,6 @@ module.exports = class ChannelManager extends Emitter {
   }
   createTarget(id, ws, url, title, favicon) {
     const channel = new Channel(ws);
-
     util.log(`${ansiColor.yellow('target')} ${id}:${truncate(title, 10)} ${ansiColor.green('connected')}`);
     this._targets[id] = {
       id,
@@ -21,6 +20,7 @@ module.exports = class ChannelManager extends Emitter {
       url,
       favicon,
       channel,
+      ip: ws.ip
     };
 
     channel.on('close', () => this.removeTarget(id, title));
@@ -41,11 +41,11 @@ module.exports = class ChannelManager extends Emitter {
       )}`
     );
     channel.connect(target.channel);
-
+      
     this._clients[id] = {
       id,
       target: target.id,
-      channel,
+      channel
     };
 
     channel.on('close', () => this.removeClient(id));
