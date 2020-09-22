@@ -59,3 +59,7 @@ Then browse to localhost:8080 to start debugging your page.
 Responsity [https://github.com/xueduany/chii](https://github.com/xueduany/chii) 
 Npm @xueduany/chii
 
+
+## add mutiply user support
+1. Display remote client IP
+2. Display socket connect ip from each client, easy distinguish
