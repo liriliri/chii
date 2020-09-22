@@ -88,16 +88,13 @@
     <div class="description">
       You can use this script to inject the chii target code into your web page.<br/>
       <script>
-        if(/\d+\.\d+\.\d+\.\d+\./.test(location.host)){
+        if(/\d+\.\d+\.\d+\.\d+/.test(location.host)){
           document.writeln(`
         <a target="_blank" href="//{{domain}}/target.js">{{domain}}/target.js</a> <br/>
       Or just open the demo page <a target="_blank" href="//{{domain}}/tests/demo.html">{{domain}}/tests/demo.html</a> to play around with.<br/>
         `)
         }else{
           var url = location.host;
-          if(location.port){
-            url += ':'+location.port;
-          }
           document.writeln(`
         <a target="_blank" href="//`+url+`/target.js">`+url+`/target.js</a> <br/>
       Or just open the demo page <a target="_blank" href="//`+url+`/tests/demo.html">`+url+`/tests/demo.html</a> to play around with.<br/>
