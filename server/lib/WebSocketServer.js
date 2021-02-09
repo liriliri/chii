@@ -12,7 +12,7 @@ module.exports = class WebSocketServer {
     wss.on('connection', ws => {
       const type = ws.type;
       if (type === 'target') {
-        const { id, chiiUrl , title, favicon } = ws;
+        const { id, chiiUrl, title, favicon } = ws;
         this.channelManager.createTarget(id, ws, chiiUrl, title, favicon);
       } else {
         const { id, target } = ws;
