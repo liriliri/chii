@@ -1,6 +1,6 @@
 {
   "name": "chii",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "description": "Chrome devtools framework",
   "main": "./server/index.js",
   "bin": {
@@ -36,7 +36,7 @@
   "homepage": "https://github.com/liriliri/chi#readme",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "chobitsu": "^0.2.2",
+    "chobitsu": "^0.3.2",
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
