@@ -14,12 +14,13 @@
     "format:server": "lsla prettier server/**/*.js --write",
     "build": "gulp clean && npm run build:target && npm run build:front_end",
     "build:target": "webpack --mode=production",
-    "build:front_end": "node scripts/build_front_end && gulp uglify",
+    "build:front_end": "npm run dev:front_end && gulp uglify",
     "dev:target": "webpack --mode=development -w",
-    "dev:front_end": "node scripts/build_front_end",
+    "dev:front_end": "cd devtools/devtools-frontend && gn gen out/Default && autoninja -C out/Default && lsla shx cp -R out/Default/gen/front_end ../../public",
     "lint": "npm run lint:server && npm run lint:target",
     "lint:server": "eslint server/**/*.js",
-    "lint:target": "tslint target/**/*.ts"
+    "lint:target": "tslint target/**/*.ts",
+    "init:front_end": "cd devtools && gclient sync --with_branch_heads --reset --verbose && cd ../ && python3 scripts/apply_all_patches.py patches/config.json"
   },
   "repository": {
     "type": "git",
@@ -40,9 +41,9 @@
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
-    "gulp-uglify-es": "^2.0.0",
+    "gulp-uglify-es": "^3.0.0",
     "ncp": "^2.0.0",
-    "terser": "^4.6.13",
+    "terser": "^5.10.0",
     "ts-loader": "^7.0.1",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",

@@ -1,0 +1,9 @@
+entries = {
+  'devtools-frontend': 'https://chromium.googlesource.com/devtools/devtools-frontend.git@origin/chromium/4752',
+  'devtools-frontend/build': 'https://chromium.googlesource.com/chromium/src/build.git@acd04d0ee99acf7156d6107939a6dbcd8c841367',
+  'devtools-frontend/buildtools': 'https://chromium.googlesource.com/chromium/src/buildtools.git@075dd7e22837a69189003e4fa84499acf63188cf',
+  'devtools-frontend/buildtools/clang_format/script': 'https://chromium.googlesource.com/external/github.com/llvm/llvm-project/clang/tools/clang-format.git@99876cacf78329e5f99c244dbe42ccd1654517a0',
+  'devtools-frontend/buildtools/mac:gn/gn/mac-amd64': 'https://chrome-infra-packages.appspot.com/gn/gn/mac-amd64@git_revision:b79031308cc878488202beb99883ec1f2efd9a6d',
+  'devtools-frontend/third_party/depot_tools': 'https://chromium.googlesource.com/chromium/tools/depot_tools.git@e68554385590d50eeb8a0d3802db4f59175f6c07',
+  'devtools-frontend/third_party/inspector_protocol': 'https://chromium.googlesource.com/deps/inspector_protocol@9ed5b2874d8ff216e6eee8d8b0661ea78460d426',
+}

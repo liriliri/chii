@@ -1,6 +1,6 @@
 docs
-devtools-frontend
-front_end
+devtools
+patches
 !public/front_end
 scripts
 target
