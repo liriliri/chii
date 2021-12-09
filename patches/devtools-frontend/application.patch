@@ -1,0 +1,123 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: redhoodsu <redhoodsu@tencent.com>
+Date: Thu, 9 Dec 2021 18:31:00 +0800
+Subject: application
+
+
+diff --git a/front_end/panels/application/ApplicationPanelSidebar.ts b/front_end/panels/application/ApplicationPanelSidebar.ts
+index 2233afb84bebd557760b68d04e0a7124709e32b8..7f30c7e1addd1570c896fe6c9e7e55088a77d7ec 100644
+--- a/front_end/panels/application/ApplicationPanelSidebar.ts
++++ b/front_end/panels/application/ApplicationPanelSidebar.ts
+@@ -231,7 +231,9 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
+     const manifestTreeElement = new AppManifestTreeElement(panel);
+     this.applicationTreeElement.appendChild(manifestTreeElement);
+     this.serviceWorkersTreeElement = new ServiceWorkersTreeElement(panel);
+-    this.applicationTreeElement.appendChild(this.serviceWorkersTreeElement);
++    if (!(globalThis as any).chii) {
++      this.applicationTreeElement.appendChild(this.serviceWorkersTreeElement);
++    }
+     const clearStorageTreeElement = new ClearStorageTreeElement(panel);
+     this.applicationTreeElement.appendChild(clearStorageTreeElement);
+ 
+@@ -256,7 +258,9 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
+     this.indexedDBListTreeElement = new IndexedDBTreeElement(panel);
+     this.indexedDBListTreeElement.setLink(
+         'https://developer.chrome.com/docs/devtools/storage/indexeddb/?utm_source=devtools');
+-    storageTreeElement.appendChild(this.indexedDBListTreeElement);
++    if (!(globalThis as any).chii) {
++      storageTreeElement.appendChild(this.indexedDBListTreeElement);
++    }
+     this.databasesListTreeElement =
+         new ExpandableApplicationPanelTreeElement(panel, i18nString(UIStrings.webSql), 'Databases');
+     this.databasesListTreeElement.setLink(
+@@ -264,7 +268,9 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
+     const databaseIcon = UI.Icon.Icon.create('mediumicon-database', 'resource-tree-item');
+     this.databasesListTreeElement.setLeadingIcons([databaseIcon]);
+ 
+-    storageTreeElement.appendChild(this.databasesListTreeElement);
++    if (!(globalThis as any).chii) {
++      storageTreeElement.appendChild(this.databasesListTreeElement);
++    }
+     this.cookieListTreeElement =
+         new ExpandableApplicationPanelTreeElement(panel, i18nString(UIStrings.cookies), 'Cookies');
+     this.cookieListTreeElement.setLink(
+@@ -278,13 +284,16 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
+ 
+     const cacheSectionTitle = i18nString(UIStrings.cache);
+     const cacheTreeElement = this.addSidebarSection(cacheSectionTitle);
++    if ((globalThis as any).chii) {
++      this.sidebarTree.removeChild(cacheTreeElement);
++    }
+     this.cacheStorageListTreeElement = new ServiceWorkerCacheTreeElement(panel);
+     cacheTreeElement.appendChild(this.cacheStorageListTreeElement);
+ 
+     this.backForwardCacheListTreeElement = new BackForwardCacheTreeElement(panel);
+     cacheTreeElement.appendChild(this.backForwardCacheListTreeElement);
+ 
+-    if (Root.Runtime.experiments.isEnabled('backgroundServices')) {
++    if (!(globalThis as any).chii && Root.Runtime.experiments.isEnabled('backgroundServices')) {
+       const backgroundServiceSectionTitle = i18nString(UIStrings.backgroundServices);
+       const backgroundServiceTreeElement = this.addSidebarSection(backgroundServiceSectionTitle);
+ 
+@@ -427,6 +436,10 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
+     if (cacheStorageModel) {
+       cacheStorageModel.enable();
+     }
++
++    if ((globalThis as any).chii) {
++      return;
++    }
+     const serviceWorkerCacheModel =
+         this.target && this.target.model(SDK.ServiceWorkerCacheModel.ServiceWorkerCacheModel) || null;
+     this.cacheStorageListTreeElement.initialize(serviceWorkerCacheModel);
+@@ -467,6 +480,9 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
+   }
+ 
+   private resetWebSQL(): void {
++    if ((globalThis as any).chii) {
++      return;
++    }
+     for (const queryView of this.databaseQueryViews.values()) {
+       queryView.removeEventListener(DatabaseQueryViewEvents.SchemaUpdated, event => {
+         this.updateDatabaseTables(event);
+diff --git a/front_end/panels/application/StorageView.ts b/front_end/panels/application/StorageView.ts
+index 61a811001fd77a0c68fd427a997c2200ec193783..a4a25c92aac0f74c82dfd51f7fe919f25c4e510f 100644
+--- a/front_end/panels/application/StorageView.ts
++++ b/front_end/panels/application/StorageView.ts
+@@ -242,21 +242,27 @@ export class StorageView extends UI.ThrottledWidget.ThrottledWidget {
+     includeThirdPartyCookiesCheckbox.classList.add('include-third-party-cookies');
+     clearButtonSection.appendChild(includeThirdPartyCookiesCheckbox);
+ 
+-    const application = this.reportView.appendSection(i18nString(UIStrings.application));
+-    this.appendItem(
+-        application, i18nString(UIStrings.unregisterServiceWorker), Protocol.Storage.StorageType.Service_workers);
+-    application.markFieldListAsGroup();
++    if ((!globalThis as any).chii) {
++      const application = this.reportView.appendSection(i18nString(UIStrings.application));
++      this.appendItem(
++          application, i18nString(UIStrings.unregisterServiceWorker), Protocol.Storage.StorageType.Service_workers);
++      application.markFieldListAsGroup();
++    }
+ 
+     const storage = this.reportView.appendSection(i18nString(UIStrings.storageTitle));
+     this.appendItem(storage, i18nString(UIStrings.localAndSessionStorage), Protocol.Storage.StorageType.Local_storage);
+-    this.appendItem(storage, i18nString(UIStrings.indexDB), Protocol.Storage.StorageType.Indexeddb);
+-    this.appendItem(storage, i18nString(UIStrings.webSql), Protocol.Storage.StorageType.Websql);
++    if (!(globalThis as any).chii) {
++      this.appendItem(storage, i18nString(UIStrings.indexDB), Protocol.Storage.StorageType.Indexeddb);
++      this.appendItem(storage, i18nString(UIStrings.webSql), Protocol.Storage.StorageType.Websql);
++    }
+     this.appendItem(storage, i18nString(UIStrings.cookies), Protocol.Storage.StorageType.Cookies);
+     storage.markFieldListAsGroup();
+ 
+-    const caches = this.reportView.appendSection(i18nString(UIStrings.cache));
+-    this.appendItem(caches, i18nString(UIStrings.cacheStorage), Protocol.Storage.StorageType.Cache_storage);
+-    caches.markFieldListAsGroup();
++    if (!(globalThis as any).chii) {
++      const caches = this.reportView.appendSection(i18nString(UIStrings.cache));
++      this.appendItem(caches, i18nString(UIStrings.cacheStorage), Protocol.Storage.StorageType.Cache_storage);
++      caches.markFieldListAsGroup();
++    }
+ 
+     SDK.TargetManager.TargetManager.instance().observeTargets(this);
+   }

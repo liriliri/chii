@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: redhoodsu <redhoodsu@tencent.com>
 Date: Wed, 8 Dec 2021 20:24:11 +0800
-Subject: add_chii_app.patch
+Subject: chii_app
 
 
 diff --git a/BUILD.gn b/BUILD.gn
@@ -29,7 +29,7 @@ index 00cf41d5785622de8f3e94f1ded4086e3b6bfcdf..855599eb6bfddb691f354aae58b5f36c
    "front_end/entrypoints/js_app/js_app.js",
    "front_end/entrypoints/ndb_app/ndb_app.js",
 diff --git a/config/gni/devtools_grd_files.gni b/config/gni/devtools_grd_files.gni
-index a0a80afb7c46836442dc5d7cb21b928aa9b66949..0904e4227c5f0786a7db225b438e2b9966843c03 100644
+index a0a80afb7c46836442dc5d7cb21b928aa9b66949..6a59900fa674467934bd0ad53568c30cd7afd0c4 100644
 --- a/config/gni/devtools_grd_files.gni
 +++ b/config/gni/devtools_grd_files.gni
 @@ -162,6 +162,7 @@ grd_files_release_sources = [
@@ -40,12 +40,13 @@ index a0a80afb7c46836442dc5d7cb21b928aa9b66949..0904e4227c5f0786a7db225b438e2b99
    "front_end/devtools_compatibility.js",
    "front_end/emulated_devices/optimized/MotoG4-landscape.avif",
    "front_end/emulated_devices/optimized/MotoG4-portrait.avif",
-@@ -206,6 +207,8 @@ grd_files_release_sources = [
+@@ -206,6 +207,9 @@ grd_files_release_sources = [
    "front_end/entrypoints/device_mode_emulation_frame/device_mode_emulation_frame.js",
    "front_end/entrypoints/devtools_app/devtools_app-meta-files.js",
    "front_end/entrypoints/devtools_app/devtools_app.js",
 +  "front_end/entrypoints/chii_app/chii_app-meta-files.js",
 +  "front_end/entrypoints/chii_app/chii_app.js",
++  "front_end/entrypoints/chii_app/chii_global.js",
    "front_end/entrypoints/formatter_worker/FormatterActions.js",
    "front_end/entrypoints/formatter_worker/formatter_worker-entrypoint.js",
    "front_end/entrypoints/formatter_worker/formatter_worker.js",
@@ -71,14 +72,15 @@ index 49cac86317ec6c86a9c88e149c7f15d1321fcfe5..0efc2604b9c0606cedf6a0644b8abca1
      "ndb_app",
 diff --git a/front_end/entrypoints/chii_app/BUILD.gn b/front_end/entrypoints/chii_app/BUILD.gn
 new file mode 100644
-index 0000000000000000000000000000000000000000..afd6ad676bef43ee77886cb0ff5fac005d386412
+index 0000000000000000000000000000000000000000..389b90602850992e796cca1e8601a9f1ea6e057a
 --- /dev/null
 +++ b/front_end/entrypoints/chii_app/BUILD.gn
-@@ -0,0 +1,63 @@
+@@ -0,0 +1,68 @@
 +# Copyright 2021 The Chromium Authors. All rights reserved.
 +# Use of this source code is governed by a BSD-style license that can be
 +# found in the LICENSE file.
 +import("../../../scripts/build/ninja/devtools_entrypoint.gni")
++import("../../../scripts/build/ninja/devtools_module.gni")
 +import("../../../third_party/typescript/typescript.gni")
 +import("../visibility.gni")
 +
@@ -127,15 +129,19 @@ index 0000000000000000000000000000000000000000..afd6ad676bef43ee77886cb0ff5fac00
 +  visibility += devtools_entrypoints_visibility
 +}
 +
++devtools_module("chii_main") {
++  sources = [ "chii_global.ts" ]
++}
++
 +ts_library("chii_app") {
 +  no_emit = true
 +  sources = [ "chii_app.js" ]
 +
 +  deps = [
++    ":chii_main",
 +    ":chii_app-meta-files",
 +    "../../entrypoints/startup:bundle",
 +    "../main:bundle",
-+    "../shell",
 +  ]
 +}
 diff --git a/front_end/entrypoints/chii_app/chii_app-meta-files.ts b/front_end/entrypoints/chii_app/chii_app-meta-files.ts
@@ -185,13 +191,14 @@ index 0000000000000000000000000000000000000000..053d2a435656b42b961017e5184dc4af
 +import '../../panels/layer_viewer/layer_viewer-meta.js';
 diff --git a/front_end/entrypoints/chii_app/chii_app.js b/front_end/entrypoints/chii_app/chii_app.js
 new file mode 100644
-index 0000000000000000000000000000000000000000..360df402c7fd52ceba0c01f93c6f2f06c06e7694
+index 0000000000000000000000000000000000000000..3b87733416f1d076d6d00b08d33f6a32a7fdfa88
 --- /dev/null
 +++ b/front_end/entrypoints/chii_app/chii_app.js
-@@ -0,0 +1,10 @@
+@@ -0,0 +1,11 @@
 +// Copyright 2018 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
++import './chii_global.js';
 +import './chii_app-meta-files.js';
 +
 +import * as Main from '../main/main.js';
@@ -209,6 +216,13 @@ index 0000000000000000000000000000000000000000..58cfd4fb2212dfc8618d8a72ee3649d1
 +  "modules" : [
 +  ]
 +}
+diff --git a/front_end/entrypoints/chii_app/chii_global.ts b/front_end/entrypoints/chii_app/chii_global.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..a690a79c55ef7eb25b440440c98e8032d49ec483
+--- /dev/null
++++ b/front_end/entrypoints/chii_app/chii_global.ts
+@@ -0,0 +1 @@
++(globalThis as any).chii = true;
 diff --git a/front_end/entrypoints/inspector_main/BUILD.gn b/front_end/entrypoints/inspector_main/BUILD.gn
 index bcfd805139b43ead7f70fef9a002dbbaf8b046ab..b45549de3f1e13dd4ee60b431e740cf83071f38a 100644
 --- a/front_end/entrypoints/inspector_main/BUILD.gn
@@ -239,15 +253,3 @@ index dbb6dfd7ee313f95cb47a8ed397444228a2a53d6..cded2443145d5248f16b5cd364e12b77
 -  visibility = [ "../shell/*" ]
 +  visibility = [ "../shell/*", "../chii_app/*" ]
  }
-diff --git a/front_end/entrypoints/shell/BUILD.gn b/front_end/entrypoints/shell/BUILD.gn
-index 8013ba057685464da74930150e24367830fc27cd..706b61686434a7e34e1a3936f8e0636638e488a5 100644
---- a/front_end/entrypoints/shell/BUILD.gn
-+++ b/front_end/entrypoints/shell/BUILD.gn
-@@ -39,6 +39,7 @@ devtools_entrypoint("shell") {
-   visibility = [
-     "../..:*",
-     "../devtools_app:*",
-+    "../chii_app:*",
-     "../js_app:*",
-     "../ndb_app:*",
-     "../node_app:*",

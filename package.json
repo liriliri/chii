@@ -20,7 +20,7 @@
     "lint": "npm run lint:server && npm run lint:target",
     "lint:server": "eslint server/**/*.js",
     "lint:target": "tslint target/**/*.ts",
-    "init:front_end": "cd devtools && gclient sync --with_branch_heads --reset --verbose && cd ../ && python3 scripts/apply_all_patches.py patches/config.json"
+    "init:front_end": "cd devtools && rm -rf devtools-frontend && gclient sync --with_branch_heads --verbose && cd ../ && python3 scripts/apply_all_patches.py patches/config.json"
   },
   "repository": {
     "type": "git",

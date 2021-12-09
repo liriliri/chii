@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: redhoodsu <redhoodsu@tencent.com>
+Date: Thu, 9 Dec 2021 12:14:31 +0800
+Subject: elements
+
+
+diff --git a/front_end/panels/elements/ElementsTreeElement.ts b/front_end/panels/elements/ElementsTreeElement.ts
+index 25f08ee41672982aeccb12ec98835a7c5fdd51e9..593ea8c4fe64184cb38e3ab1c63bcab389d7ee93 100644
+--- a/front_end/panels/elements/ElementsTreeElement.ts
++++ b/front_end/panels/elements/ElementsTreeElement.ts
+@@ -643,11 +643,15 @@ export class ElementsTreeElement extends UI.TreeOutline.TreeElement {
+           i18nString(UIStrings.editAttribute), this.startEditingAttribute.bind(this, attribute, target));
+     }
+     this.populateNodeContextMenu(contextMenu);
+-    ElementsTreeElement.populateForcedPseudoStateItems(contextMenu, treeElement.node());
++    if (!(globalThis as any).chii) {
++      ElementsTreeElement.populateForcedPseudoStateItems(contextMenu, treeElement.node());
++    }
+     this.populateScrollIntoView(contextMenu);
+-    contextMenu.viewSection().appendItem(i18nString(UIStrings.focus), async () => {
+-      await this.nodeInternal.focus();
+-    });
++    if (!(globalThis as any).chii) {
++      contextMenu.viewSection().appendItem(i18nString(UIStrings.focus), async () => {
++        await this.nodeInternal.focus();
++      });
++    }
+ 
+     const overlayModel = this.nodeInternal.domModel().overlayModel();
+     if (overlayModel.isHighlightedIsolatedElementInPersistentOverlay(this.nodeInternal.id)) {

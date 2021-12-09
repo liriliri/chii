@@ -1,0 +1,106 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: redhoodsu <redhoodsu@tencent.com>
+Date: Thu, 9 Dec 2021 19:44:54 +0800
+Subject: sources
+
+
+diff --git a/front_end/panels/sources/SourcesPanel.ts b/front_end/panels/sources/SourcesPanel.ts
+index b91b2e7203018c34532dc8d06fa08d46f702ec36..221b20d33ba7e7844f471e39a06f76b66a7e33bf 100644
+--- a/front_end/panels/sources/SourcesPanel.ts
++++ b/front_end/panels/sources/SourcesPanel.ts
+@@ -216,6 +216,9 @@ export class SourcesPanel extends UI.Panel.Panel implements UI.ContextMenu.Provi
+         new UI.SplitWidget.SplitWidget(true, true, 'sourcesPanelSplitViewState', initialDebugSidebarWidth);
+     this.splitWidget.enableShowModeSaving();
+     this.splitWidget.show(this.element);
++    if ((globalThis as any).chii) {
++      this.splitWidget.hideSidebar(true);
++    }
+ 
+     // Create scripts navigator
+     const initialNavigatorWidth = 225;
+@@ -319,10 +322,12 @@ export class SourcesPanel extends UI.Panel.Panel implements UI.ContextMenu.Provi
+     }
+     if (!isInWrapper) {
+       panel.sourcesViewInternal.leftToolbar().appendToolbarItem(panel.toggleNavigatorSidebarButton);
+-      if (panel.splitWidget.isVertical()) {
+-        panel.sourcesViewInternal.rightToolbar().appendToolbarItem(panel.toggleDebuggerSidebarButton);
+-      } else {
+-        panel.sourcesViewInternal.bottomToolbar().appendToolbarItem(panel.toggleDebuggerSidebarButton);
++      if (!(globalThis as any).chii) {
++        if (panel.splitWidget.isVertical()) {
++          panel.sourcesViewInternal.rightToolbar().appendToolbarItem(panel.toggleDebuggerSidebarButton);
++        } else {
++          panel.sourcesViewInternal.bottomToolbar().appendToolbarItem(panel.toggleDebuggerSidebarButton);
++        }
+       }
+     }
+   }
+@@ -922,8 +927,10 @@ export class SourcesPanel extends UI.Panel.Panel implements UI.ContextMenu.Provi
+     }
+ 
+     else if (remoteObject.type === 'function') {
+-      contextMenu.debugSection().appendItem(
+-          i18nString(UIStrings.showFunctionDefinition), this.showFunctionDefinition.bind(this, remoteObject));
++      if (!(globalThis as any).chii) {
++        contextMenu.debugSection().appendItem(
++            i18nString(UIStrings.showFunctionDefinition), this.showFunctionDefinition.bind(this, remoteObject));
++      }
+     }
+ 
+     // TODO(crbug.com/1172300) Ignored during the jsdoc to ts migration)
+diff --git a/front_end/panels/sources/WatchExpressionsSidebarPane.ts b/front_end/panels/sources/WatchExpressionsSidebarPane.ts
+index bad93c67d20595996107584437a56e59ef1d9d1c..beb6b11f85cf7267cc7a49979adb0c88f6bb50bb 100644
+--- a/front_end/panels/sources/WatchExpressionsSidebarPane.ts
++++ b/front_end/panels/sources/WatchExpressionsSidebarPane.ts
+@@ -273,9 +273,11 @@ export class WatchExpressionsSidebarPane extends UI.ThrottledWidget.ThrottledWid
+   }
+ 
+   appendApplicableItems(event: Event, contextMenu: UI.ContextMenu.ContextMenu, target: Object): void {
+-    if (target instanceof ObjectUI.ObjectPropertiesSection.ObjectPropertyTreeElement && !target.property.synthetic) {
+-      contextMenu.debugSection().appendItem(
+-          i18nString(UIStrings.addPropertyPathToWatch), () => this.focusAndAddExpressionToWatch(target.path()));
++    if (!(globalThis as any).chii) {
++      if (target instanceof ObjectUI.ObjectPropertiesSection.ObjectPropertyTreeElement && !target.property.synthetic) {
++        contextMenu.debugSection().appendItem(
++            i18nString(UIStrings.addPropertyPathToWatch), () => this.focusAndAddExpressionToWatch(target.path()));
++      }
+     }
+ 
+     const frame = UI.Context.Context.instance().flavor(UISourceCodeFrame);
+diff --git a/front_end/panels/sources/sources-meta.ts b/front_end/panels/sources/sources-meta.ts
+index f9442646800ea917c01381a8b7980d8411e3b38d..412721bbf59dbc45f38166b4b146d7dda30f98a6 100644
+--- a/front_end/panels/sources/sources-meta.ts
++++ b/front_end/panels/sources/sources-meta.ts
+@@ -409,18 +409,20 @@ UI.ViewManager.registerViewExtension({
+   },
+ });
+ 
+-UI.ViewManager.registerViewExtension({
+-  location: UI.ViewManager.ViewLocationValues.NAVIGATOR_VIEW,
+-  id: 'navigator-files',
+-  commandPrompt: i18nLazyString(UIStrings.showFilesystem),
+-  title: i18nLazyString(UIStrings.filesystem),
+-  order: 3,
+-  persistence: UI.ViewManager.ViewPersistence.PERMANENT,
+-  async loadView() {
+-    const Sources = await loadSourcesModule();
+-    return Sources.SourcesNavigator.FilesNavigatorView.instance();
+-  },
+-});
++if (!(globalThis as any).chii) {
++  UI.ViewManager.registerViewExtension({
++    location: UI.ViewManager.ViewLocationValues.NAVIGATOR_VIEW,
++    id: 'navigator-files',
++    commandPrompt: i18nLazyString(UIStrings.showFilesystem),
++    title: i18nLazyString(UIStrings.filesystem),
++    order: 3,
++    persistence: UI.ViewManager.ViewPersistence.PERMANENT,
++    async loadView() {
++      const Sources = await loadSourcesModule();
++      return Sources.SourcesNavigator.FilesNavigatorView.instance();
++    },
++  });
++}
+ 
+ UI.ViewManager.registerViewExtension({
+   location: UI.ViewManager.ViewLocationValues.NAVIGATOR_VIEW,

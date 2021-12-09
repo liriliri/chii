@@ -1,0 +1,201 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: redhoodsu <redhoodsu@tencent.com>
+Date: Thu, 9 Dec 2021 17:10:45 +0800
+Subject: network
+
+
+diff --git a/front_end/panels/network/NetworkLogView.ts b/front_end/panels/network/NetworkLogView.ts
+index f75f0a4817e7901056ffd5c4086dc9006988963c..cac36cf888dc758855990d239f56f4f876a0917b 100644
+--- a/front_end/panels/network/NetworkLogView.ts
++++ b/front_end/panels/network/NetworkLogView.ts
+@@ -476,13 +476,19 @@ export class NetworkLogView extends Common.ObjectWrapper.eventMixin<EventTypes,
+     this.dataURLFilterUI.addEventListener(
+         UI.FilterBar.FilterUIEvents.FilterChanged, this.filterChanged.bind(this), this);
+     UI.Tooltip.Tooltip.install(this.dataURLFilterUI.element(), i18nString(UIStrings.hidesDataAndBlobUrls));
+-    filterBar.addFilter(this.dataURLFilterUI);
++    if (!(globalThis as any).chii) {
++      filterBar.addFilter(this.dataURLFilterUI);
++    }
+ 
+-    const filterItems =
++    let filterItems =
+         Object.values(Common.ResourceType.resourceCategories)
+             .map(
+                 category =>
+                     ({name: category.title(), label: (): string => category.shortTitle(), title: category.title()}));
++    if ((globalThis as any).chii) {
++      filterItems = filterItems.filter(item => item.name === 'XHR and Fetch');
++    }
++
+     this.resourceCategoryFilterUI =
+         new UI.FilterBar.NamedBitSetFilterUI(filterItems, this.networkResourceTypeFiltersSetting);
+     UI.ARIAUtils.setAccessibleName(
+@@ -496,7 +502,9 @@ export class NetworkLogView extends Common.ObjectWrapper.eventMixin<EventTypes,
+     this.onlyIssuesFilterUI.addEventListener(
+         UI.FilterBar.FilterUIEvents.FilterChanged, this.filterChanged.bind(this), this);
+     UI.Tooltip.Tooltip.install(this.onlyIssuesFilterUI.element(), i18nString(UIStrings.onlyShowRequestsWithBlocked));
+-    filterBar.addFilter(this.onlyIssuesFilterUI);
++    if (!(globalThis as any).chii) {
++      filterBar.addFilter(this.onlyIssuesFilterUI);
++    }
+ 
+     this.onlyBlockedRequestsUI = new UI.FilterBar.CheckboxFilterUI(
+         'only-show-blocked-requests', i18nString(UIStrings.blockedRequests), true,
+@@ -504,14 +512,18 @@ export class NetworkLogView extends Common.ObjectWrapper.eventMixin<EventTypes,
+     this.onlyBlockedRequestsUI.addEventListener(
+         UI.FilterBar.FilterUIEvents.FilterChanged, this.filterChanged.bind(this), this);
+     UI.Tooltip.Tooltip.install(this.onlyBlockedRequestsUI.element(), i18nString(UIStrings.onlyShowBlockedRequests));
+-    filterBar.addFilter(this.onlyBlockedRequestsUI);
++    if (!(globalThis as any).chii) {
++      filterBar.addFilter(this.onlyBlockedRequestsUI);
++    }
+ 
+     this.onlyThirdPartyFilterUI = new UI.FilterBar.CheckboxFilterUI(
+         'only-show-third-party', i18nString(UIStrings.thirdParty), true, this.networkOnlyThirdPartySetting);
+     this.onlyThirdPartyFilterUI.addEventListener(
+         UI.FilterBar.FilterUIEvents.FilterChanged, this.filterChanged.bind(this), this);
+     UI.Tooltip.Tooltip.install(this.onlyThirdPartyFilterUI.element(), i18nString(UIStrings.onlyShowThirdPartyRequests));
+-    filterBar.addFilter(this.onlyThirdPartyFilterUI);
++    if (!(globalThis as any).chii) {
++      filterBar.addFilter(this.onlyThirdPartyFilterUI);
++    }
+ 
+     this.filterParser = new TextUtils.TextUtils.FilterParser(searchKeys);
+     this.suggestionBuilder =
+diff --git a/front_end/panels/network/NetworkPanel.ts b/front_end/panels/network/NetworkPanel.ts
+index 9b27344ac921289cdffb6abcc7b96fe5e886ee37..f9c837b204019eff49b61c50d564d4e82694ae9e 100644
+--- a/front_end/panels/network/NetworkPanel.ts
++++ b/front_end/panels/network/NetworkPanel.ts
+@@ -409,30 +409,32 @@ export class NetworkPanel extends UI.Panel.Panel implements UI.ContextMenu.Provi
+     this.panelToolbar.appendToolbarItem(searchToggle);
+     this.panelToolbar.appendSeparator();
+ 
+-    this.panelToolbar.appendToolbarItem(new UI.Toolbar.ToolbarSettingCheckbox(
+-        this.preserveLogSetting, i18nString(UIStrings.doNotClearLogOnPageReload), i18nString(UIStrings.preserveLog)));
+-
+-    this.panelToolbar.appendSeparator();
+-    const disableCacheCheckbox = new UI.Toolbar.ToolbarSettingCheckbox(
+-        Common.Settings.Settings.instance().moduleSetting('cacheDisabled'),
+-        i18nString(UIStrings.disableCacheWhileDevtoolsIsOpen), i18nString(UIStrings.disableCache));
+-    this.panelToolbar.appendToolbarItem(disableCacheCheckbox);
+-
+-    this.panelToolbar.appendToolbarItem(this.throttlingSelect);
+-
+-    const networkConditionsIcon = new IconButton.Icon.Icon();
+-    networkConditionsIcon.data = {
+-      iconName: 'network_conditions_icon',
+-      color: 'rgb(110 110 110)',
+-      width: '18px',
+-      height: '18px',
+-    };
+-    const networkConditionsButton =
+-        new UI.Toolbar.ToolbarButton(i18nString(UIStrings.moreNetworkConditions), networkConditionsIcon);
+-    networkConditionsButton.addEventListener(UI.Toolbar.ToolbarButton.Events.Click, () => {
+-      UI.ViewManager.ViewManager.instance().showView('network.config');
+-    }, this);
+-    this.panelToolbar.appendToolbarItem(networkConditionsButton);
++    if (!(globalThis as any).chii) {
++      this.panelToolbar.appendToolbarItem(new UI.Toolbar.ToolbarSettingCheckbox(
++          this.preserveLogSetting, i18nString(UIStrings.doNotClearLogOnPageReload), i18nString(UIStrings.preserveLog)));
++
++      this.panelToolbar.appendSeparator();
++      const disableCacheCheckbox = new UI.Toolbar.ToolbarSettingCheckbox(
++          Common.Settings.Settings.instance().moduleSetting('cacheDisabled'),
++          i18nString(UIStrings.disableCacheWhileDevtoolsIsOpen), i18nString(UIStrings.disableCache));
++      this.panelToolbar.appendToolbarItem(disableCacheCheckbox);
++
++      this.panelToolbar.appendToolbarItem(this.throttlingSelect);
++
++      const networkConditionsIcon = new IconButton.Icon.Icon();
++      networkConditionsIcon.data = {
++        iconName: 'network_conditions_icon',
++        color: 'rgb(110 110 110)',
++        width: '18px',
++        height: '18px',
++      };
++      const networkConditionsButton =
++          new UI.Toolbar.ToolbarButton(i18nString(UIStrings.moreNetworkConditions), networkConditionsIcon);
++      networkConditionsButton.addEventListener(UI.Toolbar.ToolbarButton.Events.Click, () => {
++        UI.ViewManager.ViewManager.instance().showView('network.config');
++      }, this);
++      this.panelToolbar.appendToolbarItem(networkConditionsButton);
++    }
+ 
+     this.rightToolbar.appendToolbarItem(new UI.Toolbar.ToolbarItem(this.progressBarContainer));
+     this.rightToolbar.appendSeparator();
+diff --git a/front_end/panels/network/network-meta.ts b/front_end/panels/network/network-meta.ts
+index ab50848229e2d9da783f98cbe086503ba055c5e7..512f41dc03e2f96ef1fa4ffd5f617274286d3cfd 100644
+--- a/front_end/panels/network/network-meta.ts
++++ b/front_end/panels/network/network-meta.ts
+@@ -139,38 +139,40 @@ UI.ViewManager.registerViewExtension({
+   },
+ });
+ 
+-UI.ViewManager.registerViewExtension({
+-  location: UI.ViewManager.ViewLocationValues.DRAWER_VIEW,
+-  id: 'network.blocked-urls',
+-  commandPrompt: i18nLazyString(UIStrings.showNetworkRequestBlocking),
+-  title: i18nLazyString(UIStrings.networkRequestBlocking),
+-  persistence: UI.ViewManager.ViewPersistence.CLOSEABLE,
+-  order: 60,
+-  async loadView() {
+-    const Network = await loadNetworkModule();
+-    return Network.BlockedURLsPane.BlockedURLsPane.instance();
+-  },
+-});
++if (!(globalThis as any).chii) {
++  UI.ViewManager.registerViewExtension({
++    location: UI.ViewManager.ViewLocationValues.DRAWER_VIEW,
++    id: 'network.blocked-urls',
++    commandPrompt: i18nLazyString(UIStrings.showNetworkRequestBlocking),
++    title: i18nLazyString(UIStrings.networkRequestBlocking),
++    persistence: UI.ViewManager.ViewPersistence.CLOSEABLE,
++    order: 60,
++    async loadView() {
++      const Network = await loadNetworkModule();
++      return Network.BlockedURLsPane.BlockedURLsPane.instance();
++    },
++  });
+ 
+-UI.ViewManager.registerViewExtension({
+-  location: UI.ViewManager.ViewLocationValues.DRAWER_VIEW,
+-  id: 'network.config',
+-  commandPrompt: i18nLazyString(UIStrings.showNetworkConditions),
+-  title: i18nLazyString(UIStrings.networkConditions),
+-  persistence: UI.ViewManager.ViewPersistence.CLOSEABLE,
+-  order: 40,
+-  tags: [
+-    i18nLazyString(UIStrings.diskCache),
+-    i18nLazyString(UIStrings.networkThrottling),
+-    i18n.i18n.lockedLazyString('useragent'),
+-    i18n.i18n.lockedLazyString('user agent'),
+-    i18n.i18n.lockedLazyString('user-agent'),
+-  ],
+-  async loadView() {
+-    const Network = await loadNetworkModule();
+-    return Network.NetworkConfigView.NetworkConfigView.instance();
+-  },
+-});
++  UI.ViewManager.registerViewExtension({
++    location: UI.ViewManager.ViewLocationValues.DRAWER_VIEW,
++    id: 'network.config',
++    commandPrompt: i18nLazyString(UIStrings.showNetworkConditions),
++    title: i18nLazyString(UIStrings.networkConditions),
++    persistence: UI.ViewManager.ViewPersistence.CLOSEABLE,
++    order: 40,
++    tags: [
++      i18nLazyString(UIStrings.diskCache),
++      i18nLazyString(UIStrings.networkThrottling),
++      i18n.i18n.lockedLazyString('useragent'),
++      i18n.i18n.lockedLazyString('user agent'),
++      i18n.i18n.lockedLazyString('user-agent'),
++    ],
++    async loadView() {
++      const Network = await loadNetworkModule();
++      return Network.NetworkConfigView.NetworkConfigView.instance();
++    },
++  });
++}
+ 
+ UI.ViewManager.registerViewExtension({
+   location: UI.ViewManager.ViewLocationValues.NETWORK_SIDEBAR,
