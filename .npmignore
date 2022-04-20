@@ -1,7 +1,6 @@
 docs
 devtools
 patches
-!public/front_end
 scripts
 target
 .gitignore
