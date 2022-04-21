@@ -13,11 +13,11 @@
 与 [weinre](https://people.apache.org/~pmuellr/weinre/docs/latest/Home.html) 一样的远程调试工具，主要是将 web inspector 替换为最新的 [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
 
 
-![Chii](screenshot.jpg)
+![Chii](https://res.liriliri.io/chii/screenshot.jpg)
 
 ## Demo
 
-![Demo](./qrcode.png)
+![Demo](https://res.liriliri.io/chii/qrcode.png)
 
 请扫描二维码或在手机上直接访问：[https://chii.liriliri.io/tests/demo.html](https://chii.liriliri.io/tests/demo.html)
 

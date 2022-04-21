@@ -1,4 +1,4 @@
-[中文](docs/README_CN.md)
+[中文](README_CN.md)
 
 # Chii
 
@@ -14,11 +14,11 @@
 
 Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/docs/latest/Home.html), replacing web inspector with the latest [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
 
-![Chii](./docs/screenshot.jpg)
+![Chii](https://res.liriliri.io/chii/screenshot.jpg)
 
 ## Demo
 
-![Demo](./docs/qrcode.png)
+![Demo](https://res.liriliri.io/chii/qrcode.png)
 
 Browse it on your phone: [https://chii.liriliri.io/tests/demo.html](https://chii.liriliri.io/tests/demo.html)
 
