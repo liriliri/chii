@@ -2,6 +2,7 @@ node_modules
 dist
 public
 devtools/.cipd
+devtools/devtools-frontend
 devtools/.gclient_entries
 scripts/lib/__pycache__
 package-lock.json
