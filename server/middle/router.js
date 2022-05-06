@@ -47,7 +47,7 @@ module.exports = function (channelManager, domain) {
   }
 
   createStatic('/front_end', '/public/front_end');
-  createStatic('/tests', '/tests');
+  createStatic('/test', '/test');
 
   router.get('/target.js', async ctx => {
     await send(ctx, 'target.js', {

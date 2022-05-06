@@ -8,7 +8,7 @@
   },
   "scripts": {
     "ci": "npm run lint && npm run build",
-    "format": "npm run format:front_end && npm run format:target && npm run format:server && prettier *.{js,json} scripts/*.js bin/*.js tests/*.{html,json,js,css} --write",
+    "format": "npm run format:front_end && npm run format:target && npm run format:server && prettier '*.{js,json}' 'bin/*.js' 'test/*.{html,json,js,css}' --write",
     "format:front_end": "lsla prettier 'front_end/**/*.{html,js,json}' --write",
     "format:target": "lsla prettier 'target/**/*.ts' --write",
     "format:server": "lsla prettier 'server/**/*.js' --write",
@@ -20,7 +20,7 @@
     "lint": "npm run lint:server && npm run lint:target",
     "lint:server": "eslint server/**/*.js",
     "lint:target": "tslint target/**/*.ts",
-    "init:front_end": "cd devtools && rm -rf devtools-frontend && gclient sync --with_branch_heads --verbose && cd ../ && python3 scripts/apply_all_patches.py patches/config.json"
+    "init:front_end": "cd devtools && rm -rf devtools-frontend && gclient sync --with_branch_heads --verbose && cd ../ && python3 script/apply_all_patches.py patches/config.json"
   },
   "repository": {
     "type": "git",

@@ -81,11 +81,11 @@ function intervalStuff() {
   // do an XHR
   var xhr = new XMLHttpRequest();
   // xhr.addEventListener("readystatechange", function() {logXhr(this)})
-  xhr.open('GET', '../tests/demo.json', true);
+  xhr.open('GET', '../test/demo.json', true);
   xhr.send();
 
   // do an FETCH
-  fetch('../tests/demo.json');
+  fetch('../test/demo.json');
 }
 
 //------------------------------------------------------------------------------
@@ -160,7 +160,7 @@ function logXhr(xhr) {
 
 function injectTarget() {
   const href = location.href;
-  const host = href.replace('/tests/demo.html', '').replace(location.protocol + '//', '');
+  const host = href.replace('/test/demo.html', '').replace(location.protocol + '//', '');
   const src = '//' + host + '/target.js';
   const script = document.createElement('script');
   script.src = src;

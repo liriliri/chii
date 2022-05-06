@@ -1,8 +1,14 @@
 name: CI
 
 on:
-  - push
-  - pull_request
+  push:
+  branches:
+    - 'master'
+  paths:
+    - 'devtools/**/*'
+    - 'patches/**/*'
+    - 'server/**/*'
+    - 'target/**/*'
 
 jobs:
   ci:
@@ -11,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [10.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -19,6 +25,13 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Install depot_tools
+      run: |
+        sudo apt-get install git curl xz-utils python3-pkg-resources python3-virtualenv python3-oauth2client
+        git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+        echo "PATH=$(pwd)/depot_tools:$PATH" >> $GITHUB_ENV
     - run: |
+        npm i -g @liriliri/lsla
         npm i
-        npm run lint 
+        npm run init:front_end
+        npm run build

@@ -20,7 +20,7 @@ Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/do
 
 ![Demo](https://res.liriliri.io/chii/qrcode.png)
 
-Browse it on your phone: [https://chii.liriliri.io/tests/demo.html](https://chii.liriliri.io/tests/demo.html)
+Browse it on your phone: [https://chii.liriliri.io/test/demo.html](https://chii.liriliri.io/test/demo.html)
 
 Open [https://chii.liriliri.io/](https://chii.liriliri.io/) and click inspect to start debugging the demo page.
 

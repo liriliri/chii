@@ -19,7 +19,7 @@
 
 ![Demo](https://res.liriliri.io/chii/qrcode.png)
 
-请扫描二维码或在手机上直接访问：[https://chii.liriliri.io/tests/demo.html](https://chii.liriliri.io/tests/demo.html)
+请扫描二维码或在手机上直接访问：[https://chii.liriliri.io/test/demo.html](https://chii.liriliri.io/test/demo.html)
 
 打开 [https://chii.liriliri.io/](https://chii.liriliri.io/) 并点击 inspect 按钮开始调试示例页面。
 
