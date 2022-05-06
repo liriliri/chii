@@ -2,13 +2,13 @@ name: CI
 
 on:
   push:
-  branches:
-    - 'master'
-  paths:
-    - 'devtools/**/*'
-    - 'patches/**/*'
-    - 'server/**/*'
-    - 'target/**/*'
+    branches:
+      - 'master'
+    paths:
+      - 'devtools/**/*'
+      - 'patches/**/*'
+      - 'server/**/*'
+      - 'target/**/*'
 
 jobs:
   ci:
