@@ -1,8 +1,7 @@
-docs
-devtools
-patches
-scripts
-target
+devtools/
+patches/
+script/
+target/
 .gitignore
 .gitmodules
 .npmignore
