@@ -46,15 +46,19 @@ module.exports = function (channelManager, domain) {
     });
   }
 
+  function createStaticFile(file) {
+    router.get(`/${file}`, async ctx => {
+      await send(ctx, file, {
+        root: path.resolve(__dirname, '../../public'),
+        maxAge,
+      });
+    });
+  }
+
   createStatic('/front_end', '/public/front_end');
   createStatic('/test', '/test');
-
-  router.get('/target.js', async ctx => {
-    await send(ctx, 'target.js', {
-      root: path.resolve(__dirname, '../../public'),
-      maxAge,
-    });
-  });
+  createStaticFile('target.js');
+  createStaticFile('index.js');
 
   return router.routes();
 };

@@ -7,19 +7,18 @@
     "chii": "./bin/chii.js"
   },
   "scripts": {
-    "ci": "npm run lint && npm run build",
-    "format": "npm run format:target && npm run format:server && prettier '*.{js,json}' 'bin/*.js' 'test/*.{html,json,js,css}' --write",
-    "format:target": "lsla prettier 'target/**/*.ts' --write",
+    "ci": "npm run lint && npm run build && npm run es5",
+    "format": "npm run format:server && prettier 'src/**/*.ts' '*.{js,json}' 'bin/*.js' 'test/*.{html,json,js,css}' --write",
     "format:server": "lsla prettier 'server/**/*.js' --write",
-    "build": "gulp clean && npm run build:target && npm run build:front_end",
-    "build:target": "webpack --mode=production",
+    "build": "gulp clean && webpack --mode=production && npm run build:front_end",
     "build:front_end": "npm run dev:front_end && gulp uglify",
-    "dev:target": "webpack --mode=development -w",
+    "dev": "webpack --mode=development -w",
     "dev:front_end": "cd devtools/devtools-frontend && gn gen out/Default && autoninja -C out/Default && lsla shx cp -R out/Default/gen/front_end ../../public",
     "lint": "npm run lint:server && npm run lint:target",
     "lint:server": "eslint server/**/*.js",
     "lint:target": "tslint target/**/*.ts",
-    "init:front_end": "cd devtools && rm -rf devtools-frontend && gclient sync --with_branch_heads --verbose && cd ../ && python3 script/apply_all_patches.py patches/config.json"
+    "init:front_end": "cd devtools && rm -rf devtools-frontend && gclient sync --with_branch_heads --verbose && cd ../ && python3 script/apply_all_patches.py patches/config.json",
+    "es5": "es-check es5 public/target.js"
   },
   "repository": {
     "type": "git",
@@ -37,6 +36,7 @@
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "chobitsu": "^0.3.3",
+    "es-check": "^6.2.1",
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",

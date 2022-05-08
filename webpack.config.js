@@ -2,10 +2,13 @@ const path = require('path');
 
 module.exports = (env, argv) => {
   const config = {
-    entry: './target/index.ts',
+    entry: {
+      index: './src/index.ts',
+      target: './src/target.ts',
+    },
     devtool: 'inline-source-map',
     output: {
-      filename: 'target.js',
+      filename: '[name].js',
       path: path.resolve(__dirname, 'public'),
     },
     resolve: {

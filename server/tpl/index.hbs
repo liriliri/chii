@@ -9,10 +9,16 @@
       box-sizing: border-box;
     }
     body {
-      font-family: 'Segoe UI',Arial,'Microsoft Yahei',sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       padding: 0 20px;
       font-size: 13px;
       font-family: Roboto;
+    }
+    body.platform-windows {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+    body.platform-linux {
+      font-family: Roboto, Ubuntu, Arial, sans-serif;
     }
     a {
       color: #1966d2;
@@ -91,22 +97,7 @@
       <a target="_blank" href="https://github.com/liriliri/chii">Chii v{{version}}</a>
     </div>  
   {{/each}}
-  <script>
-    !function(o,e){"function"==typeof define&&define.amd?define([],e):"object"==typeof module&&module.exports?module.exports=e():o._=e()}(this,function(){var _={};"object"==typeof window&&window._&&(_=window._);var isBrowser=_.isBrowser="object"==typeof window&&"object"==typeof document&&9===document.nodeType,objToStr=_.objToStr=(e=Object.prototype.toString,function(o){return e.call(o)}),e,isNode=_.isNode="undefined"!=typeof process&&"[object process]"===objToStr(process),random=_.random=function(o,e,r){null==e&&(e=o,o=0);var t=Math.random();return r||o%1||e%1?Math.min(o+t*(e-o+parseFloat("1e-"+((t+"").length-1))),e):o+Math.floor(t*(e-o+1))},randomBytes=_.randomBytes=function(exports){var crypto;return exports=function(o){for(var e=new Uint8Array(o),r=0;r<o;r++)e[r]=random(0,255);return e},isBrowser?(crypto=window.crypto||window.msCrypto,crypto&&(exports=function(o){var e=new Uint8Array(o);return crypto.getRandomValues(e),e})):isNode&&(crypto=eval("require")("crypto"),exports=function(o){return crypto.randomBytes(o)}),exports}({});return _.randomId=function(){for(var o=0<arguments.length&&void 0!==arguments[0]?arguments[0]:21,e=1<arguments.length&&void 0!==arguments[1]?arguments[1]:"ModuleSymbhasOwnPr-0123456789ABCDEFGHIJKLNQRTUVWXYZ_cfgijkpqtvxz",r="",t=e.length,n=randomBytes(21);0<o--;)r+=e[n[o]%t];return r},_});
-  </script>
-  <script>
-    function inspect(id) {
-      const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-      const url = location.protocol + `//{{domain}}/front_end/chii_app.html?${protocol}={{domain}}/client/${_.randomId(6)}?target=${id}`;
-      window.open(url, '_blank');
-    }
-
-    const start = Date.now();
-    setInterval(() => {
-      fetch('/timestamp').then(res => res.text()).then(timestamp => {
-        if (timestamp > start) location.reload();
-      }, () => {});
-    }, 2000);
-  </script>
+  <script>window.domain = '{{domain}}';</script>
+  <script src="//{{domain}}/index.js"></script>
 </body>
 </html>
