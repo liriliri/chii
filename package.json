@@ -1,11 +1,17 @@
 {
   "name": "chii",
-  "version": "0.6.9",
+  "version": "0.7.0",
   "description": "Chrome devtools framework",
   "main": "./server/index.js",
   "bin": {
     "chii": "./bin/chii.js"
   },
+  "files": [
+    "bin",
+    "public",
+    "server",
+    "test"
+  ],
   "scripts": {
     "ci": "npm run lint && npm run build && npm run es5",
     "format": "npm run format:server && prettier 'src/**/*.ts' '*.{js,json}' 'bin/*.js' 'test/*.{html,json,js,css}' --write",
@@ -35,7 +41,7 @@
   "homepage": "https://github.com/liriliri/chi#readme",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "chobitsu": "^0.3.3",
+    "chobitsu": "^0.4.0",
     "es-check": "^6.2.1",
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
