@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liriliri/chi.git"
+    "url": "git+https://github.com/liriliri/chii.git"
   },
   "keywords": [
     "devtools"
@@ -36,9 +36,9 @@
   "author": "redhoodsu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/liriliri/chi/issues"
+    "url": "https://github.com/liriliri/chii/issues"
   },
-  "homepage": "https://github.com/liriliri/chi#readme",
+  "homepage": "https://github.com/liriliri/chii#readme",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "chobitsu": "^0.4.0",
