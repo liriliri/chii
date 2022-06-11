@@ -58,3 +58,7 @@ Then browse to localhost:8080 to start debugging your page.
 
 * [whistle.chii](https://github.com/liriliri/whistle.chii): Whistle Chii plugin.
 * [chobitsu](https://github.com/liriliri/chobitsu): Chrome devtools protocol JavaScript implementation.
+
+## Contribution
+
+Read [Contributing Guide](.github/CONTRIBUTING.md) for development setup instructions.
