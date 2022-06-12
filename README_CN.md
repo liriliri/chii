@@ -54,6 +54,14 @@ chii start -p 8080
 
 然后就可以访问 localhost:8080 开始调试页面。
 
+## HTTPS 支持
+如果需要使用 https 支持，可以用以下命令并输入对应文件路径。
+
+```bash
+chii start -p 8080 -s *.key *.cert
+```
+就可以用 https 访问。
+
 ## 相关项目
 
 * [whistle.chii](https://github.com/liriliri/whistle.chii)：Whistle Chii 插件。

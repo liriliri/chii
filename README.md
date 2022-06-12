@@ -54,6 +54,14 @@ Use this script to inject the target code into your webpage.
 
 Then browse to localhost:8080 to start debugging your page.
 
+## HTTPS support
+If you need to use https support, you can use the following command and enter the corresponding file path.
+
+```bash
+chii start -p 8080 -s *.key *.cert
+```
+You can access it with https.
+
 ## Related Projects
 
 * [whistle.chii](https://github.com/liriliri/whistle.chii): Whistle Chii plugin.
