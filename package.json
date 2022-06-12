@@ -40,6 +40,7 @@
   },
   "homepage": "https://github.com/liriliri/chii#readme",
   "devDependencies": {
+    "@liriliri/lsla": "^0.2.0",
     "babel-eslint": "^10.1.0",
     "chobitsu": "^0.4.0",
     "es-check": "^6.2.1",
@@ -57,7 +58,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "commander": "^5.0.0",
+    "commander": "^9.0.0",
     "handlebars": "^4.7.6",
     "koa": "^2.11.0",
     "koa-compress": "^4.0.1",

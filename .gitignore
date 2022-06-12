@@ -4,5 +4,6 @@ public
 devtools/.cipd
 devtools/devtools-frontend
 devtools/.gclient_entries
-scripts/lib/__pycache__
+script/lib/__pycache__
 package-lock.json
+.DS_Store

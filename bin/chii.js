@@ -12,11 +12,14 @@ program
   .option('-p, --port <port>', 'set the port to start on. defaults to 3000', parseInt)
   .option('-h, --host <host>', 'set the host. defaults to 0.0.0.0')
   .option('-d, --domain <domain>', 'set the domain. defaults to localhost:port')
-  .action(({ port, host, domain }) => {
+  .option('-s, --ssl <ssl...>', 'set the SSL, input path *.key and *.cert. no default')
+  .action(({ port, host, domain, ssl }) => {
+    console.log(ssl)
     server.start({
       port,
       host,
       domain,
+      ssl
     });
   });
 
@@ -24,7 +27,7 @@ program
   .command('help [command]')
   .description('display help information for a command')
   .action(command => {
-    let cmd = program.commands.find(c => c.name() === command) || program;
+    const cmd = program.commands.find(c => c.name() === command) || program;
     cmd.help();
   });
 
