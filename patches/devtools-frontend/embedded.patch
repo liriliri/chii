@@ -5,19 +5,21 @@ Subject: embedded
 
 
 diff --git a/front_end/core/sdk/Connections.ts b/front_end/core/sdk/Connections.ts
-index cfa1ca58f1d45d5034731cae037e91364be9de6e..619ae8cc56e2274a3fbd9b159a669333c37ba9f2 100644
+index cfa1ca58f1d45d5034731cae037e91364be9de6e..6a575078a98de2df5deacd02469b7c038f16696c 100644
 --- a/front_end/core/sdk/Connections.ts
 +++ b/front_end/core/sdk/Connections.ts
-@@ -75,6 +75,29 @@ export class MainConnection implements ProtocolClient.InspectorBackend.Connectio
+@@ -75,6 +75,31 @@ export class MainConnection implements ProtocolClient.InspectorBackend.Connectio
    }
  }
  
 +export class EmbeddedConnection implements ProtocolClient.InspectorBackend.Connection {
 +  onMessage: ((arg0: Object) => void) | null;
-+  constructor() {
++  private targetOrigin: string = '';
++  constructor(targetOrigin: string) {
++    this.targetOrigin = targetOrigin;
 +    this.onMessage = null;
 +    window.addEventListener('message', event => {
-+      if (this.onMessage) {
++      if (event.origin === this.targetOrigin && this.onMessage) {
 +        this.onMessage(event.data);
 +      }
 +    })
@@ -26,7 +28,7 @@ index cfa1ca58f1d45d5034731cae037e91364be9de6e..619ae8cc56e2274a3fbd9b159a669333
 +    this.onMessage = onMessage;
 +  }
 +  sendRawMessage(message: string): void {
-+    window.parent.postMessage(message);
++    window.parent.postMessage(message, this.targetOrigin);
 +  }
 +  setOnDisconnect(onDisconnect: (arg0: string) => void): void {
 +  }
@@ -38,13 +40,13 @@ index cfa1ca58f1d45d5034731cae037e91364be9de6e..619ae8cc56e2274a3fbd9b159a669333
  export class WebSocketConnection implements ProtocolClient.InspectorBackend.Connection {
    #socket: WebSocket|null;
    onMessage: ((arg0: (Object|string)) => void)|null;
-@@ -280,6 +303,10 @@ export async function initMainConnection(
+@@ -280,6 +305,10 @@ export async function initMainConnection(
  function createMainConnection(websocketConnectionLost: () => void): ProtocolClient.InspectorBackend.Connection {
    const wsParam = Root.Runtime.Runtime.queryParam('ws');
    const wssParam = Root.Runtime.Runtime.queryParam('wss');
 +  const embeddedParam = Root.Runtime.Runtime.queryParam('embedded');
-+  if (embeddedParam === 'true') {
-+    return new EmbeddedConnection()
++  if (embeddedParam) {
++    return new EmbeddedConnection(embeddedParam)
 +  }
    if (wsParam || wssParam) {
      const ws = wsParam ? `ws://${wsParam}` : `wss://${wssParam}`;

@@ -5,6 +5,7 @@ import $ from 'licia/$';
 import contain from 'licia/contain';
 import Socket from 'licia/Socket';
 import chobitsu from 'chobitsu';
+import DevtoolsFrame from './DevtoolsFrame';
 
 const sessionStore = safeStorage('session');
 
@@ -96,28 +97,7 @@ if (!embedded) {
     ws.send(message);
   });
 } else {
-  const protocol = location.protocol;
-  const frame = document.createElement('iframe');
-  const $frame = $(frame);
-  $frame.css({
-    border: 'none',
-    position: 'fixed',
-    left: 0,
-    bottom: 0,
-    width: '100%',
-    height: '50%',
-    zIndex: 5000,
-  });
-  frame.src = `${protocol}//${ChiiServerUrl}/front_end/chii_app.html?embedded=true`;
-  document.body.appendChild(frame);
-  const targetOrigin = `${protocol}//${ChiiServerUrl}`;
-  chobitsu.setOnMessage((message: string) => {
-    frame.contentWindow?.postMessage(message, targetOrigin);
-  });
-  window.addEventListener('message', event => {
-    if (event.origin !== targetOrigin) {
-      return;
-    }
-    chobitsu.sendRawMessage(event.data);
-  });
+  const protocol = location.protocol === 'https:' ? 'https:' : 'http:';
+  const devtoolsFrame = new DevtoolsFrame(`${protocol}//${ChiiServerUrl}`);
+  devtoolsFrame.attach();
 }
