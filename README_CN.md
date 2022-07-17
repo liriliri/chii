@@ -54,6 +54,15 @@ chii start -p 8080
 
 然后就可以访问 localhost:8080 开始调试页面。
 
+你可以使用 iframe 将调试器展示在同一页面中，只需要在 script 元素上加多 embedded 一个参数即可。
+
+```html
+<script src="//host-machine-ip:8080/target.js" embedded="true"></script>
+```
+
+访问 [https://chii.liriliri.io/test/demo.html?embedded=true](https://chii.liriliri.io/test/demo.html?embedded=true) 可以查看实际效果。
+
 ## 相关项目
 
 * [whistle.chii](https://github.com/liriliri/whistle.chii)：Whistle Chii 插件。
+* [chobitsu](https://github.com/liriliri/chobitsu): Chrome 调试协议 JavaScript 实现。
