@@ -159,14 +159,14 @@ function logXhr(xhr) {
 }
 
 function injectTarget() {
-  const href = location.href;
-  const host = href.replace('/test/demo.html', '').replace(location.protocol + '//', '');
-  const src = '//' + host + '/target.js';
   const script = document.createElement('script');
-  script.src = src;
+  script.src = '//' + location.host + '/target.js';
+  if (location.href.indexOf('embedded=true') > -1) {
+    script.setAttribute('embedded', 'true');
+  }
   document.head.appendChild(script);
 
-  window.ChiiServerUrl = host;
+  window.ChiiServerUrl = location.host;
 }
 
 injectTarget();

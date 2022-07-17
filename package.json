@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "ci": "npm run lint && npm run build && npm run es5",
-    "format": "npm run format:server && prettier 'src/**/*.ts' '*.{js,json}' 'bin/*.js' 'test/*.{html,json,js,css}' --write",
+    "format": "npm run format:server && lsla prettier 'src/**/*.ts' '*.{js,json}' 'bin/*.js' 'test/*.{html,json,js,css}' --write",
     "format:server": "lsla prettier 'server/**/*.js' --write",
     "build": "gulp clean && webpack --mode=production && npm run build:front_end",
     "build:front_end": "npm run dev:front_end && gulp uglify",

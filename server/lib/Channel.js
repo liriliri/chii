@@ -3,9 +3,7 @@ const each = require('licia/each');
 const some = require('licia/some');
 const remove = require('licia/remove');
 
-module.exports = class Channel extends (
-  Emitter
-) {
+module.exports = class Channel extends Emitter {
   constructor(ws) {
     super();
     this._ws = ws;

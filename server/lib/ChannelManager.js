@@ -4,9 +4,7 @@ const truncate = require('licia/truncate');
 const ansiColor = require('licia/ansiColor');
 const util = require('./util');
 
-module.exports = class ChannelManager extends (
-  Emitter
-) {
+module.exports = class ChannelManager extends Emitter {
   constructor() {
     super();
 

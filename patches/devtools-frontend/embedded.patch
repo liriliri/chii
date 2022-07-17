@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: redhoodsu <redhoodsu@tencent.com>
+Date: Sun, 17 Jul 2022 12:28:39 +0800
+Subject: embedded
+
+
+diff --git a/front_end/core/sdk/Connections.ts b/front_end/core/sdk/Connections.ts
+index cfa1ca58f1d45d5034731cae037e91364be9de6e..619ae8cc56e2274a3fbd9b159a669333c37ba9f2 100644
+--- a/front_end/core/sdk/Connections.ts
++++ b/front_end/core/sdk/Connections.ts
+@@ -75,6 +75,29 @@ export class MainConnection implements ProtocolClient.InspectorBackend.Connectio
+   }
+ }
+ 
++export class EmbeddedConnection implements ProtocolClient.InspectorBackend.Connection {
++  onMessage: ((arg0: Object) => void) | null;
++  constructor() {
++    this.onMessage = null;
++    window.addEventListener('message', event => {
++      if (this.onMessage) {
++        this.onMessage(event.data);
++      }
++    })
++  }
++  setOnMessage(onMessage: (arg0: (Object|string)) => void): void {
++    this.onMessage = onMessage;
++  }
++  sendRawMessage(message: string): void {
++    window.parent.postMessage(message);
++  }
++  setOnDisconnect(onDisconnect: (arg0: string) => void): void {
++  }
++  disconnect(): Promise<void> {
++    return Promise.resolve();
++  }
++}
++
+ export class WebSocketConnection implements ProtocolClient.InspectorBackend.Connection {
+   #socket: WebSocket|null;
+   onMessage: ((arg0: (Object|string)) => void)|null;
+@@ -280,6 +303,10 @@ export async function initMainConnection(
+ function createMainConnection(websocketConnectionLost: () => void): ProtocolClient.InspectorBackend.Connection {
+   const wsParam = Root.Runtime.Runtime.queryParam('ws');
+   const wssParam = Root.Runtime.Runtime.queryParam('wss');
++  const embeddedParam = Root.Runtime.Runtime.queryParam('embedded');
++  if (embeddedParam === 'true') {
++    return new EmbeddedConnection()
++  }
+   if (wsParam || wssParam) {
+     const ws = wsParam ? `ws://${wsParam}` : `wss://${wssParam}`;
+     return new WebSocketConnection(ws, websocketConnectionLost);
