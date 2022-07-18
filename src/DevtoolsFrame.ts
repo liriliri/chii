@@ -17,7 +17,7 @@ export default class DevtoolsFrame {
   private originHeight: number = 0;
   constructor(targetOrigin: string) {
     this.targetOrigin = targetOrigin;
-    this.container = h('div') as HTMLDivElement;
+    this.container = h('.__chobitsu-hide__') as HTMLDivElement;
     this.$container = $(this.container);
     this.$container.css({
       position: 'fixed',
@@ -25,7 +25,7 @@ export default class DevtoolsFrame {
       bottom: 0,
       width: '100%',
       height: '50%',
-      zIndex: 5000,
+      zIndex: 200000,
       borderTop: '1px solid #cacdd1',
     });
     const draggable = h('div');
