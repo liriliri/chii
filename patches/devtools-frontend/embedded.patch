@@ -4,6 +4,19 @@ Date: Sun, 17 Jul 2022 12:28:39 +0800
 Subject: embedded
 
 
+diff --git a/front_end/core/root/Runtime.ts b/front_end/core/root/Runtime.ts
+index 10d9a9302979095e6047aa1fcedbe7e761dfe637..e903490d9c7e58a8123417dbc68365a2165ba7cd 100644
+--- a/front_end/core/root/Runtime.ts
++++ b/front_end/core/root/Runtime.ts
+@@ -5,7 +5,7 @@
+ const originalConsole = console;
+ const originalAssert = console.assert;
+ 
+-const queryParamsObject = new URLSearchParams(location.search);
++const queryParamsObject = new URLSearchParams(location.search || location.hash.replace(/^#/, ''));
+ 
+ // The following variable are initialized all the way at the bottom of this file
+ let importScriptPathPrefix: string;
 diff --git a/front_end/core/sdk/Connections.ts b/front_end/core/sdk/Connections.ts
 index cfa1ca58f1d45d5034731cae037e91364be9de6e..6a575078a98de2df5deacd02469b7c038f16696c 100644
 --- a/front_end/core/sdk/Connections.ts

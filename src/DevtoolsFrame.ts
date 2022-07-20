@@ -4,19 +4,18 @@ import h from 'licia/h';
 import evalCss from 'licia/evalCss';
 import toStr from 'licia/toStr';
 import toNum from 'licia/toNum';
+import startWith from 'licia/startWith';
 
 const $document = $(document as any);
 
 export default class DevtoolsFrame {
-  private targetOrigin: string = '';
   private container: HTMLDivElement;
   private $container: $.$;
   private $draggable: $.$;
   private height: number;
   private startY: number = 0;
   private originHeight: number = 0;
-  constructor(targetOrigin: string) {
-    this.targetOrigin = targetOrigin;
+  constructor() {
     this.container = h('.__chobitsu-hide__') as HTMLDivElement;
     this.$container = $(this.container);
     this.$container.css({
@@ -63,14 +62,14 @@ export default class DevtoolsFrame {
     this.height = height;
     localStorage.setItem('chii-embedded-height', toStr(height));
   }
-  attach() {
-    const { targetOrigin } = this;
+  attach(serverUrl: string) {
     let protocol = location.protocol;
     let host = location.host;
     if (protocol === 'about:' || protocol === 'blob:') {
       protocol = window.parent.location.protocol;
       host = window.parent.location.host;
     }
+    const hostOrigin = `${protocol}//${host}`;
     const frame = document.createElement('iframe');
     const $frame = $(frame);
     $frame.css({
@@ -78,7 +77,14 @@ export default class DevtoolsFrame {
       width: '100%',
       height: '100%',
     });
-    frame.src = `${targetOrigin}/front_end/chii_app.html?embedded=${protocol}//${host}`;
+    let targetOrigin = serverUrl;
+    if (startWith(serverUrl, 'blob:')) {
+      targetOrigin = hostOrigin;
+      frame.src = `${serverUrl}#?embedded=${encodeURIComponent(hostOrigin)}`;
+    } else {
+      frame.src = `${serverUrl}/front_end/chii_app.html?embedded=${encodeURIComponent(hostOrigin)}`;
+    }
+
     chobitsu.setOnMessage((message: string) => {
       frame.contentWindow?.postMessage(message, targetOrigin);
     });
@@ -86,7 +92,9 @@ export default class DevtoolsFrame {
       if (event.origin !== targetOrigin) {
         return;
       }
-      chobitsu.sendRawMessage(event.data);
+      if (event.data) {
+        chobitsu.sendRawMessage(event.data);
+      }
     });
 
     this.container.appendChild(frame);

@@ -7,6 +7,7 @@ import Socket from 'licia/Socket';
 import ready from 'licia/ready';
 import chobitsu from 'chobitsu';
 import DevtoolsFrame from './DevtoolsFrame';
+import createUrl from 'licia/createUrl';
 
 const sessionStore = safeStorage('session');
 
@@ -38,11 +39,13 @@ if ((window as any).ChiiServerUrl) {
 }
 
 let embedded = false;
+let cdn = '';
 const element = getTargetScriptEl();
 if (element) {
   if (element.getAttribute('embedded') === 'true') {
     embedded = true;
   }
+  cdn = element.getAttribute('cdn') || '';
 }
 
 function getFavicon() {
@@ -99,10 +102,34 @@ if (!embedded) {
   });
 } else {
   const protocol = location.protocol === 'https:' ? 'https:' : 'http:';
-  const devtoolsFrame = new DevtoolsFrame(`${protocol}//${ChiiServerUrl}`);
+  let serverUrl = `${protocol}//${ChiiServerUrl}`;
+  if (cdn) {
+    serverUrl = createUrl(
+      `
+    <!DOCTYPE html>
+    <html lang="en">
+    <meta charset="utf-8">
+    <title>DevTools</title>
+    <style>
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: rgb(41 42 45);
+        }
+      }
+    </style>
+    <meta name="referrer" content="no-referrer">
+    <script type="module" src="${cdn}/front_end/entrypoints/chii_app/chii_app.js"></script>
+    <body class="undocked" id="-blink-dev-tools">
+    `,
+      {
+        type: 'text/html',
+      }
+    );
+  }
+  const devtoolsFrame = new DevtoolsFrame();
   if (document.body) {
-    devtoolsFrame.attach();
+    devtoolsFrame.attach(serverUrl);
   } else {
-    ready(() => devtoolsFrame.attach());
+    ready(() => devtoolsFrame.attach(serverUrl));
   }
 }

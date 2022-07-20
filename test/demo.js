@@ -164,6 +164,9 @@ function injectTarget() {
   if (location.href.indexOf('embedded=true') > -1) {
     script.setAttribute('embedded', 'true');
   }
+  if (location.href.indexOf('cdn=true') > -1) {
+    script.setAttribute('cdn', 'https://cdn.jsdelivr.net/npm/chii/public');
+  }
   document.head.appendChild(script);
 
   window.ChiiServerUrl = location.host;
