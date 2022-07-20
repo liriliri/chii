@@ -67,7 +67,7 @@ export default class DevtoolsFrame {
     const { targetOrigin } = this;
     let protocol = location.protocol;
     let host = location.host;
-    if (protocol === 'about:') {
+    if (protocol === 'about:' || protocol === 'blob:') {
       protocol = window.parent.location.protocol;
       host = window.parent.location.host;
     }

@@ -4,6 +4,7 @@ import safeStorage from 'licia/safeStorage';
 import $ from 'licia/$';
 import contain from 'licia/contain';
 import Socket from 'licia/Socket';
+import ready from 'licia/ready';
 import chobitsu from 'chobitsu';
 import DevtoolsFrame from './DevtoolsFrame';
 
@@ -99,5 +100,9 @@ if (!embedded) {
 } else {
   const protocol = location.protocol === 'https:' ? 'https:' : 'http:';
   const devtoolsFrame = new DevtoolsFrame(`${protocol}//${ChiiServerUrl}`);
-  devtoolsFrame.attach();
+  if (document.body) {
+    devtoolsFrame.attach();
+  } else {
+    ready(() => devtoolsFrame.attach());
+  }
 }
