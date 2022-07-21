@@ -5,13 +5,13 @@ const compress = require('./middle/compress');
 const util = require('./lib/util');
 const WebSocketServer = require('./lib/WebSocketServer');
 
-function start({ port = 8080, host, domain, server } = {}) {
+function start({ port = 8080, host, domain, server, cdn } = {}) {
   domain = domain || 'localhost:' + port;
 
   const app = new Koa();
   const wss = new WebSocketServer();
 
-  app.use(compress()).use(router(wss.channelManager, domain));
+  app.use(compress()).use(router(wss.channelManager, domain, cdn));
 
   if (server) {
     server.on('request', app.callback());

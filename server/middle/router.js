@@ -12,7 +12,7 @@ const pkg = require('../../package.json');
 
 const maxAge = ms('2h');
 
-module.exports = function (channelManager, domain) {
+module.exports = function (channelManager, domain, cdn) {
   const router = new Router();
 
   router.get('/', async ctx => {
@@ -30,6 +30,15 @@ module.exports = function (channelManager, domain) {
       version: pkg.version,
     });
   });
+
+  if (cdn) {
+    router.get('/front_end/chii_app.html', async ctx => {
+      const tpl = await readTpl('chii_app');
+      ctx.body = tpl({
+        cdn,
+      });
+    });
+  }
 
   let timestamp = now();
   router.get('/timestamp', ctx => {

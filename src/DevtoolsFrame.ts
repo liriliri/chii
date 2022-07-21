@@ -5,6 +5,8 @@ import evalCss from 'licia/evalCss';
 import toStr from 'licia/toStr';
 import toNum from 'licia/toNum';
 import startWith from 'licia/startWith';
+import isStr from 'licia/isStr';
+import isJson from 'licia/isJson';
 
 const $document = $(document as any);
 
@@ -92,7 +94,7 @@ export default class DevtoolsFrame {
       if (event.origin !== targetOrigin) {
         return;
       }
-      if (event.data) {
+      if (event.data && isStr(event.data) && isJson(event.data)) {
         chobitsu.sendRawMessage(event.data);
       }
     });
