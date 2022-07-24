@@ -49,12 +49,12 @@
     "gulp-uglify-es": "^3.0.0",
     "ncp": "^2.0.0",
     "terser": "^5.10.0",
-    "ts-loader": "^7.0.1",
+    "ts-loader": "^9.3.1",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
   },
   "dependencies": {
     "commander": "^5.0.0",
