@@ -25,7 +25,7 @@ module.exports = (env, argv) => {
   };
 
   if (argv.mode === 'production') {
-    config.devtool = 'none';
+    delete config.devtool;
   }
 
   return config;
