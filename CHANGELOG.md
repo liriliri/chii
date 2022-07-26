@@ -1,3 +1,7 @@
+## 1.3.0 (26 Jul 2022)
+
+* chore: update chobitsu
+
 ## 1.2.0 (21 Jul 2022)
 
 * feat: support cdn option
