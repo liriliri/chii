@@ -132,7 +132,11 @@ export default class DevtoolsFrame {
     $document.off('mouseup', this.onResizeEnd);
   };
   private resize = () => {
-    const { height } = this;
+    let { height } = this;
+    if (height > window.innerHeight) {
+      height = window.innerHeight;
+      this.setHeight(height);
+    }
     this.$container.css({
       height,
     });
