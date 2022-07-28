@@ -5,7 +5,7 @@ Subject: network
 
 
 diff --git a/front_end/panels/network/NetworkLogView.ts b/front_end/panels/network/NetworkLogView.ts
-index f75f0a4817e7901056ffd5c4086dc9006988963c..cac36cf888dc758855990d239f56f4f876a0917b 100644
+index f75f0a4817e7901056ffd5c4086dc9006988963c..9bd7ee66c3752ea65b7c64e85bf752b3246511a0 100644
 --- a/front_end/panels/network/NetworkLogView.ts
 +++ b/front_end/panels/network/NetworkLogView.ts
 @@ -476,13 +476,19 @@ export class NetworkLogView extends Common.ObjectWrapper.eventMixin<EventTypes,
@@ -24,7 +24,7 @@ index f75f0a4817e7901056ffd5c4086dc9006988963c..cac36cf888dc758855990d239f56f4f8
                  category =>
                      ({name: category.title(), label: (): string => category.shortTitle(), title: category.title()}));
 +    if ((globalThis as any).chii) {
-+      filterItems = filterItems.filter(item => item.name === 'XHR and Fetch');
++      filterItems = filterItems.filter(item => item.label() === 'Fetch/XHR');
 +    }
 +
      this.resourceCategoryFilterUI =

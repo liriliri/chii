@@ -5,7 +5,7 @@ Subject: application
 
 
 diff --git a/front_end/panels/application/ApplicationPanelSidebar.ts b/front_end/panels/application/ApplicationPanelSidebar.ts
-index 2233afb84bebd557760b68d04e0a7124709e32b8..7f30c7e1addd1570c896fe6c9e7e55088a77d7ec 100644
+index 2233afb84bebd557760b68d04e0a7124709e32b8..19124369dbbb5abb15007612afbf696b2cb79710 100644
 --- a/front_end/panels/application/ApplicationPanelSidebar.ts
 +++ b/front_end/panels/application/ApplicationPanelSidebar.ts
 @@ -231,7 +231,9 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
@@ -41,7 +41,14 @@ index 2233afb84bebd557760b68d04e0a7124709e32b8..7f30c7e1addd1570c896fe6c9e7e5508
      this.cookieListTreeElement =
          new ExpandableApplicationPanelTreeElement(panel, i18nString(UIStrings.cookies), 'Cookies');
      this.cookieListTreeElement.setLink(
-@@ -278,13 +284,16 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
+@@ -274,17 +280,22 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
+     storageTreeElement.appendChild(this.cookieListTreeElement);
+ 
+     this.trustTokensTreeElement = new TrustTokensTreeElement(panel);
+-    storageTreeElement.appendChild(this.trustTokensTreeElement);
++    if (!(globalThis as any).chii) {
++      storageTreeElement.appendChild(this.trustTokensTreeElement);
++    }
  
      const cacheSectionTitle = i18nString(UIStrings.cache);
      const cacheTreeElement = this.addSidebarSection(cacheSectionTitle);
@@ -59,7 +66,7 @@ index 2233afb84bebd557760b68d04e0a7124709e32b8..7f30c7e1addd1570c896fe6c9e7e5508
        const backgroundServiceSectionTitle = i18nString(UIStrings.backgroundServices);
        const backgroundServiceTreeElement = this.addSidebarSection(backgroundServiceSectionTitle);
  
-@@ -427,6 +436,10 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
+@@ -427,6 +438,10 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
      if (cacheStorageModel) {
        cacheStorageModel.enable();
      }
@@ -70,7 +77,7 @@ index 2233afb84bebd557760b68d04e0a7124709e32b8..7f30c7e1addd1570c896fe6c9e7e5508
      const serviceWorkerCacheModel =
          this.target && this.target.model(SDK.ServiceWorkerCacheModel.ServiceWorkerCacheModel) || null;
      this.cacheStorageListTreeElement.initialize(serviceWorkerCacheModel);
-@@ -467,6 +480,9 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
+@@ -467,6 +482,9 @@ export class ApplicationPanelSidebar extends UI.Widget.VBox implements SDK.Targe
    }
  
    private resetWebSQL(): void {
