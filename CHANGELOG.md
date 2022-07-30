@@ -1,3 +1,7 @@
+## 1.3.2 (30 Jul 2022)
+
+* chore: update chobitsu
+
 ## 1.3.1 (27 Jul 2022)
 
 * fix: devtools bigger than window when resizing

@@ -64,3 +64,15 @@ index cfa1ca58f1d45d5034731cae037e91364be9de6e..6a575078a98de2df5deacd02469b7c03
    if (wsParam || wssParam) {
      const ws = wsParam ? `ws://${wsParam}` : `wss://${wssParam}`;
      return new WebSocketConnection(ws, websocketConnectionLost);
+diff --git a/front_end/entrypoint_template.html b/front_end/entrypoint_template.html
+index 1edaec9604cadb3dc01ff4ace55c41090cd13fc8..c32adb74b2db2d0a0758d18b84c7ce049d3eb1e7 100644
+--- a/front_end/entrypoint_template.html
++++ b/front_end/entrypoint_template.html
+@@ -14,7 +14,6 @@
+     }
+   }
+ </style>
+-<meta http-equiv="Content-Security-Policy" content="object-src 'none'; script-src 'self' 'unsafe-eval' https://chrome-devtools-frontend.appspot.com">
+ <meta name="referrer" content="no-referrer">
+ <script type="module" src="./entrypoints/%ENTRYPOINT_NAME%/%ENTRYPOINT_NAME%.js"></script>
+ <body class="undocked" id="-blink-dev-tools">
