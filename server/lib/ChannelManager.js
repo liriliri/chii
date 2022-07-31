@@ -24,6 +24,9 @@ module.exports = class ChannelManager extends Emitter {
     };
 
     channel.on('close', () => this.removeTarget(id, title));
+    channel.on('error', error => {
+      util.log(`${ansiColor.yellow('target')} ${id}:${truncate(title, 10)} ${ansiColor.red('error')} ${error.message}`);
+    });
 
     this.emit('target_changed');
   }

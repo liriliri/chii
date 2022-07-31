@@ -20,6 +20,9 @@ module.exports = class Channel extends Emitter {
       });
       this.emit('message', ...args);
     });
+    ws.on('error', error => {
+      this.emit('error', error);
+    });
   }
   send(message) {
     this._ws.send(message);
