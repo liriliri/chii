@@ -72,10 +72,10 @@ index 49cac86317ec6c86a9c88e149c7f15d1321fcfe5..0efc2604b9c0606cedf6a0644b8abca1
      "ndb_app",
 diff --git a/front_end/entrypoints/chii_app/BUILD.gn b/front_end/entrypoints/chii_app/BUILD.gn
 new file mode 100644
-index 0000000000000000000000000000000000000000..389b90602850992e796cca1e8601a9f1ea6e057a
+index 0000000000000000000000000000000000000000..f9dc7c1f84e345aaa66d895330d3710f6b5d9d2a
 --- /dev/null
 +++ b/front_end/entrypoints/chii_app/BUILD.gn
-@@ -0,0 +1,68 @@
+@@ -0,0 +1,69 @@
 +# Copyright 2021 The Chromium Authors. All rights reserved.
 +# Use of this source code is governed by a BSD-style license that can be
 +# found in the LICENSE file.
@@ -104,6 +104,7 @@ index 0000000000000000000000000000000000000000..389b90602850992e796cca1e8601a9f1
 +    "../../panels/protocol_monitor:meta",
 +    "../../panels/settings:meta",
 +    "../../panels/sources:meta",
++    "../../panels/screencast:meta",
 +    "../../ui/legacy/components/object_ui:meta",
 +    "../../ui/legacy/components/perf_ui:meta",
 +    "../../ui/legacy/components/quick_open:meta",
@@ -191,10 +192,10 @@ index 0000000000000000000000000000000000000000..053d2a435656b42b961017e5184dc4af
 +import '../../panels/layer_viewer/layer_viewer-meta.js';
 diff --git a/front_end/entrypoints/chii_app/chii_app.js b/front_end/entrypoints/chii_app/chii_app.js
 new file mode 100644
-index 0000000000000000000000000000000000000000..3b87733416f1d076d6d00b08d33f6a32a7fdfa88
+index 0000000000000000000000000000000000000000..c673328d0c5d737f40a6e3e241ea7a205d5c28fc
 --- /dev/null
 +++ b/front_end/entrypoints/chii_app/chii_app.js
-@@ -0,0 +1,11 @@
+@@ -0,0 +1,12 @@
 +// Copyright 2018 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -203,6 +204,7 @@ index 0000000000000000000000000000000000000000..3b87733416f1d076d6d00b08d33f6a32
 +
 +import * as Main from '../main/main.js';
 +import * as Startup from '../startup/startup.js';
++import '../../panels/screencast/screencast-meta.js';
 +
 +new Main.MainImpl.MainImpl();
 +Startup.RuntimeInstantiator.startApplication('devtools_app');
@@ -253,3 +255,20 @@ index dbb6dfd7ee313f95cb47a8ed397444228a2a53d6..cded2443145d5248f16b5cd364e12b77
 -  visibility = [ "../shell/*" ]
 +  visibility = [ "../shell/*", "../chii_app/*" ]
  }
+diff --git a/front_end/panels/screencast/ScreencastApp.ts b/front_end/panels/screencast/ScreencastApp.ts
+index 0c7eba273c31ee50670b383802f21d7f4c1e1979..eb91b9468c0a1de8b0996d9a49e10a69f94e56b3 100644
+--- a/front_end/panels/screencast/ScreencastApp.ts
++++ b/front_end/panels/screencast/ScreencastApp.ts
+@@ -27,7 +27,11 @@ export class ScreencastApp implements Common.App.App,
+   private screenCaptureModel?: SDK.ScreenCaptureModel.ScreenCaptureModel;
+   private screencastView?: ScreencastView;
+   constructor() {
+-    this.enabledSetting = Common.Settings.Settings.instance().createSetting('screencastEnabled', true);
++    if ((globalThis as any).chii) {
++      this.enabledSetting = Common.Settings.Settings.instance().createSetting('screencastEnabled', false);
++    } else {
++      this.enabledSetting = Common.Settings.Settings.instance().createSetting('screencastEnabled', true);
++    }
+     this.toggleButton = new UI.Toolbar.ToolbarToggle(i18nString(UIStrings.toggleScreencast), 'largeicon-phone');
+     this.toggleButton.setToggled(this.enabledSetting.get());
+     this.toggleButton.setEnabled(false);
