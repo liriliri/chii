@@ -1,3 +1,7 @@
+## 1.4.0 (31 Jul 2022)
+
+* feat: support screencast
+
 ## 1.3.2 (30 Jul 2022)
 
 * chore: update chobitsu
