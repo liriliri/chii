@@ -21,8 +21,8 @@
     "dev": "webpack --mode=development -w",
     "dev:front_end": "cd devtools/devtools-frontend && gn gen out/Default && autoninja -C out/Default && lsla shx cp -R out/Default/gen/front_end ../../public",
     "lint": "npm run lint:server && npm run lint:target",
-    "lint:server": "eslint server/**/*.js",
-    "lint:target": "tslint target/**/*.ts",
+    "lint:server": "eslint \"server/**/*.js\" \"bin/*.js\"",
+    "lint:target": "tslint \"target/**/*.ts\"",
     "init:front_end": "cd devtools && rm -rf devtools-frontend && gclient sync --with_branch_heads --verbose && cd ../ && python3 script/apply_all_patches.py patches/config.json",
     "es5": "es-check es5 public/target.js"
   },

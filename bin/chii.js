@@ -13,20 +13,18 @@ program
   .option('-h, --host <host>', 'set the host. defaults to 0.0.0.0')
   .option('-d, --domain <domain>', 'set the domain. defaults to localhost:port')
   .option('--cdn <cdn>', 'use cdn like jsdelivr')
-  .action(({ port, host, domain, cdn }) => {
-    server.start({
-      port,
-      host,
-      domain,
-      cdn,
-    });
+  .option('--https', 'serve chii over https')
+  .option('--ssl-cert <cert>', 'provide an ssl certificate')
+  .option('--ssl-key <key>', 'provide an ssl key')
+  .action(options => {
+    server.start(options);
   });
 
 program
   .command('help [command]')
   .description('display help information for a command')
   .action(command => {
-    let cmd = program.commands.find(c => c.name() === command) || program;
+    const cmd = program.commands.find(c => c.name() === command) || program;
     cmd.help();
   });
 
