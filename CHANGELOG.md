@@ -1,3 +1,8 @@
+## 1.5.0 (7 Aug 2022)
+
+* feat: support https
+* chore: update chobitsu
+
 ## 1.4.0 (31 Jul 2022)
 
 * feat: support screencast
