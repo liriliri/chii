@@ -67,6 +67,9 @@ body {
 }
 .hint {
   color: #555;
+}
+.qrcode {
+  text-align: center;
   margin-bottom: 50px;
 }
 .buttons {

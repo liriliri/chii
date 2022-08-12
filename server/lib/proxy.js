@@ -26,6 +26,12 @@ function pipeRequest(ctx, options) {
         const { headers } = res;
 
         delete headers['set-cookie'];
+
+        headers['Access-Control-Allow-Credentials'] = 'true';
+        headers['Access-Control-Allow-Headers'] = '*';
+        headers['Access-Control-Allow-Methods'] =
+          'OPTIONS, GET, PUT, POST, DELETE,GET, PUT, DELETE, POST, GET, OPTIONS';
+        headers['Access-Control-Allow-Origin'] = '*';
       })
       .pipe(ctx.res);
     req.on('error', err => {

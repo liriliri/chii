@@ -22,9 +22,9 @@ if (!endWith(serverUrl, '/')) {
 if (!startWith(serverUrl, 'http')) {
   const protocol = location.protocol === 'https:' ? 'https:' : 'http:';
   if (!startWith(serverUrl, '//')) {
-    serverUrl = `//${serverUrl}`
+    serverUrl = `//${serverUrl}`;
   }
-  serverUrl = `${protocol}${serverUrl}`
+  serverUrl = `${protocol}${serverUrl}`;
 }
 
 let embedded = false;

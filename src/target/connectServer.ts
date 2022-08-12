@@ -7,6 +7,17 @@ import { getFavicon } from './util';
 let isInit = false;
 
 export default function () {
+  const proxy = `${serverUrl}proxy`;
+  chobitsu.domain('Page').setProxy({
+    proxy,
+  });
+  chobitsu.domain('Debugger').setProxy({
+    proxy,
+  });
+  chobitsu.domain('CSS').setProxy({
+    proxy,
+  });
+
   const ws = new Socket(
     `${serverUrl.replace(/^http/, 'ws')}target/${id}?${query.stringify({
       url: location.href,
