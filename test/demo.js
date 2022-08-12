@@ -160,7 +160,7 @@ function logXhr(xhr) {
 
 function injectTarget() {
   const script = document.createElement('script');
-  script.src = '//' + location.host + '/target.js';
+  script.src = `//${location.host}${location.pathname.replace('test/demo.html', '')}target.js`;
   if (location.href.indexOf('embedded=true') > -1) {
     script.setAttribute('embedded', 'true');
   }
@@ -168,8 +168,6 @@ function injectTarget() {
     script.setAttribute('cdn', 'https://cdn.jsdelivr.net/npm/chii/public');
   }
   document.head.appendChild(script);
-
-  window.ChiiServerUrl = location.host;
 }
 
 injectTarget();

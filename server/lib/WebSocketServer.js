@@ -27,8 +27,9 @@ module.exports = class WebSocketServer {
       const urlObj = url.parse(request.url);
       const pathname = urlObj.pathname.split('/');
 
-      const type = pathname[1];
-      const id = pathname[2];
+      const len = pathname.length;
+      const type = pathname[len - 2];
+      const id = pathname[len - 1];
 
       if (type === 'target' || type === 'client') {
         wss.handleUpgrade(request, socket, head, ws => {

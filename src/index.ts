@@ -17,16 +17,17 @@ switch (os) {
 }
 
 window.inspect = function (id: string) {
-  const domain = window.domain;
+  const { domain, basePath } = window;
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const url =
-    location.protocol + `//${domain}/front_end/chii_app.html?${protocol}=${domain}/client/${randomId(6)}?target=${id}`;
+    location.protocol +
+    `//${domain}${basePath}front_end/chii_app.html?${protocol}=${domain}${basePath}client/${randomId(6)}?target=${id}`;
   window.open(url, '_blank');
 };
 
 const start = Date.now();
 setInterval(() => {
-  fetch('/timestamp')
+  fetch(`${window.basePath}timestamp`)
     .then(res => res.text())
     .then(
       timestamp => {

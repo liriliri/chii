@@ -9,13 +9,14 @@ const map = require('licia/map');
 const ms = require('licia/ms');
 
 const pkg = require('../../package.json');
+const proxy = require('../lib/proxy');
 
 const maxAge = ms('2h');
 
-module.exports = function (channelManager, domain, cdn) {
+module.exports = function (channelManager, domain, cdn, basePath) {
   const router = new Router();
 
-  router.get('/', async ctx => {
+  router.get(basePath, async ctx => {
     const targets = reverse(
       map(pairs(channelManager.getTargets()), item => ({
         id: item[0],
@@ -27,12 +28,17 @@ module.exports = function (channelManager, domain, cdn) {
     ctx.body = tpl({
       targets,
       domain,
+      basePath,
       version: pkg.version,
     });
   });
 
+  router.all(`${basePath}proxy`, async ctx => {
+    await proxy(ctx, ctx.query.url);
+  });
+
   if (cdn) {
-    router.get('/front_end/chii_app.html', async ctx => {
+    router.get(`${basePath}front_end/chii_app.html`, async ctx => {
       const tpl = await readTpl('chii_app');
       ctx.body = tpl({
         cdn,
@@ -41,14 +47,14 @@ module.exports = function (channelManager, domain, cdn) {
   }
 
   let timestamp = now();
-  router.get('/timestamp', ctx => {
+  router.get(`${basePath}timestamp`, ctx => {
     ctx.body = timestamp;
   });
   channelManager.on('target_changed', () => (timestamp = now()));
 
   function createStatic(prefix, folder) {
-    router.get(`${prefix}/*`, async ctx => {
-      await send(ctx, ctx.path.slice(prefix.length), {
+    router.get(`${basePath}${prefix}/*`, async ctx => {
+      await send(ctx, ctx.path.slice(basePath.length + prefix.length), {
         root: path.resolve(__dirname, `../..${folder}`),
         maxAge,
       });
@@ -56,7 +62,7 @@ module.exports = function (channelManager, domain, cdn) {
   }
 
   function createStaticFile(file) {
-    router.get(`/${file}`, async ctx => {
+    router.get(`${basePath}${file}`, async ctx => {
       await send(ctx, file, {
         root: path.resolve(__dirname, '../../public'),
         maxAge,
@@ -64,8 +70,8 @@ module.exports = function (channelManager, domain, cdn) {
     });
   }
 
-  createStatic('/front_end', '/public/front_end');
-  createStatic('/test', '/test');
+  createStatic('front_end', '/public/front_end');
+  createStatic('test', '/test');
   createStaticFile('target.js');
   createStaticFile('index.js');
 

@@ -7,6 +7,7 @@ import toNum from 'licia/toNum';
 import startWith from 'licia/startWith';
 import isStr from 'licia/isStr';
 import isJson from 'licia/isJson';
+import { getOrigin } from './util';
 
 const $document = $(document as any);
 
@@ -64,7 +65,7 @@ export default class DevtoolsFrame {
     this.height = height;
     localStorage.setItem('chii-embedded-height', toStr(height));
   }
-  attach(serverUrl: string) {
+  attach(devtoolsUrl: string) {
     let protocol = location.protocol;
     let host = location.host;
     if (protocol === 'about:' || protocol === 'blob:') {
@@ -79,12 +80,13 @@ export default class DevtoolsFrame {
       width: '100%',
       height: '100%',
     });
-    let targetOrigin = serverUrl;
-    if (startWith(serverUrl, 'blob:')) {
+    let targetOrigin = '';
+    if (startWith(devtoolsUrl, 'blob:')) {
       targetOrigin = hostOrigin;
-      frame.src = `${serverUrl}#?embedded=${encodeURIComponent(hostOrigin)}`;
+      frame.src = `${devtoolsUrl}#?embedded=${encodeURIComponent(hostOrigin)}`;
     } else {
-      frame.src = `${serverUrl}/front_end/chii_app.html?embedded=${encodeURIComponent(hostOrigin)}`;
+      targetOrigin = getOrigin(devtoolsUrl);
+      frame.src = `${devtoolsUrl}?embedded=${encodeURIComponent(hostOrigin)}`;
     }
 
     chobitsu.setOnMessage((message: string) => {
