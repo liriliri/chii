@@ -1,3 +1,7 @@
+## 1.6.1 (15 Aug 2022)
+
+* chore: update chobitsu
+
 ## 1.6.0 (15 Aug 2022)
 
 * feat: support basePath
