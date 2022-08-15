@@ -29,10 +29,7 @@ const start = Date.now();
 setInterval(() => {
   fetch(`${window.basePath}timestamp`)
     .then(res => res.text())
-    .then(
-      timestamp => {
-        if (toInt(timestamp) > start) location.reload();
-      },
-      () => {}
-    );
+    .then(timestamp => {
+      if (toInt(timestamp) > start) location.reload();
+    });
 }, 2000);

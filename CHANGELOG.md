@@ -1,3 +1,8 @@
+## 1.6.0 (15 Aug 2022)
+
+* feat: support basePath
+* feat: support proxy
+
 ## 1.5.0 (7 Aug 2022)
 
 * feat: support https

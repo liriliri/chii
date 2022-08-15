@@ -16,8 +16,8 @@ export default class DevtoolsFrame {
   private $container: $.$;
   private $draggable: $.$;
   private height: number;
-  private startY: number = 0;
-  private originHeight: number = 0;
+  private startY = 0;
+  private originHeight = 0;
   constructor() {
     this.container = h('.__chobitsu-hide__') as HTMLDivElement;
     this.$container = $(this.container);

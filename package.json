@@ -1,6 +1,6 @@
 {
   "name": "chii",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Chrome devtools framework",
   "main": "./server/index.js",
   "bin": {
@@ -22,7 +22,7 @@
     "dev:front_end": "cd devtools/devtools-frontend && gn gen out/Default && autoninja -C out/Default && lsla shx cp -R out/Default/gen/front_end ../../public",
     "lint": "npm run lint:server && npm run lint:target",
     "lint:server": "eslint \"server/**/*.js\" \"bin/*.js\"",
-    "lint:target": "tslint \"target/**/*.ts\"",
+    "lint:target": "eslint \"src/**/*.ts\"",
     "init:front_end": "cd devtools && rm -rf devtools-frontend && gclient sync --with_branch_heads --verbose && cd ../ && python3 script/apply_all_patches.py patches/config.json",
     "es5": "es-check es5 public/target.js"
   },
@@ -40,18 +40,19 @@
   },
   "homepage": "https://github.com/liriliri/chii#readme",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
     "babel-eslint": "^10.1.0",
     "chobitsu": "^1.2.1",
     "es-check": "^6.2.1",
-    "eslint": "^6.8.0",
+    "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-uglify-es": "^3.0.0",
     "ncp": "^2.0.0",
     "terser": "^5.10.0",
     "ts-loader": "^9.3.1",
-    "tslint": "^6.1.2",
-    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0"

@@ -17,6 +17,7 @@ export function getFavicon() {
   let favicon = location.origin + '/favicon.ico';
 
   const $link = $('link');
+  /* eslint-disable-next-line */
   $link.each(function (this: HTMLElement) {
     if (contain(this.getAttribute('rel') || '', 'icon')) {
       const href = this.getAttribute('href');
