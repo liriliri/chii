@@ -1,21 +1,10 @@
 const { src, dest } = require('gulp');
-const uglify = require('gulp-uglify-es').default;
 const clean = require('gulp-clean');
 const map = require('licia/map');
 const startWith = require('licia/startWith');
 
-exports.uglify = function () {
-  return src(
-    transSrc([
-      '**/*.js',
-      '!ui/components/diff_view/diff_view.js',
-      '!ui/components/panel_feedback/panel_feedback.js',
-      '!ui/components/text_editor/text_editor.js',
-      '!ui/components/docs/**/*.js',
-    ])
-  )
-    .pipe(uglify())
-    .pipe(dest('public/front_end'));
+exports.copy = function () {
+  return src(transSrc(['**/*.{js,html,json,svg,png}', '!legacy_test_runner/**/*'])).pipe(dest('public/front_end'));
 };
 
 exports.clean = function () {
@@ -24,7 +13,7 @@ exports.clean = function () {
 
 function transSrc(paths) {
   return map(paths, val => {
-    const prefix = 'public/front_end/';
+    const prefix = 'devtools/devtools-frontend/out/Default/gen/front_end/';
     if (startWith(val, '!')) {
       return '!' + prefix + val.slice(1);
     }
