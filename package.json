@@ -1,6 +1,6 @@
 {
   "name": "chii",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Chrome devtools framework",
   "main": "./server/index.js",
   "bin": {

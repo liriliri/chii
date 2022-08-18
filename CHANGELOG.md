@@ -1,3 +1,7 @@
+## 1.6.2 (18 Aug 2022)
+
+* refactor: use release version of devtools
+
 ## 1.6.1 (15 Aug 2022)
 
 * chore: update chobitsu
