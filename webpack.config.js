@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = (env, argv) => {
   const config = {
+    target: ['web', 'es5'],
     entry: {
       index: './src/index.ts',
       target: './src/target.ts',

@@ -159,8 +159,8 @@ function logXhr(xhr) {
 }
 
 function injectTarget() {
-  const script = document.createElement('script');
-  script.src = `//${location.host}${location.pathname.replace('test/demo.html', '')}target.js`;
+  var script = document.createElement('script');
+  script.src = '//' + location.host + location.pathname.replace('test/demo.html', '') + 'target.js';
   if (location.href.indexOf('embedded=true') > -1) {
     script.setAttribute('embedded', 'true');
   }
