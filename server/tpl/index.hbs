@@ -23,80 +23,45 @@
     a {
       color: #1966d2;
     }
-    img {
-      flex-shrink: 0;
-      height: 16px;
-      padding-left: 2px;
-      padding-right: 5px;
-      vertical-align: top;
-      width: 23px;
-    }
     .content-header {
       background: linear-gradient(white, white 40%, rgba(255, 255, 255, 0.92));
       border-bottom: 1px solid #eee;
       font-size: 150%;
       padding: 20px 0 10px 0;
       z-index: 1;
+      margin-bottom: 8px;
     }
-    .row {
-      padding: 6px 0;
-      position: relative;
-    }
-    .properties-box {
-      display: flex;
-    }
-    .subrow-box {
-      display: inline-block;
-      vertical-align: top;
-    }
-    .subrow {
-      display: flex;
-      flex-flow: row wrap;
-    }
-    .subrow > div {
-      margin-right: 0.5em;
-    }
-    .url {
-      color: #999;
-    }
-    .action {
-      color: rgb(17, 85, 204);
-      cursor: pointer;
-      margin-right: 15px;
-    }
-
     .description {
       margin: 1rem 0;
       font-size: .875rem;
       line-height: 2;
     }
+    .targets, .description, .content-header {
+      max-width: 800px;
+    }
+    .hidden {
+      display: none;
+    }
+    .luna-data-grid img {
+      height: 14px;
+      width: 14px;
+      margin: 0;
+      padding: 0;
+      margin-right: 2px;
+      flex-shrink: 0;
+      vertical-align: top;
+    }
   </style>
 </head>
 <body>
   <div class="content-header">Pages</div>
-  {{#each targets}}
-    <div class="row">
-      <div class="properties-box">
-        <img src="{{favicon}}"/>
-        <div class="subrow-box">
-          <div class="subrow">
-            <div class="name">{{title}}</div>
-            <div class="url">{{url}}</div>
-          </div>
-          <div class="actions">
-            <a class="action" onclick="inspect('{{id}}')">inspect</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  {{else}}
-    <div class="description">
-      You can use this script to inject the chii target code into your web page.<br/>
-      <a target="_blank" href="//{{domain}}{{basePath}}target.js">{{domain}}{{basePath}}target.js</a> <br/>
-      Or just open the demo page <a target="_blank" href="//{{domain}}{{basePath}}test/demo.html">{{domain}}{{basePath}}test/demo.html</a> to play around with.<br/>
-      <a target="_blank" href="https://github.com/liriliri/chii">Chii v{{version}}</a>
-    </div>  
-  {{/each}}
+  <div class="description">
+    You can use this script to inject the chii target code into your web page.<br/>
+    <a target="_blank" href="//{{domain}}{{basePath}}target.js">{{domain}}{{basePath}}target.js</a> <br/>
+    Or just open the demo page <a target="_blank" href="//{{domain}}{{basePath}}test/demo.html">{{domain}}{{basePath}}test/demo.html</a> to play around with.<br/>
+    <a target="_blank" href="https://github.com/liriliri/chii">Chii v{{version}}</a>
+  </div>  
+  <div class="targets hidden"></div>
   <script>
     window.domain = '{{domain}}';
     window.basePath = '{{basePath}}';

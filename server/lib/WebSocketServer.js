@@ -9,11 +9,15 @@ module.exports = class WebSocketServer {
 
     const wss = (this._wss = new WebSocket.Server({ noServer: true }));
 
-    wss.on('connection', ws => {
+    wss.on('connection', (ws, req) => {
       const type = ws.type;
       if (type === 'target') {
         const { id, chiiUrl, title, favicon } = ws;
-        this.channelManager.createTarget(id, ws, chiiUrl, title, favicon);
+        let ip = req.socket.remoteAddress;
+        if (req.headers['x-forwarded-for']) {
+          ip = eq.headers['x-forwarded-for'].split(',')[0].trim();
+        }
+        this.channelManager.createTarget(id, ws, chiiUrl, title, favicon, ip);
       } else {
         const { id, target } = ws;
         this.channelManager.createClient(id, ws, target);

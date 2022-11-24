@@ -11,7 +11,7 @@ module.exports = class ChannelManager extends Emitter {
     this._targets = {};
     this._clients = {};
   }
-  createTarget(id, ws, url, title, favicon) {
+  createTarget(id, ws, url, title, favicon, ip) {
     const channel = new Channel(ws);
 
     util.log(`${ansiColor.yellow('target')} ${id}:${truncate(title, 10)} ${ansiColor.green('connected')}`);
@@ -21,6 +21,7 @@ module.exports = class ChannelManager extends Emitter {
       url,
       favicon,
       channel,
+      ip,
     };
 
     channel.on('close', () => this.removeTarget(id, title));

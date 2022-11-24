@@ -17,16 +17,8 @@ module.exports = function (channelManager, domain, cdn, basePath) {
   const router = new Router();
 
   router.get(basePath, async ctx => {
-    const targets = reverse(
-      map(pairs(channelManager.getTargets()), item => ({
-        id: item[0],
-        ...item[1],
-      }))
-    );
-
     const tpl = await readTpl('index');
     ctx.body = tpl({
-      targets,
       domain,
       basePath,
       version: pkg.version,
@@ -51,6 +43,23 @@ module.exports = function (channelManager, domain, cdn, basePath) {
     ctx.body = timestamp;
   });
   channelManager.on('target_changed', () => (timestamp = now()));
+
+  router.get(`${basePath}targets`, ctx => {
+    const targets = reverse(
+      map(pairs(channelManager.getTargets()), item => {
+        const ret = {
+          id: item[0],
+          ...item[1],
+        };
+        delete ret.channel;
+        return ret;
+      })
+    );
+
+    ctx.body = {
+      targets,
+    };
+  });
 
   function createStatic(prefix, folder) {
     router.get(`${basePath}${prefix}/*`, async ctx => {
