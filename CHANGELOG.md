@@ -1,3 +1,9 @@
+## 1.7.0 (25 Nov 2022)
+
+* feat: use luna data grid
+* feat: show ip in target list
+* chore: update chobitsu
+
 ## 1.6.2 (18 Aug 2022)
 
 * refactor: use release version of devtools

@@ -15,7 +15,7 @@ module.exports = class WebSocketServer {
         const { id, chiiUrl, title, favicon } = ws;
         let ip = req.socket.remoteAddress;
         if (req.headers['x-forwarded-for']) {
-          ip = eq.headers['x-forwarded-for'].split(',')[0].trim();
+          ip = req.headers['x-forwarded-for'].split(',')[0].trim();
         }
         this.channelManager.createTarget(id, ws, chiiUrl, title, favicon, ip);
       } else {
