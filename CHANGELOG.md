@@ -1,3 +1,7 @@
+## 1.7.1 (27 Nov 2022)
+
+* chore: update chobitsu(suppport ie11)
+
 ## 1.7.0 (25 Nov 2022)
 
 * feat: use luna data grid

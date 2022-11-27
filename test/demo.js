@@ -85,7 +85,9 @@ function intervalStuff() {
   xhr.send();
 
   // do an FETCH
-  fetch('../test/demo.json');
+  if (typeof fetch === 'function') {
+    fetch('../test/demo.json');
+  }
 }
 
 //------------------------------------------------------------------------------
