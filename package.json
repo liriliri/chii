@@ -14,8 +14,8 @@
   ],
   "scripts": {
     "ci": "npm run lint && npm run build && npm run es5",
-    "format": "npm run format:server && lsla prettier 'src/**/*.ts' '*.{js,json}' 'bin/*.js' 'test/*.{html,json,js,css}' --write",
-    "format:server": "lsla prettier 'server/**/*.js' --write",
+    "format": "npm run format:server && lsla prettier \"src/**/*.ts\" \"*.{js,json}\" \"bin/*.js\" \"test/*.{html,json,js,css}\" --write",
+    "format:server": "lsla prettier \"server/**/*.js\" --write",
     "build": "gulp clean && webpack --mode=production && npm run build:front_end",
     "build:front_end": "cd devtools/devtools-frontend && gn gen out/Default --args=\"is_debug=false\" && autoninja -C out/Default && gulp copy:release",
     "dev": "webpack --mode=development -w",
