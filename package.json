@@ -1,6 +1,6 @@
 {
   "name": "chii",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Chrome devtools framework",
   "main": "./server/index.js",
   "bin": {
@@ -43,7 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "babel-eslint": "^10.1.0",
-    "chobitsu": "^1.4.0",
+    "chobitsu": "^1.4.1",
     "css-loader": "^6.7.2",
     "es-check": "^6.2.1",
     "eslint": "^8.22.0",

@@ -1,3 +1,7 @@
+## 1.7.2 (2 Dec 2022)
+
+* chore: update chobitsu(support android 5.0)
+
 ## 1.7.1 (27 Nov 2022)
 
 * chore: update chobitsu(suppport ie11)

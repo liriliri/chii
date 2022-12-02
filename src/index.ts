@@ -35,6 +35,9 @@ function inspect(id: string) {
 
 let start = Date.now();
 setInterval(() => {
+  if (document.hidden) {
+    return;
+  }
   fetch(`${window.basePath}timestamp`)
     .then(res => res.text())
     .then(timestamp => {
