@@ -8,7 +8,7 @@
 
 [npm-image]: https://img.shields.io/npm/v/chii?style=flat-square
 [npm-url]: https://npmjs.org/package/chii
-[ci-image]: https://img.shields.io/github/workflow/status/liriliri/chii/CI?style=flat-square
+[ci-image]: https://img.shields.io/github/actions/workflow/status/liriliri/chii/main.yml?branch=master&style=flat-square
 [ci-url]: https://github.com/liriliri/chii/actions/workflows/main.yml
 [license-image]: https://img.shields.io/npm/l/chii?style=flat-square
 
