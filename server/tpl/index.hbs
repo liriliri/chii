@@ -13,6 +13,7 @@
       padding: 0 20px;
       font-size: 13px;
       font-family: Roboto;
+      min-width: 320px;
     }
     body.platform-windows {
       font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -30,6 +31,21 @@
       padding: 20px 0 10px 0;
       z-index: 1;
       margin-bottom: 8px;
+    }
+    .content-header .filter {
+      float: right;
+      border: 1px solid #eee;
+      margin-top: 4px;
+      height: 20px;
+      line-height: 20px;
+      box-sizing: border-box;
+      outline: none;
+      width: 150px;
+      color: #303942;
+      padding: 0 4px;
+    }
+    .content-header .filter:focus {
+      box-shadow: 0 0 0 1px #1a73e8;
     }
     .description {
       margin: 1rem 0;
@@ -54,8 +70,11 @@
   </style>
 </head>
 <body>
-  <div class="content-header">Pages</div>
-  <div class="description">
+  <div class="content-header">
+    Pages
+    <input class="filter hidden" placeholder="Filter"/>
+  </div>
+  <div class="description hidden">
     You can use this script to inject the chii target code into your web page.<br/>
     <a target="_blank" href="//{{domain}}{{basePath}}target.js">{{domain}}{{basePath}}target.js</a> <br/>
     Or just open the demo page <a target="_blank" href="//{{domain}}{{basePath}}test/demo.html">{{domain}}{{basePath}}test/demo.html</a> to play around with.<br/>

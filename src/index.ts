@@ -9,6 +9,7 @@ import throttle from 'licia/throttle';
 import escape from 'licia/escape';
 import toEl from 'licia/toEl';
 import h from 'licia/h';
+import debounce from 'licia/debounce';
 import 'luna-data-grid/luna-data-grid.css';
 
 declare const window: any;
@@ -50,7 +51,16 @@ setInterval(() => {
 
 const $description = $('.description');
 const $targets = $('.targets');
+const $filter = $('.filter');
 const $contentHeader = $('.content-header');
+
+$filter.on(
+  'input',
+  debounce(function () {
+    const filter = $filter.val();
+    dataGrid.setOption('filter', filter);
+  }, 500)
+);
 
 const dataGrid = new LunaDataGrid($targets.get(0) as HTMLElement, {
   columns: [
@@ -90,9 +100,11 @@ function update() {
       if (isEmpty(targets)) {
         $description.rmClass('hidden');
         $targets.addClass('hidden');
+        $filter.addClass('hidden');
       } else {
         $description.addClass('hidden');
         $targets.rmClass('hidden');
+        $filter.rmClass('hidden');
         render(targets);
       }
     });

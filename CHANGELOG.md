@@ -1,3 +1,7 @@
+## 1.8.0 (5 Jan 2022)
+
+* feat: target filter
+
 ## 1.7.2 (2 Dec 2022)
 
 * chore: update chobitsu(support android 5.0)
