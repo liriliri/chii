@@ -83,9 +83,15 @@ const dataGrid = new LunaDataGrid($targets.get(0) as HTMLElement, {
       weight: 15,
     },
     {
+      id: 'userAgent',
+      title: 'User Agent',
+      sortable: true,
+      weight: 40,
+    },
+    {
       id: 'action',
       title: 'Action',
-      weight: 15,
+      weight: 10,
     },
   ],
   minHeight: 100,
@@ -114,7 +120,9 @@ function render(targets: any[]) {
   dataGrid.clear();
   each(targets, target => {
     const title = toEl(`<span><img src="${escape(target.favicon)}"/>${escape(target.title)}</span>`) as HTMLElement;
-    const url = toEl(`<a href="${escape(target.url)}" target="_blank">${escape(target.url)}</a>`) as HTMLElement;
+    const formattedUrl = escape(target.url);
+    const url = toEl(`<a title=${formattedUrl} href="${formattedUrl}" target="_blank">${formattedUrl}</a>`) as HTMLElement;
+    const userAgent = toEl(`<span title="${target.userAgent}" target="_blank">${target.userAgent}</span>`) as HTMLElement;
     const action = h(
       'a',
       {
@@ -132,6 +140,7 @@ function render(targets: any[]) {
       title,
       url,
       ip: target.ip,
+      userAgent,
       action,
     });
   });
