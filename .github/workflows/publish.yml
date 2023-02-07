@@ -24,7 +24,7 @@ jobs:
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
           echo "PATH=$(pwd)/depot_tools:$PATH" >> $GITHUB_ENV
           cd depot_tools
-          git checkout 138bff28
+          git reset --hard 138bff28
       - name: Build chii
         run: | 
           npm i -g @liriliri/lsla
