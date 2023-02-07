@@ -14,10 +14,11 @@ module.exports = class WebSocketServer {
       if (type === 'target') {
         const { id, chiiUrl, title, favicon } = ws;
         let ip = req.socket.remoteAddress;
+        const userAgent = req.headers['user-agent'];
         if (req.headers['x-forwarded-for']) {
           ip = req.headers['x-forwarded-for'].split(',')[0].trim();
         }
-        this.channelManager.createTarget(id, ws, chiiUrl, title, favicon, ip);
+        this.channelManager.createTarget(id, ws, chiiUrl, title, favicon, ip, userAgent);
       } else {
         const { id, target } = ws;
         this.channelManager.createClient(id, ws, target);
@@ -44,6 +45,7 @@ module.exports = class WebSocketServer {
             ws.chiiUrl = q.url;
             ws.title = q.title;
             ws.favicon = q.favicon;
+            ws.userAgent = q.userAgent;
           } else {
             ws.target = q.target;
           }
