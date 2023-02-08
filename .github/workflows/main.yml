@@ -35,6 +35,7 @@ jobs:
         git reset --hard 138bff28
     - name: Build chii
       run: |
+        export DEPOT_TOOLS_UPDATE=0
         npm i -g @liriliri/lsla
         npm i
         npm run init:front_end
