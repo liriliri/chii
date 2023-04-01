@@ -121,8 +121,12 @@ function render(targets: any[]) {
   each(targets, target => {
     const title = toEl(`<span><img src="${escape(target.favicon)}"/>${escape(target.title)}</span>`) as HTMLElement;
     const formattedUrl = escape(target.url);
-    const url = toEl(`<a title=${formattedUrl} href="${formattedUrl}" target="_blank">${formattedUrl}</a>`) as HTMLElement;
-    const userAgent = toEl(`<span title="${target.userAgent}" target="_blank">${target.userAgent}</span>`) as HTMLElement;
+    const url = toEl(
+      `<a title=${formattedUrl} href="${formattedUrl}" target="_blank">${formattedUrl}</a>`
+    ) as HTMLElement;
+    const userAgent = toEl(
+      `<span title="${target.userAgent}" target="_blank">${target.userAgent}</span>`
+    ) as HTMLElement;
     const action = h(
       'a',
       {

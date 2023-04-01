@@ -22,7 +22,7 @@ module.exports = class ChannelManager extends Emitter {
       favicon,
       channel,
       ip,
-      userAgent
+      userAgent,
     };
 
     channel.on('close', () => this.removeTarget(id, title));

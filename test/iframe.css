@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#target,
+#devtools {
+  width: 100%;
+  display: block;
+}
+
+#devtools {
+  background: blue;
+}

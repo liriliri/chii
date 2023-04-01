@@ -7,6 +7,9 @@ import toNum from 'licia/toNum';
 import startWith from 'licia/startWith';
 import isStr from 'licia/isStr';
 import isJson from 'licia/isJson';
+import contain from 'licia/contain';
+import uniqId from 'licia/uniqId';
+import nextTick from 'licia/nextTick';
 import { getOrigin } from './util';
 
 const $document = $(document as any);
@@ -18,6 +21,7 @@ export default class DevtoolsFrame {
   private height: number;
   private startY = 0;
   private originHeight = 0;
+  private externalIframe?: HTMLIFrameElement = (window as any).ChiiDevtoolsIframe;
   constructor() {
     this.container = h('.__chobitsu-hide__') as HTMLDivElement;
     this.$container = $(this.container);
@@ -53,7 +57,9 @@ export default class DevtoolsFrame {
     } else {
       this.setHeight(Math.round(window.innerHeight * 0.5));
     }
-    this.bindEvent();
+    if (!this.externalIframe) {
+      this.bindEvent();
+    }
   }
   setHeight(height: number) {
     if (height < 100) {
@@ -73,24 +79,72 @@ export default class DevtoolsFrame {
       host = window.parent.location.host;
     }
     const hostOrigin = `${protocol}//${host}`;
-    const frame = document.createElement('iframe');
-    const $frame = $(frame);
-    $frame.css({
-      border: 'none',
-      width: '100%',
-      height: '100%',
-    });
+    let frame: any;
+    if (this.externalIframe) {
+      frame = this.externalIframe;
+    } else {
+      frame = document.createElement('iframe');
+      const $frame = $(frame);
+      $frame.css({
+        border: 'none',
+        width: '100%',
+        height: '100%',
+      });
+    }
     let targetOrigin = '';
     if (startWith(devtoolsUrl, 'blob:')) {
       targetOrigin = hostOrigin;
-      frame.src = `${devtoolsUrl}#?embedded=${encodeURIComponent(hostOrigin)}`;
     } else {
       targetOrigin = getOrigin(devtoolsUrl);
-      frame.src = `${devtoolsUrl}?embedded=${encodeURIComponent(hostOrigin)}`;
+    }
+
+    function sendToDevtools(message: any) {
+      frame.contentWindow.postMessage(JSON.stringify(message), targetOrigin);
+    }
+    function sendToChobitsu(message: any) {
+      message.id = uniqId('tmp');
+      chobitsu.sendRawMessage(JSON.stringify(message));
+    }
+    if (this.externalIframe && contain(this.externalIframe.src, '#?embedded=')) {
+      const window: any = this.externalIframe.contentWindow;
+      nextTick(() => {
+        window.runtime.loadLegacyModule('core/sdk/sdk-legacy.js').then(() => {
+          const SDK = window.SDK;
+          for (const resourceTreeModel of SDK.TargetManager.instance().models(SDK.ResourceTreeModel)) {
+            resourceTreeModel.dispatchEventToListeners(SDK.ResourceTreeModel.Events.WillReloadPage, resourceTreeModel);
+          }
+        });
+        sendToDevtools({
+          method: 'Page.frameNavigated',
+          params: {
+            frame: {
+              id: '1',
+              mimeType: 'text/html',
+              securityOrigin: location.origin,
+              url: location.href,
+            },
+            type: 'Navigation',
+          },
+        });
+        sendToChobitsu({ method: 'Network.enable' });
+        sendToDevtools({ method: 'Runtime.executionContextsCleared' });
+        sendToChobitsu({ method: 'Runtime.enable' });
+        sendToChobitsu({ method: 'Debugger.enable' });
+        sendToChobitsu({ method: 'DOMStorage.enable' });
+        sendToChobitsu({ method: 'DOM.enable' });
+        sendToChobitsu({ method: 'CSS.enable' });
+        sendToChobitsu({ method: 'Overlay.enable' });
+        sendToDevtools({ method: 'DOM.documentUpdated' });
+      });
+    } else {
+      frame.src = `${devtoolsUrl}#?embedded=${encodeURIComponent(hostOrigin)}`;
     }
 
     chobitsu.setOnMessage((message: string) => {
-      frame.contentWindow?.postMessage(message, targetOrigin);
+      if (contain(message, '"id":"tmp')) {
+        return;
+      }
+      frame.contentWindow.postMessage(message, targetOrigin);
     });
     window.addEventListener('message', event => {
       if (event.origin !== targetOrigin) {
@@ -101,9 +155,11 @@ export default class DevtoolsFrame {
       }
     });
 
-    this.container.appendChild(frame);
-    document.body.appendChild(this.container);
-    this.resize();
+    if (!this.externalIframe) {
+      this.container.appendChild(frame);
+      document.body.appendChild(this.container);
+      this.resize();
+    }
   }
   private bindEvent() {
     window.addEventListener('resize', this.resize);
