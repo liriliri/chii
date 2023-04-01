@@ -1,4 +1,8 @@
-## 1.8.0 (5 Jan 2022)
+## 1.9.0 (1 Apr 2023)
+
+* feat: support separate iframe for embedded mode
+
+## 1.8.0 (5 Jan 2023)
 
 * feat: target filter
 
