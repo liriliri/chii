@@ -60,7 +60,7 @@ It's also possible to embed devtools in the same page using iframe. All you have
 <script src="//host-machine-ip:8080/target.js" embedded="true"></script>
 ```
 
-Visit [https://chii.liriliri.io/test/demo.html?embedded=true](https://chii.liriliri.io/test/demo.html?embedded=true) to see how it works.
+Visit [Embedded Iframe](https://chii.liriliri.io/test/demo.html?embedded=true) or [Separate Iframe](https://chii.liriliri.io/test/iframe.html) to see how it works.
 
 ## Related Projects
 
