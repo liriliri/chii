@@ -24,6 +24,10 @@
     a {
       color: #1966d2;
     }
+    #container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
     .content-header {
       background: linear-gradient(white, white 40%, rgba(255, 255, 255, 0.92));
       border-bottom: 1px solid #eee;
@@ -53,7 +57,7 @@
       line-height: 2;
     }
     .targets, .description, .content-header {
-      max-width: 800px;
+      width: 100%;
     }
     .hidden {
       display: none;
@@ -77,18 +81,20 @@
   </style>
 </head>
 <body>
-  <div class="content-header">
-    Pages
-    <input class="filter hidden" placeholder="Filter"/>
+  <div id="container">
+    <div class="content-header">
+      Pages
+      <input class="filter hidden" placeholder="Filter"/>
+    </div>
+    <div class="description hidden">
+      You can use this script to inject the chii target code into your web page.<br/>
+      <a target="_blank" href="//{{domain}}{{basePath}}target.js">{{domain}}{{basePath}}target.js</a> <br/>
+      Or just open the demo page <a target="_blank" href="//{{domain}}{{basePath}}test/demo.html">{{domain}}{{basePath}}test/demo.html</a> to play around with.<br/>
+      <a target="_blank" href="https://github.com/liriliri/chii">Chii v{{version}}</a>
+      <div class="buy-me-coffee"><a href="https://ko-fi.com/surunzi" target="_blank">Buy me a coffee</a> if you found this project useful and want to help keep it alive. Thank you for your support!</div>
+    </div>  
+    <div class="targets hidden"></div>
   </div>
-  <div class="description hidden">
-    You can use this script to inject the chii target code into your web page.<br/>
-    <a target="_blank" href="//{{domain}}{{basePath}}target.js">{{domain}}{{basePath}}target.js</a> <br/>
-    Or just open the demo page <a target="_blank" href="//{{domain}}{{basePath}}test/demo.html">{{domain}}{{basePath}}test/demo.html</a> to play around with.<br/>
-    <a target="_blank" href="https://github.com/liriliri/chii">Chii v{{version}}</a>
-    <div class="buy-me-coffee">If you found this project useful and want to help keep it alive, please <a href="https://ko-fi.com/surunzi" target="_blank">Buy me a coffee</a> to help cover the cost of development and maintenance! Thank you for your support!</div>
-  </div>  
-  <div class="targets hidden"></div>
   <script>
     window.domain = '{{domain}}';
     window.basePath = '{{basePath}}';
