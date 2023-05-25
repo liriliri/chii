@@ -166,6 +166,9 @@ function injectTarget() {
   if (location.href.indexOf('embedded=true') > -1) {
     script.setAttribute('embedded', 'true');
   }
+  if (location.href.indexOf('rtc=true') > -1) {
+    script.setAttribute('rtc', 'true')
+  }
   if (location.href.indexOf('cdn=true') > -1) {
     script.setAttribute('cdn', 'https://cdn.jsdelivr.net/npm/chii/public');
   }

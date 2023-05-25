@@ -28,12 +28,16 @@ if (!startWith(serverUrl, 'http')) {
 }
 
 let embedded = false;
+let rtc = false;
 let cdn = '';
 
 const element = getTargetScriptEl();
 if (element) {
   if (element.getAttribute('embedded') === 'true') {
     embedded = true;
+  }
+  if (element.getAttribute('rtc') === 'true') {
+    rtc = true;
   }
   cdn = element.getAttribute('cdn') || '';
 }
@@ -54,6 +58,7 @@ export {
   // https://chii.liriliri.io/base/
   serverUrl,
   embedded,
+  rtc,
   cdn,
   id,
 };

@@ -25,12 +25,12 @@ switch (os) {
     break;
 }
 
-function inspect(id: string) {
+function inspect(id: string, rtc: boolean) {
   const { domain, basePath } = window;
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const url =
     location.protocol +
-    `//${domain}${basePath}front_end/chii_app.html?${protocol}=${domain}${basePath}client/${randomId(6)}?target=${id}`;
+    `//${domain}${basePath}front_end/chii_app.html?${protocol}=${encodeURIComponent(`${domain}${basePath}client/${randomId(6)}?target=${id}`)}&rtc=${rtc}`;
   window.open(url, '_blank');
 }
 
@@ -134,7 +134,7 @@ function render(targets: any[]) {
           cursor: 'pointer',
         },
         onclick() {
-          inspect(target.id);
+          inspect(target.id, target.rtc);
         },
       },
       'inspect'
