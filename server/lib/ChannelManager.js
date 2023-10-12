@@ -23,6 +23,7 @@ module.exports = class ChannelManager extends Emitter {
       channel,
       ip,
       userAgent,
+      rtc: ws.rtc,
     };
 
     channel.on('close', () => this.removeTarget(id, title));
