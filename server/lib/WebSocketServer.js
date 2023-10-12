@@ -46,7 +46,7 @@ module.exports = class WebSocketServer {
             ws.title = q.title;
             ws.favicon = q.favicon;
             ws.userAgent = q.userAgent;
-            ws.rtc = q.rtc === 'true'
+            ws.rtc = q.rtc === 'true';
           } else {
             ws.target = q.target;
           }

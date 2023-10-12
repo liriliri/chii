@@ -30,7 +30,9 @@ function inspect(id: string, rtc: boolean) {
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const url =
     location.protocol +
-    `//${domain}${basePath}front_end/chii_app.html?${protocol}=${encodeURIComponent(`${domain}${basePath}client/${randomId(6)}?target=${id}`)}&rtc=${rtc}`;
+    `//${domain}${basePath}front_end/chii_app.html?${protocol}=${encodeURIComponent(
+      `${domain}${basePath}client/${randomId(6)}?target=${id}`
+    )}&rtc=${rtc}`;
   window.open(url, '_blank');
 }
 

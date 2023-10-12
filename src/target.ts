@@ -5,7 +5,7 @@ import connectIframe from './target/connectIframe';
 
 if (!embedded) {
   if (rtc) {
-    connectRtc()
+    connectRtc();
   } else {
     connectServer();
   }
