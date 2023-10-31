@@ -1,10 +1,18 @@
-[中文](README_CN.md)
+<a href="https://chii.liriliri.io/" target="_blank">
+  <img src="https://res.liriliri.io/chii/banner.jpg" style="width:100%">
+</a>
 
-# Chii
+<h1 align="center">Chii</h1>
+
+<div align="center">
+
+Remote debugging tool.
 
 [![NPM version][npm-image]][npm-url]
 [![Build status][ci-image]][ci-url]
 [![License][license-image]][npm-url]
+
+</div>
 
 [npm-image]: https://img.shields.io/npm/v/chii?style=flat-square
 [npm-url]: https://npmjs.org/package/chii
@@ -12,9 +20,11 @@
 [ci-url]: https://github.com/liriliri/chii/actions/workflows/main.yml
 [license-image]: https://img.shields.io/npm/l/chii?style=flat-square
 
-Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/docs/latest/Home.html), replacing web inspector with the latest [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
+<img src="https://res.liriliri.io/chii/screenshot.jpg" style="width:100%">
 
-![Chii](https://res.liriliri.io/chii/screenshot.jpg)
+[中文](README_CN.md)
+
+Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/docs/latest/Home.html), replacing web inspector with the latest [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
 
 ## Demo
 

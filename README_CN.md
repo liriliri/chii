@@ -1,19 +1,28 @@
-# Chii
+<a href="https://chii.liriliri.io/" target="_blank">
+  <img src="https://res.liriliri.io/chii/banner.jpg" style="width:100%">
+</a>
+
+<h1 align="center">Chii</h1>
+
+<div align="center">
+
+远程调试工具。
 
 [![NPM version][npm-image]][npm-url]
 [![Build status][ci-image]][ci-url]
 [![License][license-image]][npm-url]
 
+</div>
+
 [npm-image]: https://img.shields.io/npm/v/chii?style=flat-square
 [npm-url]: https://npmjs.org/package/chii
-[ci-image]: https://img.shields.io/github/actions/workflow/status/liriliri/licia/main.yml?branch=master&style=flat-square
+[ci-image]: https://img.shields.io/github/actions/workflow/status/liriliri/chii/main.yml?branch=master&style=flat-square
 [ci-url]: https://github.com/liriliri/chii/actions/workflows/main.yml
-[license-image]: https://img.shields.io/npm/l/chii.svg
+[license-image]: https://img.shields.io/npm/l/chii?style=flat-square
+
+<img src="https://res.liriliri.io/chii/screenshot.jpg" style="width:100%">
 
 与 [weinre](https://people.apache.org/~pmuellr/weinre/docs/latest/Home.html) 一样的远程调试工具，主要是将 web inspector 替换为最新的 [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
-
-
-![Chii](https://res.liriliri.io/chii/screenshot.jpg)
 
 ## Demo
 
