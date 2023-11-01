@@ -76,6 +76,7 @@ Visit [Embedded Iframe](https://chii.liriliri.io/test/demo.html?embedded=true) o
 
 * [whistle.chii](https://github.com/liriliri/whistle.chii): Whistle Chii plugin.
 * [chobitsu](https://github.com/liriliri/chobitsu): Chrome devtools protocol JavaScript implementation.
+* [vivy](https://github.com/liriliri/vivy-docs): Banner image generation.
 
 ## Contribution
 

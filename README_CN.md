@@ -75,3 +75,4 @@ chii start -p 8080
 
 * [whistle.chii](https://github.com/liriliri/whistle.chii)：Whistle Chii 插件。
 * [chobitsu](https://github.com/liriliri/chobitsu): Chrome 调试协议 JavaScript 实现。
+* [vivy](https://github.com/liriliri/vivy-docs): 主题图生成。
