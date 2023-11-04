@@ -163,6 +163,10 @@ function logXhr(xhr) {
 function injectTarget() {
   var script = document.createElement('script');
   script.src = '//' + location.host + location.pathname.replace('test/demo.html', '') + 'target.js';
+  script.onload = function () {
+    console.log('console right after target injected');
+    throw Error('exception right after target injected');
+  };
   if (location.href.indexOf('embedded=true') > -1) {
     script.setAttribute('embedded', 'true');
   }

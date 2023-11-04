@@ -1,3 +1,8 @@
+## 1.10.0 (4 Nov 2023)
+
+* feat: support rtc peer connection [#39](https://github.com/liriliri/chii/pull/39) 
+* chore: update chobitsu to 1.4.6
+
 ## 1.9.0 (1 Apr 2023)
 
 * feat: support separate iframe for embedded mode

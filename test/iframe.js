@@ -53,6 +53,10 @@ function load() {
           script.src = targetSrc;
           script.setAttribute('embedded', 'true');
           script.setAttribute('cdn', 'https://cdn.jsdelivr.net/npm/chii/public');
+          script.onload = function () {
+            console.log('console right after target injected');
+            throw Error('exception right after target injected');
+          };
           document.head.appendChild(script);
         }
       </script>
