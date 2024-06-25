@@ -1,6 +1,8 @@
-<a href="https://chii.liriliri.io/" target="_blank">
-  <img src="https://res.liriliri.io/chii/banner.jpg" style="width:100%">
-</a>
+<div align="center">
+  <a href="https://chii.liriliri.io/" target="_blank">
+    <img src="https://res.liriliri.io/chii/icon.png" width="400">
+  </a>
+</div>
 
 <h1 align="center">Chii</h1>
 
@@ -21,8 +23,6 @@ Remote debugging tool.
 [license-image]: https://img.shields.io/npm/l/chii?style=flat-square
 
 <img src="https://res.liriliri.io/chii/screenshot.jpg" style="width:100%">
-
-[中文](README_CN.md)
 
 Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/docs/latest/Home.html), replacing web inspector with the latest [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
 
