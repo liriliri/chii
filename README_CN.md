@@ -1,6 +1,8 @@
-<a href="https://chii.liriliri.io/" target="_blank">
-  <img src="https://res.liriliri.io/chii/banner.jpg" style="width:100%">
-</a>
+<div align="center">
+  <a href="https://chii.liriliri.io/" target="_blank">
+    <img src="https://res.liriliri.io/chii/icon.png" width="400">
+  </a>
+</div>
 
 <h1 align="center">Chii</h1>
 
@@ -75,4 +77,4 @@ chii start -p 8080
 
 * [whistle.chii](https://github.com/liriliri/whistle.chii)：Whistle Chii 插件。
 * [chobitsu](https://github.com/liriliri/chobitsu): Chrome 调试协议 JavaScript 实现。
-* [vivy](https://github.com/liriliri/vivy-docs): 主题图生成。
+* [vivy](https://github.com/liriliri/vivy-docs): 图标生成。
