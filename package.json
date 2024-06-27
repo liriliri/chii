@@ -23,7 +23,7 @@
     "lint": "npm run lint:server && npm run lint:target",
     "lint:server": "eslint \"server/**/*.js\" \"bin/*.js\"",
     "lint:target": "eslint \"src/**/*.ts\"",
-    "init:front_end": "cd devtools && rm -rf devtools-frontend && gclient sync --with_branch_heads --verbose && cd ../ && python3 script/apply_all_patches.py patches/config.json",
+    "init:front_end": "cd devtools && rm -rf devtools-frontend && gclient sync --with_branch_heads --verbose",
     "es5": "es-check es5 public/target.js test/demo.js"
   },
   "repository": {
@@ -40,14 +40,14 @@
   },
   "homepage": "https://github.com/liriliri/chii#readme",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.33.0",
-    "@typescript-eslint/parser": "^5.33.0",
-    "babel-eslint": "^10.1.0",
+    "@eslint/js": "^9.5.0",
+    "@types/eslint__js": "^8.42.3",
     "chobitsu": "^1.4.6",
     "css-loader": "^6.7.2",
     "es-check": "^6.2.1",
-    "eslint": "^8.22.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.5.0",
+    "globals": "^15.6.0",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "luna-data-grid": "^0.4.0",
@@ -55,7 +55,8 @@
     "style-loader": "^3.3.1",
     "terser": "^5.10.0",
     "ts-loader": "^9.3.1",
-    "typescript": "^5.2.2",
+    "typescript": "^5.5.2",
+    "typescript-eslint": "^7.14.1",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
     "xml2js": "^0.4.23"

@@ -1,7 +1,7 @@
 solutions = [
   {
     "name": "devtools-frontend",
-    "url": "https://chromium.googlesource.com/devtools/devtools-frontend.git@origin/chromium/4752",
+    "url": "https://github.com/liriliri/devtools-frontend.git@origin/chii",
     "deps_file": "DEPS",
     "managed": False,
     "custom_deps": {},
