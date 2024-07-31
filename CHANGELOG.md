@@ -1,3 +1,8 @@
+## 1.11.0 (31 Jul 2024)
+
+* feat: support IndexedDB
+* feat: support WebSocket
+
 ## 1.10.0 (4 Nov 2023)
 
 * feat: support rtc peer connection [#39](https://github.com/liriliri/chii/pull/39) 
