@@ -1,3 +1,7 @@
+## 1.11.1 (20 Aug 2024)
+
+* chore: update chobitsu
+
 ## 1.11.0 (31 Jul 2024)
 
 * feat: support IndexedDB
