@@ -7,9 +7,8 @@ on:
       - 'master'
     paths:
       - 'devtools/**/*'
-      - 'patches/**/*'
       - 'server/**/*'
-      - 'target/**/*'
+      - 'src/**/*'
 
 jobs:
   ci:
