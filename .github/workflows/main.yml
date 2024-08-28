@@ -31,11 +31,8 @@ jobs:
         sudo apt-get install git curl xz-utils python3-pkg-resources python3-virtualenv python3-oauth2client
         git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
         echo "PATH=$(pwd)/depot_tools:$PATH" >> $GITHUB_ENV
-        cd depot_tools
-        git reset --hard 138bff28
     - name: Build chii
       run: |
-        export DEPOT_TOOLS_UPDATE=0
         npm i -g @liriliri/lsla
         npm i
         npm run init:front_end

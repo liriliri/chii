@@ -108,10 +108,14 @@ export default class DevtoolsFrame {
     if (this.externalIframe && contain(this.externalIframe.src, '#?embedded=')) {
       const window: any = this.externalIframe.contentWindow;
       nextTick(() => {
-        window.runtime.loadLegacyModule('core/sdk/sdk-legacy.js').then(() => {
-          const SDK = window.SDK;
-          for (const resourceTreeModel of SDK.TargetManager.instance().models(SDK.ResourceTreeModel)) {
-            resourceTreeModel.dispatchEventToListeners(SDK.ResourceTreeModel.Events.WillReloadPage, resourceTreeModel);
+        window.runtime.loadLegacyModule('core/sdk/sdk.js').then((SDKModule: any) => {
+          for (const resourceTreeModel of SDKModule.TargetManager.TargetManager.instance().models(
+            SDKModule.ResourceTreeModel.ResourceTreeModel
+          )) {
+            resourceTreeModel.dispatchEventToListeners(
+              SDKModule.ResourceTreeModel.Events.WillReloadPage,
+              resourceTreeModel
+            );
           }
         });
         sendToDevtools({
@@ -135,6 +139,8 @@ export default class DevtoolsFrame {
         sendToChobitsu({ method: 'CSS.enable' });
         sendToChobitsu({ method: 'Overlay.enable' });
         sendToDevtools({ method: 'DOM.documentUpdated' });
+        sendToChobitsu({ method: 'Page.enable' });
+        sendToDevtools({ method: 'Page.loadEventFired' });
       });
     } else {
       frame.src = `${devtoolsUrl}#?embedded=${encodeURIComponent(hostOrigin)}`;
