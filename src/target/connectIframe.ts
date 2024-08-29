@@ -24,13 +24,13 @@ export default function () {
     <script>
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
       if (isSafari) {
-        document.write('<scr' + 'ipt src="${cdn}front_end/third_party/polyfill/customElement.js"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="${cdn}/front_end/third_party/polyfill/customElement.js"></scr' + 'ipt>');
       }
       if (!window.requestIdleCallback) {
-        document.write('<scr' + 'ipt src="${cdn}front_end/third_party/polyfill/requestIdleCallback.js"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="${cdn}/front_end/third_party/polyfill/requestIdleCallback.js"></scr' + 'ipt>');
       }
     </script>
-    <script type="module" src="${cdn}front_end/entrypoints/chii_app/chii_app.js"></script>
+    <script type="module" src="${cdn}/front_end/entrypoints/chii_app/chii_app.js"></script>
     <body class="undocked" id="-blink-dev-tools">
     `,
       {

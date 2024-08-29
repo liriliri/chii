@@ -39,7 +39,7 @@ export default async function () {
   const ws = new Socket(
     `${serverUrl.replace(/^http/, 'ws')}target/${id}?${query.stringify({
       url: location.href,
-      title: (window as any).ChiiTitle || document.title,
+      title: (window as any).ChiiTitle || document.title || 'Unknown',
       favicon: getFavicon(),
       rtc: true,
     })}`

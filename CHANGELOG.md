@@ -1,3 +1,8 @@
+## 1.12.0 (29 Aug 2024)
+
+* feat: update devtools frontend
+* feat: support safari
+
 ## 1.11.1 (20 Aug 2024)
 
 * chore: update chobitsu

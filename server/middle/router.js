@@ -7,6 +7,7 @@ const pairs = require('licia/pairs');
 const reverse = require('licia/reverse');
 const map = require('licia/map');
 const ms = require('licia/ms');
+const rtrim = require('licia/rtrim');
 
 const pkg = require('../../package.json');
 const proxy = require('../lib/proxy');
@@ -30,6 +31,7 @@ module.exports = function (channelManager, domain, cdn, basePath) {
   });
 
   if (cdn) {
+    cdn = rtrim(cdn, '/');
     router.get(`${basePath}front_end/chii_app.html`, async ctx => {
       const tpl = await readTpl('chii_app');
       ctx.body = tpl({

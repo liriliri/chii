@@ -2,6 +2,7 @@ import { getTargetScriptEl } from './util';
 import endWith from 'licia/endWith';
 import safeStorage from 'licia/safeStorage';
 import randomId from 'licia/randomId';
+import rtrim from 'licia/rtrim';
 import startWith from 'licia/startWith';
 
 let serverUrl = location.origin;
@@ -40,6 +41,7 @@ if (element) {
     rtc = true;
   }
   cdn = element.getAttribute('cdn') || '';
+  cdn = rtrim(cdn, '/');
 }
 
 if (cdn && !endWith(cdn, '/')) {
