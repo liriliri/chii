@@ -41,11 +41,10 @@ if (element) {
     rtc = true;
   }
   cdn = element.getAttribute('cdn') || '';
-  cdn = rtrim(cdn, '/');
 }
 
-if (cdn && !endWith(cdn, '/')) {
-  cdn += '/';
+if (cdn && endWith(cdn, '/')) {
+  cdn = rtrim(cdn, '/');
 }
 
 const sessionStore = safeStorage('session');

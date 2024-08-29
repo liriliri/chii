@@ -1,3 +1,7 @@
+## 1.12.3 (29 Aug 2024)
+
+* fix: target.js cdn attribute
+
 ## 1.12.2 (29 Aug 2024)
 
 * fix: firefox elements panel
