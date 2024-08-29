@@ -1,3 +1,7 @@
+## 1.12.1 (29 Aug 2024)
+
+* fix: default favicon
+
 ## 1.12.0 (29 Aug 2024)
 
 * feat: update devtools frontend
