@@ -1,3 +1,7 @@
+## 1.12.2 (29 Aug 2024)
+
+* fix: firefox elements panel
+
 ## 1.12.1 (29 Aug 2024)
 
 * fix: default favicon
