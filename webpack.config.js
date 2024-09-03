@@ -22,6 +22,10 @@ module.exports = (env, argv) => {
           loader: 'ts-loader',
         },
         {
+          test: /\.svg$/,
+          loader: 'svg-url-loader',
+        },
+        {
           test: /\.css$/i,
           use: ['style-loader', 'css-loader'],
         },

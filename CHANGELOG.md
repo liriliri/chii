@@ -1,3 +1,8 @@
+## 1.13.0 (3 Sep 2024)
+
+* feat: os icon
+* chore: update chobitsu
+
 ## 1.12.3 (29 Aug 2024)
 
 * fix: target.js cdn attribute
