@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://chii.liriliri.io/" target="_blank">
-    <img src="https://res.liriliri.io/chii/icon.png" width="400">
+    <img src="https://chii.liriliri.io/icon.png" width="400">
   </a>
 </div>
 
@@ -22,22 +22,22 @@ Remote debugging tool.
 [ci-url]: https://github.com/liriliri/chii/actions/workflows/main.yml
 [license-image]: https://img.shields.io/npm/l/chii?style=flat-square
 
-<img src="https://res.liriliri.io/chii/screenshot.jpg" style="width:100%">
+<img src="https://chii.liriliri.io/screenshot.jpg" style="width:100%">
 
 Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/docs/latest/Home.html), replacing web inspector with the latest [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
 
 ## Demo
 
-![Demo](https://res.liriliri.io/chii/qrcode.png)
+![Demo](https://chii.liriliri.io/qrcode.png)
 
-Browse it on your phone: [https://chii.liriliri.io/test/demo.html](https://chii.liriliri.io/test/demo.html)
+Browse it on your phone: [https://chii.liriliri.io/playground/test/demo.html](https://chii.liriliri.io/playground/test/demo.html)
 
-Open [https://chii.liriliri.io/](https://chii.liriliri.io/) and click inspect to start debugging the demo page.
+Open [https://chii.liriliri.io/playground/](https://chii.liriliri.io/playground/) and click inspect to start debugging the demo page.
 
 In order to try it for different sites, execute the script below on browser address bar.
 
 ```javascript
-javascript:(function () { var script = document.createElement('script'); script.src="//chii.liriliri.io/target.js"; document.body.appendChild(script); })();
+javascript:(function () { var script = document.createElement('script'); script.src="//chii.liriliri.io/playground/target.js"; document.body.appendChild(script); })();
 ```
 
 ## Install
@@ -70,7 +70,7 @@ It's also possible to embed devtools in the same page using iframe. All you have
 <script src="//host-machine-ip:8080/target.js" embedded="true"></script>
 ```
 
-Visit [Embedded Iframe](https://chii.liriliri.io/test/demo.html?embedded=true) or [Separate Iframe](https://chii.liriliri.io/test/iframe.html) to see how it works.
+Visit [Embedded Iframe](https://chii.liriliri.io/playground/test/demo.html?embedded=true) or [Separate Iframe](https://chii.liriliri.io/playground/test/iframe.html) to see how it works.
 
 ## Related Projects
 
