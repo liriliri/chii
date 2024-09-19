@@ -32,7 +32,7 @@ Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/do
 
 Browse it on your phone: [https://chii.liriliri.io/playground/test/demo.html](https://chii.liriliri.io/playground/test/demo.html)
 
-Open [https://chii.liriliri.io/playground/](https://chii.liriliri.io/playground/) and click inspect to start debugging the demo page.
+Open [https://chii.liriliri.io/playground/](https://chii.liriliri.io/room.html) and click inspect to start debugging the demo page.
 
 In order to try it for different sites, execute the script below on browser address bar.
 
