@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require('@cypress/request');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
