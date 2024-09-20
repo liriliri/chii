@@ -2,6 +2,7 @@ const Emitter = require('licia/Emitter');
 const truncate = require('licia/truncate');
 const ansiColor = require('licia/ansiColor');
 const util = require('./util');
+const Channel = require('licia/Channel');
 
 module.exports = class ChannelManager extends Emitter {
   constructor() {
@@ -11,7 +12,7 @@ module.exports = class ChannelManager extends Emitter {
     this._clients = {};
   }
   createTarget(id, ws, url, title, favicon, ip, userAgent) {
-    const channel = util.createChannel(ws);
+    const channel = createChannel(ws);
 
     util.log(`${ansiColor.yellow('target')} ${id}:${truncate(title, 10)} ${ansiColor.green('connected')}`);
     this._targets[id] = {
@@ -39,7 +40,7 @@ module.exports = class ChannelManager extends Emitter {
       return ws.close();
     }
 
-    const channel = util.createChannel(ws);
+    const channel = createChannel(ws);
     util.log(
       `${ansiColor.blue('client')} ${id} ${ansiColor.green('connected')} to target ${target.id}:${truncate(
         target.title,
@@ -79,3 +80,13 @@ module.exports = class ChannelManager extends Emitter {
     return this._clients;
   }
 };
+
+function createChannel(ws) {
+  const channel = new Channel();
+
+  ws.on('close', () => channel.destroy());
+  ws.on('message', msg => channel.send(msg));
+  channel.on('message', msg => ws.send(msg));
+
+  return channel;
+}
