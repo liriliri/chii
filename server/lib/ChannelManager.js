@@ -1,4 +1,3 @@
-const Channel = require('./Channel');
 const Emitter = require('licia/Emitter');
 const truncate = require('licia/truncate');
 const ansiColor = require('licia/ansiColor');
@@ -12,7 +11,7 @@ module.exports = class ChannelManager extends Emitter {
     this._clients = {};
   }
   createTarget(id, ws, url, title, favicon, ip, userAgent) {
-    const channel = new Channel(ws);
+    const channel = util.createChannel(ws);
 
     util.log(`${ansiColor.yellow('target')} ${id}:${truncate(title, 10)} ${ansiColor.green('connected')}`);
     this._targets[id] = {
@@ -21,13 +20,14 @@ module.exports = class ChannelManager extends Emitter {
       url,
       favicon,
       channel,
+      ws,
       ip,
       userAgent,
       rtc: ws.rtc,
     };
 
-    channel.on('close', () => this.removeTarget(id, title));
-    channel.on('error', error => {
+    ws.on('close', () => this.removeTarget(id, title));
+    ws.on('error', error => {
       util.log(`${ansiColor.yellow('target')} ${id}:${truncate(title, 10)} ${ansiColor.red('error')} ${error.message}`);
     });
 
@@ -39,7 +39,7 @@ module.exports = class ChannelManager extends Emitter {
       return ws.close();
     }
 
-    const channel = new Channel(ws);
+    const channel = util.createChannel(ws);
     util.log(
       `${ansiColor.blue('client')} ${id} ${ansiColor.green('connected')} to target ${target.id}:${truncate(
         target.title,
@@ -51,11 +51,16 @@ module.exports = class ChannelManager extends Emitter {
     this._clients[id] = {
       id,
       target: target.id,
+      ws,
       channel,
     };
 
-    channel.on('close', () => this.removeClient(id));
-    target.channel.on('close', () => channel.destroy());
+    const closeClientWs = () => ws.close();
+    ws.on('close', () => {
+      target.ws.removeListener('close', closeClientWs);
+      this.removeClient(id);
+    });
+    target.ws.on('close', closeClientWs);
   }
   removeTarget(id, title = '') {
     util.log(`${ansiColor.yellow('target')} ${id}:${title} ${ansiColor.red('disconnected')}`);
