@@ -1,3 +1,8 @@
+## 1.14.0 (23 Sep 2024)
+
+* feat: dark mode
+* fix: memory leak [#51](https://github.com/liriliri/chii/issues/51)
+
 ## 1.13.0 (3 Sep 2024)
 
 * feat: os icon
