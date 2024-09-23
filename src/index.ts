@@ -3,6 +3,7 @@ import $ from 'licia/$';
 import randomId from 'licia/randomId';
 import toInt from 'licia/toInt';
 import isEmpty from 'licia/isEmpty';
+import isDarkMode from 'licia/isDarkMode';
 import LunaDataGrid from 'luna-data-grid';
 import each from 'licia/each';
 import throttle from 'licia/throttle';
@@ -70,6 +71,7 @@ $filter.on(
 );
 
 const dataGrid = new LunaDataGrid($targets.get(0) as HTMLElement, {
+  theme: isDarkMode() ? 'dark' : 'light',
   columns: [
     {
       id: 'title',
