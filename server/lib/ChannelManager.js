@@ -85,7 +85,9 @@ function createChannel(ws) {
   const channel = new Channel();
 
   ws.on('close', () => channel.destroy());
-  ws.on('message', msg => channel.send(msg));
+  ws.on('message', (data, isBinary) => {
+    channel.send(isBinary ? data : data.toString());
+  });
   channel.on('message', msg => ws.send(msg));
 
   return channel;

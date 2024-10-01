@@ -64,7 +64,7 @@ module.exports = function (channelManager, domain, cdn, basePath) {
   });
 
   function createStatic(prefix, folder) {
-    router.get(`${basePath}${prefix}/*`, async ctx => {
+    router.get(`${basePath}${prefix}/*static`, async ctx => {
       await send(ctx, ctx.path.slice(basePath.length + prefix.length), {
         root: path.resolve(__dirname, `../..${folder}`),
         maxAge,

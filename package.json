@@ -42,7 +42,7 @@
   "devDependencies": {
     "@eslint/js": "^9.5.0",
     "@types/eslint__js": "^8.42.3",
-    "chobitsu": "^1.7.1",
+    "chobitsu": "^1.8.1",
     "css-loader": "^6.7.2",
     "es-check": "^6.2.1",
     "eslint": "^8.57.0",
@@ -66,11 +66,11 @@
     "@cypress/request": "^3.0.5",
     "commander": "^5.0.0",
     "handlebars": "^4.7.6",
-    "koa": "^2.11.0",
+    "koa": "^2.15.3",
     "koa-compress": "^4.0.1",
-    "koa-router": "^8.0.8",
+    "koa-router": "^13.0.1",
     "koa-send": "^5.0.0",
     "licia": "^1.42.0",
-    "ws": "^7.2.3"
+    "ws": "^8.18.0"
   }
 }
