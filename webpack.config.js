@@ -5,7 +5,13 @@ module.exports = (env, argv) => {
     target: ['web', 'es5'],
     entry: {
       index: './src/index.ts',
-      target: './src/target.ts',
+      target: {
+        import: './src/target.ts',
+        library: {
+          name: 'chii',
+          type: 'umd',
+        },
+      },
     },
     devtool: 'inline-source-map',
     output: {
