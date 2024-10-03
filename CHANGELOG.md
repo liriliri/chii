@@ -1,3 +1,8 @@
+## 1.15.0 (3 Oct 2024)
+
+* feat: shadow dom
+* chore: update dependencies
+
 ## 1.14.0 (23 Sep 2024)
 
 * feat: dark mode
