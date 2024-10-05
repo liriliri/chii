@@ -17,6 +17,16 @@ const maxAge = ms('2h');
 module.exports = function (channelManager, domain, cdn, basePath) {
   const router = new Router();
 
+  // Middleware to restrict access to the console based on request origin
+  router.use(async (ctx, next) => {
+    if (ctx.path === '/' && !['http://localhost', 'http://localhost:8080'].includes(ctx.headers.origin)) {
+      ctx.status = 403;
+      ctx.body = 'Access forbidden';
+    } else {
+      await next();
+    }
+  });
+
   router.get(basePath, async ctx => {
     const tpl = await readTpl('index');
     ctx.body = tpl({
