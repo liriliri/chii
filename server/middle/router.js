@@ -19,7 +19,7 @@ module.exports = function (channelManager, domain, cdn, basePath) {
 
   // Middleware to restrict access to the console based on request origin
   router.use(async (ctx, next) => {
-    if (ctx.path === '/' && ctx.headers.origin !== 'http://localhost') {
+    if (ctx.path === '/' && !['http://localhost', 'http://localhost:8080'].includes(ctx.headers.origin)) {
       ctx.status = 403;
       ctx.body = 'Access forbidden';
     } else {
