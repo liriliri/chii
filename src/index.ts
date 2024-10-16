@@ -2,21 +2,23 @@ import detectOs from 'licia/detectOs';
 import $ from 'licia/$';
 import randomId from 'licia/randomId';
 import toInt from 'licia/toInt';
-import isEmpty from 'licia/isEmpty';
 import isDarkMode from 'licia/isDarkMode';
 import LunaDataGrid from 'luna-data-grid';
+import LunaModal from 'luna-modal';
+import LunaToolbar from 'luna-toolbar';
 import each from 'licia/each';
 import throttle from 'licia/throttle';
 import escape from 'licia/escape';
 import toEl from 'licia/toEl';
 import h from 'licia/h';
-import debounce from 'licia/debounce';
 import winIcon from './icon/win.svg';
 import macIcon from './icon/mac.svg';
 import linuxIcon from './icon/linux.svg';
 import globeIcon from './icon/globe.svg';
 import androidIcon from './icon/android.svg';
 import 'luna-data-grid/luna-data-grid.css';
+import 'luna-toolbar/luna-toolbar.css';
+import 'luna-modal/luna-modal.css';
 
 declare const window: any;
 
@@ -57,21 +59,38 @@ setInterval(() => {
     });
 }, 2000);
 
-const $description = $('.description');
 const $targets = $('.targets');
-const $filter = $('.filter');
-const $contentHeader = $('.content-header');
+const $toolbar = $('.toolbar');
+const $help = $('.help');
+const $description = $('.description');
 
-$filter.on(
-  'input',
-  debounce(function () {
-    const filter = $filter.val();
-    dataGrid.setOption('filter', filter);
-  }, 500)
-);
+const theme = isDarkMode() ? 'dark' : 'light';
+
+const help = new LunaModal($help.get(0) as HTMLElement, {
+  theme,
+  title: 'Help',
+  content: $description.get(0) as HTMLElement,
+});
+
+const toolbar = new LunaToolbar($toolbar.get(0) as HTMLElement, {
+  theme,
+});
+const targets = toolbar.appendText('0 Target');
+toolbar.appendSpace();
+toolbar.appendInput('filter', '', 'Filter');
+toolbar.appendSeparator();
+toolbar.appendButton('Help', () => {
+  $description.rmClass('hidden');
+  help.show();
+});
+toolbar.on('change', (key, val) => {
+  if (key === 'filter') {
+    dataGrid.setOption('filter', val);
+  }
+});
 
 const dataGrid = new LunaDataGrid($targets.get(0) as HTMLElement, {
-  theme: isDarkMode() ? 'dark' : 'light',
+  theme,
   columns: [
     {
       id: 'title',
@@ -110,18 +129,9 @@ function update() {
   fetch(`${window.basePath}targets`)
     .then(res => res.json())
     .then(data => {
-      const targets = data.targets;
-
-      if (isEmpty(targets)) {
-        $description.rmClass('hidden');
-        $targets.addClass('hidden');
-        $filter.addClass('hidden');
-      } else {
-        $description.addClass('hidden');
-        $targets.rmClass('hidden');
-        $filter.rmClass('hidden');
-        render(targets);
-      }
+      const count = data.targets.length;
+      targets.setText(`${count} Target${count > 1 ? 's' : ''}`);
+      render(data.targets);
     });
 }
 
@@ -176,7 +186,7 @@ function render(targets: any[]) {
 update();
 
 function updateDataGridHeight() {
-  const height = window.innerHeight - $contentHeader.offset().height - 8 * 3 - 2;
+  const height = window.innerHeight - $toolbar.offset().height - 8 * 3 - 2;
   dataGrid.setOption('maxHeight', height);
 }
 

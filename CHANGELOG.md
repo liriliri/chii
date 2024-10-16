@@ -1,3 +1,8 @@
+## 1.15.1 (16 Oct 2024)
+
+* fix: cache network requests before enable [#53](https://github.com/liriliri/chii/issues/53)
+* chore: minor ui update 
+
 ## 1.15.0 (3 Oct 2024)
 
 * feat: shadow dom
