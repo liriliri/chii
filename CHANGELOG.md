@@ -1,3 +1,7 @@
+## 1.15.2 (17 Oct 2024)
+
+* fix: ws dead loop
+
 ## 1.15.1 (16 Oct 2024)
 
 * fix: cache network requests before enable [#53](https://github.com/liriliri/chii/issues/53)

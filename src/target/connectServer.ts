@@ -23,6 +23,7 @@ export default function () {
       url: location.href,
       title: (window as any).ChiiTitle || document.title,
       favicon: getFavicon(),
+      '__chobitsu-hide__': true,
     })}`
   );
 

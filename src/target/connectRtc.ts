@@ -42,6 +42,7 @@ export default async function () {
       title: (window as any).ChiiTitle || document.title || 'Unknown',
       favicon: getFavicon(),
       rtc: true,
+      '__chobitsu-hide__': true,
     })}`
   );
 
