@@ -80,4 +80,4 @@ Visit [Embedded Iframe](https://chii.liriliri.io/playground/test/demo.html?embed
 
 ## Contribution
 
-Read [Contributing Guide](.github/CONTRIBUTING.md) for development setup instructions.
+Read [Contributing Guide](https://chii.liriliri.io/docs/contributing.html) for development setup instructions.
