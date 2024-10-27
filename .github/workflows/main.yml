@@ -15,23 +15,16 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install depot_tools
-      run: |
+        node-version: '18.x' 
+    - run: |
         sudo apt-get install git curl xz-utils python3-pkg-resources python3-virtualenv python3-oauth2client
         git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
         echo "PATH=$(pwd)/depot_tools:$PATH" >> $GITHUB_ENV
-    - name: Build chii
-      run: |
+    - run: |
         npm i -g @liriliri/lsla
         npm i
         npm run init:front_end

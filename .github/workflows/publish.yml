@@ -11,25 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
-      - name: Install depot_tools
-        run: |
+      - run: |
           sudo apt-get install git curl xz-utils python3-pkg-resources python3-virtualenv python3-oauth2client
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
           echo "PATH=$(pwd)/depot_tools:$PATH" >> $GITHUB_ENV
-      - name: Build chii
-        run: |
+      - run: |
           npm i -g @liriliri/lsla
           npm i
           npm run init:front_end
           npm run build
-      - name: Publish package on NPM
-        run: npm publish
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

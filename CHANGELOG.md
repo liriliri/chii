@@ -1,3 +1,7 @@
+## 1.15.3 (27 Oct 2024)
+
+* fix: embedded mode not resizable on mobile [#81](https://github.com/liriliri/chii/issues/81)
+
 ## 1.15.2 (17 Oct 2024)
 
 * fix: ws dead loop
