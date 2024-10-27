@@ -10,6 +10,7 @@ import isJson from 'licia/isJson';
 import contain from 'licia/contain';
 import uniqId from 'licia/uniqId';
 import nextTick from 'licia/nextTick';
+import pointerEvent from 'licia/pointerEvent';
 import { getOrigin } from './util';
 
 const $document = $(document as any);
@@ -169,7 +170,7 @@ export default class DevtoolsFrame {
   }
   private bindEvent() {
     window.addEventListener('resize', this.resize);
-    this.$draggable.on('mousedown', this.onResizeStart);
+    this.$draggable.on(pointerEvent('down'), this.onResizeStart);
   }
   private onResizeStart = (e: any) => {
     e.stopPropagation();
@@ -180,10 +181,12 @@ export default class DevtoolsFrame {
     this.$draggable.css({
       height: '100%',
     });
-    $document.on('mousemove', this.onResizeMove);
-    $document.on('mouseup', this.onResizeEnd);
+    $document.on(pointerEvent('move'), this.onResizeMove);
+    $document.on(pointerEvent('up'), this.onResizeEnd);
   };
   private onResizeMove = (e: any) => {
+    e.stopPropagation();
+    e.preventDefault();
     const deltaY = e.origEvent.clientY - this.startY;
     this.setHeight(this.originHeight - deltaY);
     this.resize();
@@ -192,8 +195,8 @@ export default class DevtoolsFrame {
     this.$draggable.css({
       height: 10,
     });
-    $document.off('mousemove', this.onResizeMove);
-    $document.off('mouseup', this.onResizeEnd);
+    $document.off(pointerEvent('move'), this.onResizeMove);
+    $document.off(pointerEvent('up'), this.onResizeEnd);
   };
   private resize = () => {
     let { height } = this;
