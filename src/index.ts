@@ -2,7 +2,6 @@ import detectOs from 'licia/detectOs';
 import $ from 'licia/$';
 import randomId from 'licia/randomId';
 import toInt from 'licia/toInt';
-import isDarkMode from 'licia/isDarkMode';
 import LunaDataGrid from 'luna-data-grid';
 import LunaModal from 'luna-modal';
 import LunaToolbar from 'luna-toolbar';
@@ -64,21 +63,18 @@ const $toolbar = $('.toolbar');
 const $help = $('.help');
 const $description = $('.description');
 
-const theme = isDarkMode() ? 'dark' : 'light';
-
 const help = new LunaModal($help.get(0) as HTMLElement, {
-  theme,
+  theme: 'auto',
   title: 'Help',
   content: $description.get(0) as HTMLElement,
 });
 
 const toolbar = new LunaToolbar($toolbar.get(0) as HTMLElement, {
-  theme,
+  theme: 'auto',
 });
+toolbar.appendInput('filter', '', 'Filter');
 const targets = toolbar.appendText('0 Target');
 toolbar.appendSpace();
-toolbar.appendInput('filter', '', 'Filter');
-toolbar.appendSeparator();
 toolbar.appendButton('Help', () => {
   $description.rmClass('hidden');
   help.show();
@@ -90,7 +86,7 @@ toolbar.on('change', (key, val) => {
 });
 
 const dataGrid = new LunaDataGrid($targets.get(0) as HTMLElement, {
-  theme,
+  theme: 'auto',
   columns: [
     {
       id: 'title',
