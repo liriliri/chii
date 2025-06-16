@@ -24,7 +24,7 @@ Remote debugging tool.
 
 <img src="https://chii.liriliri.io/screenshot.jpg" style="width:100%">
 
-Remote debugging tool like [weinre](https://people.apache.org/~pmuellr/weinre/docs/latest/Home.html), replacing web inspector with the latest [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
+Remote debugging tool like [weinre](https://www.npmjs.com/package/weinre), replacing web inspector with the latest [chrome devtools frontend](https://github.com/ChromeDevTools/devtools-frontend).
 
 ## Demo
 
