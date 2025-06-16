@@ -56,7 +56,7 @@ Use this script to inject the target code into your webpage.
 <script src="//host-machine-ip:8080/target.js"></script>
 ```
 
-Then browse to localhost:8080 to start debugging your page.
+Then browse to http://localhost:8080 to start debugging your page.
 
 For more detailed usage instructions, please read the documentation at [chii.liriliri.io](https://chii.liriliri.io/docs/)!
 
