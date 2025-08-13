@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version: '18.x' 
+        node-version-file: '.nvmrc'
     - run: |
         sudo apt-get install git curl xz-utils python3-pkg-resources python3-virtualenv python3-oauth2client
         git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git

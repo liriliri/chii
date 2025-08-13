@@ -27,6 +27,25 @@ module.exports = (env, argv) => {
           test: /\.ts$/,
           loader: 'ts-loader',
         },
+
+        // Transpile dependencies to ES5
+        {
+          test: /\.m?js$/,
+          include: path.resolve(__dirname, 'node_modules'),
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                ['@babel/preset-env', {
+                  targets: {
+                    'ie': '11',
+                  },
+                }],
+              ],
+            },
+          },
+        },
+
         {
           test: /\.svg$/,
           loader: 'svg-url-loader',

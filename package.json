@@ -6,6 +6,9 @@
   "bin": {
     "chii": "./bin/chii.js"
   },
+  "engines": {
+    "node": ">=20.10.0"
+  },
   "files": [
     "bin",
     "public",
@@ -40,8 +43,10 @@
   },
   "homepage": "https://github.com/liriliri/chii#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.28.0",
     "@eslint/js": "^9.5.0",
     "@types/eslint__js": "^8.42.3",
+    "babel-loader": "^10.0.0",
     "chobitsu": "^1.8.4",
     "css-loader": "^6.7.2",
     "es-check": "^6.2.1",
