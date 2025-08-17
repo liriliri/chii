@@ -19,7 +19,7 @@ async function start({
   sslKey,
   basePath = '/',
 } = {}) {
-  domain = domain || 'localhost:' + port;
+  domain = domain || 'http://localhost:' + port;
   if (!endWith(basePath, '/')) {
     basePath += '/';
   }
