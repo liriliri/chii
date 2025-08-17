@@ -1,6 +1,6 @@
 {
   "name": "chii",
-  "version": "1.15.4",
+  "version": "1.15.5",
   "description": "Chrome devtools framework",
   "main": "./server/index.js",
   "bin": {
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@eslint/js": "^9.5.0",
     "@types/eslint__js": "^8.42.3",
-    "chobitsu": "^1.8.4",
+    "chobitsu": "^1.8.6",
     "css-loader": "^6.7.2",
     "es-check": "^6.2.1",
     "eslint": "^8.57.0",

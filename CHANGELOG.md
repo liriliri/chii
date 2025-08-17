@@ -1,3 +1,7 @@
+## 1.15.5 (17 Aug 2024)
+
+* fix: invalid route path in koa router [#96](https://github.com/liriliri/chii/pull/96)
+
 ## 1.15.4 (3 Nov 2024)
 
 * fix: auto change theme
