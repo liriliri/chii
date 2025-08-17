@@ -1,0 +1,38 @@
+name: Deploy Chii
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with: 
+        path: project/chii
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+    - working-directory: ./project
+      run: |
+        sudo apt-get install git curl xz-utils python3-pkg-resources python3-virtualenv python3-oauth2client
+        git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+        echo "PATH=$(pwd)/depot_tools:$PATH" >> $GITHUB_ENV
+    - working-directory: ./project/chii
+      run: |
+        npm install -g @liriliri/lsla
+        npm i
+        npm run init:front_end
+        npm run build
+        mkdir -p ../../project/chii
+        cp -r bin public server test package.json ../../project/chii
+    - uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        source: "project/chii/"
+        target: "/root/"   
+    
