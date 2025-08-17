@@ -26,13 +26,13 @@ jobs:
         npm i
         npm run init:front_end
         npm run build
-        mkdir -p ../../project/chii
-        cp -r bin public server test package.json ../../project/chii
+        mkdir -p ../../node/chii
+        cp -r bin public server test package.json ../../node/chii
     - uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        source: "project/chii/"
+        source: "node/chii/"
         target: "/root/"   
     
