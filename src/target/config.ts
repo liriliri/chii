@@ -31,6 +31,7 @@ if (!startWith(serverUrl, 'http')) {
 let embedded = false;
 let rtc = false;
 let cdn = '';
+let secret = '';
 
 const element = getTargetScriptEl();
 if (element) {
@@ -41,6 +42,7 @@ if (element) {
     rtc = true;
   }
   cdn = element.getAttribute('cdn') || '';
+  secret = element.getAttribute('secret') || '';
 }
 
 if (cdn && endWith(cdn, '/')) {
@@ -51,7 +53,7 @@ const sessionStore = safeStorage('session');
 
 let id = sessionStore.getItem('chii-id');
 if (!id) {
-  id = randomId(6);
+  id = randomId(32);
   sessionStore.setItem('chii-id', id);
 }
 
@@ -62,4 +64,5 @@ export {
   rtc,
   cdn,
   id,
+  secret
 };

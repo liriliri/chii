@@ -4,7 +4,7 @@ const ChannelManager = require('./ChannelManager');
 const query = require('licia/query');
 
 module.exports = class WebSocketServer {
-  constructor() {
+  constructor( secrets ) {
     this.channelManager = new ChannelManager();
 
     const wss = (this._wss = new WebSocket.Server({ noServer: true }));
@@ -12,7 +12,16 @@ module.exports = class WebSocketServer {
     wss.on('connection', (ws, req) => {
       const type = ws.type;
       if (type === 'target') {
-        const { id, chiiUrl, title, favicon } = ws;
+        const { id, chiiUrl, title, favicon, secret: targetSecret } = ws;
+
+        const isSecretRequired = Array.isArray(secrets) && secrets.length > 0;
+        const isSecretValid = targetSecret && secrets.includes(targetSecret);
+
+        if (isSecretRequired && !isSecretValid) {
+          console.log('wrong or no secret provided');
+          ws.close();
+        }
+
         let ip = req.socket.remoteAddress;
         const userAgent = req.headers['user-agent'];
         if (req.headers['x-forwarded-for']) {
@@ -47,6 +56,7 @@ module.exports = class WebSocketServer {
             ws.favicon = q.favicon;
             ws.userAgent = q.userAgent;
             ws.rtc = q.rtc === 'true';
+            ws.secret = q.secret;
           } else {
             ws.target = q.target;
           }

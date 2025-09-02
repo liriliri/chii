@@ -1,7 +1,7 @@
 import Socket from 'licia/Socket';
 import query from 'licia/query';
 import chobitsu from 'chobitsu';
-import { serverUrl, id } from './config';
+import { serverUrl, id, secret } from './config';
 import { getFavicon } from './util';
 
 let isInit = false;
@@ -24,6 +24,7 @@ export default function () {
       title: (window as any).ChiiTitle || document.title,
       favicon: getFavicon(),
       '__chobitsu-hide__': true,
+      ...(secret ? { secret } : {}),
     })}`
   );
 
