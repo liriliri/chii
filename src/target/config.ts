@@ -47,12 +47,18 @@ if (cdn && endWith(cdn, '/')) {
   cdn = rtrim(cdn, '/');
 }
 
+const isIframe = window !== window.top;
 const sessionStore = safeStorage('session');
+const key = '@@chii-id';
 
-let id = sessionStore.getItem('chii-id');
+let id = isIframe ? (window as any)[key] : sessionStore.getItem(key);
 if (!id) {
   id = randomId(6);
-  sessionStore.setItem('chii-id', id);
+  if (isIframe) {
+    (window as any)[key] = id;
+  } else {
+    sessionStore.setItem(key, id);
+  }
 }
 
 export {
