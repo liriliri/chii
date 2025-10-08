@@ -38,4 +38,6 @@ export default function () {
     if (!isInit) return;
     ws.send(message);
   });
+
+  return { ws };
 }

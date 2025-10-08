@@ -73,4 +73,6 @@ export default async function () {
       connection.addIceCandidate(data);
     }
   });
+
+  return { ws, rtc: connection };
 }

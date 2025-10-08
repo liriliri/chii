@@ -3,12 +3,22 @@ import connectRtc from './target/connectRtc';
 import connectServer from './target/connectServer';
 import connectIframe from './target/connectIframe';
 import chobitsu from 'chobitsu';
+import Socket from 'licia/Socket';
 
+type ConnectionDetails = {
+  ws?: Socket;
+  rtc?: RTCPeerConnection;
+};
+
+const connection: ConnectionDetails = {};
 if (!embedded) {
   if (rtc) {
-    connectRtc();
+    connectRtc().then(({ ws, rtc }) => {
+      connection.ws = ws;
+      connection.rtc = rtc;
+    });
   } else {
-    connectServer();
+    connection.ws = connectServer().ws;
   }
 } else {
   connectIframe();
@@ -16,4 +26,5 @@ if (!embedded) {
 
 module.exports = {
   chobitsu,
+  connection,
 };

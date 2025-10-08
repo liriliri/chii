@@ -6,4 +6,3 @@ devtools/devtools-frontend
 devtools/.gclient_entries
 devtools/.gclient_previous_sync_commits
 script/lib/__pycache__
-package-lock.json
