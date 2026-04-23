@@ -18,6 +18,7 @@ async function start({
   sslCert,
   sslKey,
   basePath = '/',
+  auth,
 } = {}) {
   domain = domain || 'localhost:' + port;
   if (!endWith(basePath, '/')) {
@@ -25,7 +26,26 @@ async function start({
   }
 
   const app = new Koa();
-  const wss = new WebSocketServer();
+  const wss = new WebSocketServer(auth);
+
+  if (auth) {
+    app.use(async (ctx, next) => {
+      const { authorization } = ctx.header;
+      if (authorization) {
+        const parts = authorization.split(' ');
+        if (parts.length === 2 && parts[0] === 'Basic') {
+          const credentials = Buffer.from(parts[1], 'base64').toString('utf-8');
+          if (credentials === auth) {
+            await next();
+            return;
+          }
+        }
+      }
+      ctx.status = 401;
+      ctx.set('WWW-Authenticate', 'Basic realm="Chii"');
+      ctx.body = 'Unauthorized';
+    });
+  }
 
   app.use(compress()).use(router(wss.channelManager, domain, cdn, basePath));
 
@@ -43,7 +63,7 @@ async function start({
             key,
             cert,
           },
-          app.callback()
+          app.callback(),
         )
         .listen(port, host);
       wss.start(server);

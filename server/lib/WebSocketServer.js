@@ -4,7 +4,8 @@ const ChannelManager = require('./ChannelManager');
 const query = require('licia/query');
 
 module.exports = class WebSocketServer {
-  constructor() {
+  constructor(auth) {
+    this.auth = auth;
     this.channelManager = new ChannelManager();
 
     const wss = (this._wss = new WebSocket.Server({ noServer: true }));
@@ -27,8 +28,28 @@ module.exports = class WebSocketServer {
   }
   start(server) {
     const wss = this._wss;
+    const auth = this.auth;
 
     server.on('upgrade', function (request, socket, head) {
+      if (auth) {
+        const authorization = request.headers.authorization;
+        let isAuth = false;
+        if (authorization) {
+          const parts = authorization.split(' ');
+          if (parts.length === 2 && parts[0] === 'Basic') {
+            const credentials = Buffer.from(parts[1], 'base64').toString('utf-8');
+            if (credentials === auth) {
+              isAuth = true;
+            }
+          }
+        }
+        if (!isAuth) {
+          socket.write('HTTP/1.1 401 Unauthorized\r\nWWW-Authenticate: Basic realm="Chii"\r\n\r\n');
+          socket.destroy();
+          return;
+        }
+      }
+
       const urlObj = url.parse(request.url);
       const pathname = urlObj.pathname.split('/');
 
