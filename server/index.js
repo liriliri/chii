@@ -30,6 +30,16 @@ async function start({
 
   if (auth) {
     app.use(async (ctx, next) => {
+      const { path, method } = ctx;
+      if (
+        method === 'OPTIONS' ||
+        path === basePath + 'target.js' ||
+        path === basePath + 'proxy' ||
+        path.startsWith(basePath + 'test/')
+      ) {
+        await next();
+        return;
+      }
       const { authorization } = ctx.header;
       if (authorization) {
         const parts = authorization.split(' ');

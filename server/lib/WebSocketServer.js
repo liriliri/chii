@@ -31,7 +31,14 @@ module.exports = class WebSocketServer {
     const auth = this.auth;
 
     server.on('upgrade', function (request, socket, head) {
-      if (auth) {
+      const urlObj = url.parse(request.url);
+      const pathname = urlObj.pathname.split('/');
+
+      const len = pathname.length;
+      const type = pathname[len - 2];
+      const id = pathname[len - 1];
+
+      if (auth && type !== 'target') {
         const authorization = request.headers.authorization;
         let isAuth = false;
         if (authorization) {
@@ -49,13 +56,6 @@ module.exports = class WebSocketServer {
           return;
         }
       }
-
-      const urlObj = url.parse(request.url);
-      const pathname = urlObj.pathname.split('/');
-
-      const len = pathname.length;
-      const type = pathname[len - 2];
-      const id = pathname[len - 1];
 
       if (type === 'target' || type === 'client') {
         wss.handleUpgrade(request, socket, head, ws => {
