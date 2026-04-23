@@ -17,6 +17,7 @@ program
   .option('--https', 'serve chii over https')
   .option('--ssl-cert <cert>', 'provide an ssl certificate')
   .option('--ssl-key <key>', 'provide an ssl key')
+  .option('--auth <auth>', 'provide basic auth, e.g. user:password')
   .action(options => {
     server.start(options);
   });
