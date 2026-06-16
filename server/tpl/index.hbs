@@ -69,15 +69,19 @@
   </div>
   <div class="description hidden">
     You can use this script to inject the chii target code into your web page.<br/>
-    <a target="_blank" href="//{{domain}}{{basePath}}target.js">{{domain}}{{basePath}}target.js</a> <br/>
-    Or just open the demo page <a target="_blank" href="//{{domain}}{{basePath}}test/demo.html">{{domain}}{{basePath}}test/demo.html</a> to play around with.<br/>
+    <a target="_blank" class="target-script">target.js</a> <br/>
+    Or just open the demo page <a target="_blank" class="demo-page">test/demo.html</a> to play around with.<br/>
     <a target="_blank" href="https://chii.liriliri.io/">Chii v{{version}}</a>
   </div>
   <div class="help"></div>
   <script>
-    window.domain = '{{domain}}';
+    window.domain = location.host + location.pathname.replace(/\/$/, '');
     window.basePath = '{{basePath}}';
+    document.querySelector('.target-script').href = '//' + window.domain + window.basePath + 'target.js';
+    document.querySelector('.target-script').textContent = window.domain + window.basePath + 'target.js';
+    document.querySelector('.demo-page').href = '//' + window.domain + window.basePath + 'test/demo.html';
+    document.querySelector('.demo-page').textContent = window.domain + window.basePath + 'test/demo.html';
   </script>
-  <script src="//{{domain}}{{basePath}}index.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>
