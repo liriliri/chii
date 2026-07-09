@@ -32,15 +32,19 @@ switch (os) {
     break;
 }
 
-function inspect(id: string, rtc: boolean) {
+function getInspectUrl(id: string, rtc: boolean) {
   const { domain, basePath } = window;
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const url =
     location.protocol +
     `//${domain}${basePath}front_end/chii_app.html?${protocol}=${encodeURIComponent(
-      `${domain}${basePath}client/${randomId(6)}?target=${id}`
+      `${domain}${basePath}client/${randomId(6)}?target=${id}`,
     )}&rtc=${rtc}`;
-  window.open(url, '_blank');
+  return url;
+}
+
+function inspect(id: string, rtc: boolean) {
+  window.open(getInspectUrl(id, rtc), '_blank');
 }
 
 let start = Date.now();
@@ -145,16 +149,16 @@ function render(targets: any[]) {
   dataGrid.clear();
   each(targets, target => {
     const title = toEl(
-      `<span><img src="${escape(target.favicon)}" onerror="this.src=defaultFavicon"/>${escape(target.title)}</span>`
+      `<span><img src="${escape(target.favicon)}" onerror="this.src=defaultFavicon"/>${escape(target.title)}</span>`,
     ) as HTMLElement;
     const formattedUrl = escape(target.url);
     const url = toEl(
-      `<a title=${formattedUrl} href="${formattedUrl}" target="_blank">${formattedUrl}</a>`
+      `<a title=${formattedUrl} href="${formattedUrl}" target="_blank">${formattedUrl}</a>`,
     ) as HTMLElement;
     const os = detectOs(target.userAgent);
     const osIcon = osIcons[os] ? `<img src="${osIcons[os]}" class="os-icon" />` : '';
     const userAgent = toEl(
-      `<span title="${target.userAgent}" target="_blank">${osIcon}${target.userAgent}</span>`
+      `<span title="${target.userAgent}" target="_blank">${osIcon}${target.userAgent}</span>`,
     ) as HTMLElement;
     const action = h(
       'a',
@@ -162,11 +166,15 @@ function render(targets: any[]) {
         style: {
           cursor: 'pointer',
         },
-        onclick() {
+        href: getInspectUrl(target.id, target.rtc),
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        onclick(e: MouseEvent) {
+          e.preventDefault();
           inspect(target.id, target.rtc);
         },
       },
-      'inspect'
+      'inspect',
     );
 
     dataGrid.append({
