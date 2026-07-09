@@ -39,3 +39,30 @@ export function fullUrl(href: string) {
   link.href = href;
   return link.protocol + '//' + link.host + link.pathname + link.search + link.hash;
 }
+
+export const storage = {
+  getItem(key: string) {
+    try {
+      return window.localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  },
+  setItem(key: string, val: string) {
+    try {
+      window.localStorage.setItem(key, val);
+    } catch {
+      // Ignore storage failures so embedded DevTools keeps working in Safari private mode.
+    }
+  },
+};
+
+export function getClientViewportHeight() {
+  return Math.round(window.visualViewport?.height || window.innerHeight);
+}
+
+export function getEventClientY(e: any) {
+  const event = e.origEvent || e;
+  const touch = event.touches?.[0] || event.changedTouches?.[0];
+  return touch ? touch.clientY : event.clientY;
+}

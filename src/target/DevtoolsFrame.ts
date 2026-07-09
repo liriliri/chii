@@ -11,7 +11,7 @@ import contain from 'licia/contain';
 import uniqId from 'licia/uniqId';
 import nextTick from 'licia/nextTick';
 import pointerEvent from 'licia/pointerEvent';
-import { getOrigin } from './util';
+import { getClientViewportHeight, getEventClientY, getOrigin, storage } from './util';
 
 const $document = $(document as any);
 
@@ -32,6 +32,7 @@ export default class DevtoolsFrame {
       bottom: 0,
       width: '100%',
       height: '50%',
+      paddingBottom: 'env(safe-area-inset-bottom)',
       zIndex: 200000,
       borderTop: '1px solid #cacdd1',
     });
@@ -44,6 +45,7 @@ export default class DevtoolsFrame {
       left: 0,
       top: -8,
       cursor: 'row-resize',
+      touchAction: 'none',
     });
     this.container.appendChild(draggable);
     evalCss(`
@@ -52,7 +54,7 @@ export default class DevtoolsFrame {
       box-sizing: border-box;
     }
     `);
-    const height = localStorage.getItem('chii-embedded-height');
+    const height = storage.getItem('chii-embedded-height');
     if (height) {
       this.setHeight(toNum(height));
     } else {
@@ -66,11 +68,12 @@ export default class DevtoolsFrame {
     if (height < 100) {
       height = 100;
     }
-    if (height > window.innerHeight) {
-      height = window.innerHeight;
+    const viewportHeight = getClientViewportHeight();
+    if (height > viewportHeight) {
+      height = viewportHeight;
     }
     this.height = height;
-    localStorage.setItem('chii-embedded-height', toStr(height));
+    storage.setItem('chii-embedded-height', toStr(height));
   }
   attach(devtoolsUrl: string) {
     let protocol = location.protocol;
@@ -90,6 +93,7 @@ export default class DevtoolsFrame {
         border: 'none',
         width: '100%',
         height: '100%',
+        display: 'block',
       });
     }
     let targetOrigin = '';
@@ -111,11 +115,11 @@ export default class DevtoolsFrame {
       nextTick(() => {
         window.runtime.loadLegacyModule('core/sdk/sdk.js').then((SDKModule: any) => {
           for (const resourceTreeModel of SDKModule.TargetManager.TargetManager.instance().models(
-            SDKModule.ResourceTreeModel.ResourceTreeModel
+            SDKModule.ResourceTreeModel.ResourceTreeModel,
           )) {
             resourceTreeModel.dispatchEventToListeners(
               SDKModule.ResourceTreeModel.Events.WillReloadPage,
-              resourceTreeModel
+              resourceTreeModel,
             );
           }
           sendToDevtools({
@@ -144,6 +148,8 @@ export default class DevtoolsFrame {
         });
       });
     } else {
+      frame.allow = 'clipboard-read; clipboard-write';
+      frame.referrerPolicy = 'no-referrer';
       frame.src = `${devtoolsUrl}#?embedded=${encodeURIComponent(hostOrigin)}`;
     }
 
@@ -170,13 +176,14 @@ export default class DevtoolsFrame {
   }
   private bindEvent() {
     window.addEventListener('resize', this.resize);
+    window.visualViewport?.addEventListener('resize', this.resize);
     this.$draggable.on(pointerEvent('down'), this.onResizeStart);
   }
   private onResizeStart = (e: any) => {
     e.stopPropagation();
     e.preventDefault();
     e = e.origEvent;
-    this.startY = e.clientY;
+    this.startY = getEventClientY(e);
     this.originHeight = this.height;
     this.$draggable.css({
       height: '100%',
@@ -187,7 +194,7 @@ export default class DevtoolsFrame {
   private onResizeMove = (e: any) => {
     e.stopPropagation();
     e.preventDefault();
-    const deltaY = e.origEvent.clientY - this.startY;
+    const deltaY = getEventClientY(e) - this.startY;
     this.setHeight(this.originHeight - deltaY);
     this.resize();
   };
@@ -200,15 +207,16 @@ export default class DevtoolsFrame {
   };
   private resize = () => {
     let { height } = this;
-    if (height > window.innerHeight) {
-      height = window.innerHeight;
+    const viewportHeight = getClientViewportHeight();
+    if (height > viewportHeight) {
+      height = viewportHeight;
       this.setHeight(height);
     }
     this.$container.css({
       height,
     });
     $(document.body).css({
-      height: window.innerHeight - height,
+      height: viewportHeight - height,
     });
   };
 }
